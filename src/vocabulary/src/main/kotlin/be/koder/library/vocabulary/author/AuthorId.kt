@@ -4,6 +4,7 @@ import be.koder.library.vocabulary.domain.AggregateId
 import java.util.UUID
 
 class AuthorId private constructor(private val value: UUID) : AggregateId {
+
     override fun getValue(): UUID {
         return value
     }
