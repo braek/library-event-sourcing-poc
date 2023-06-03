@@ -3,7 +3,7 @@ package be.koder.library.domain.aggregate
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
 
-abstract class EventSourcedAggregate(private val statusQuo: EventStream = EventStream(emptyList())) : Aggregate {
+abstract class EventSourcedAggregate private constructor(private val statusQuo: EventStream = EventStream(emptyList())) : Aggregate {
 
     private val mutations: ArrayList<Event> = ArrayList()
 
@@ -20,5 +20,5 @@ abstract class EventSourcedAggregate(private val statusQuo: EventStream = EventS
         return EventStream(mutations)
     }
 
-    protected abstract fun dispatch(event: Event);
+    protected abstract fun dispatch(event: Event)
 }
