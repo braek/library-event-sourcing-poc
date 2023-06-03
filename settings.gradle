@@ -1,6 +1,5 @@
-rootProject.name = 'onion'
+rootProject.name = 'library'
 
-include(':acceptance-tests')
 include(':api')
 include(':domain')
 include(':queries')
@@ -13,9 +12,6 @@ project(':api').projectDir = file('src/application/api')
 project(':domain').projectDir = file('src/application/domain')
 project(':use-cases').projectDir = file('src/application/use-cases')
 project(':queries').projectDir = file('src/application/queries')
-
-// Frontend
-project(':acceptance-tests').projectDir = file('src/infrastructure/frontend/acceptance-tests')
 
 // Misc
 project(':test-doubles').projectDir = file('src/test-doubles')
