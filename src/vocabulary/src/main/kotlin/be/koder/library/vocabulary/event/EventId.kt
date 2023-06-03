@@ -4,6 +4,7 @@ import be.koder.library.vocabulary.domain.ValueObject
 import java.util.*
 
 class EventId private constructor(private val value: UUID) : ValueObject {
+
     override fun getValue(): UUID {
         return value
     }
