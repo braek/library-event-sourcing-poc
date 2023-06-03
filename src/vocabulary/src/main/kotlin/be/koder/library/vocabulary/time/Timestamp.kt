@@ -1,12 +1,8 @@
 package be.koder.library.vocabulary.time
 
 import be.koder.library.vocabulary.domain.ValueObject
-import com.sun.jdi.Type
-import com.sun.jdi.Value
-import com.sun.jdi.VirtualMachine
 import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.ZoneOffset
 
 class Timestamp private constructor(private val value: Instant) : ValueObject {
@@ -42,8 +38,8 @@ class Timestamp private constructor(private val value: Instant) : ValueObject {
         }
 
         @JvmStatic
-        fun fromLocalDateTime(t: LocalDateTime): Timestamp {
-            return Timestamp(t.toInstant(ZoneOffset.UTC))
+        fun fromLocalDateTime(ldt: LocalDateTime): Timestamp {
+            return Timestamp(ldt.toInstant(ZoneOffset.UTC))
         }
     }
 }
