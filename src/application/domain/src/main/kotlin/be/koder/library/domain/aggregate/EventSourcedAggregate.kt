@@ -3,12 +3,13 @@ package be.koder.library.domain.aggregate
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
 
-abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
+abstract class EventSourcedAggregate : Aggregate {
 
-    private var statusQuo: EventStream = eventStream
+    private val statusQuo: EventStream
     private val mutations: ArrayList<Event> = ArrayList()
 
-    init {
+    constructor(eventStream: EventStream) {
+        this.statusQuo = eventStream
         this.statusQuo.events.forEach {
             dispatch(it)
         }
