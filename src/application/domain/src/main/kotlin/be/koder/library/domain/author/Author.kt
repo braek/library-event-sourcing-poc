@@ -9,14 +9,12 @@ import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
 import be.koder.library.vocabulary.domain.AggregateId
 
-class Author : EventSourcedAggregate {
+class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
-    private var id: AuthorId
-//    private var firstName: FirstName
-//    private var lastName: LastName
-//    private var email: EmailAddress
-
-    constructor(eventStream: EventStream) : super(eventStream)
+    private lateinit var id: AuthorId
+    private lateinit var firstName: FirstName
+    private lateinit var lastName: LastName
+    private lateinit var email: EmailAddress
 
     override fun dispatch(event: Event) {
         TODO("Not yet implemented")
