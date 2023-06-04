@@ -4,6 +4,7 @@ import be.koder.library.domain.aggregate.EventSourcedAggregate
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
 import be.koder.library.vocabulary.author.AuthorId
+import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
 import be.koder.library.vocabulary.domain.AggregateId
