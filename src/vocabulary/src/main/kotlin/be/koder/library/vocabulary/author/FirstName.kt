@@ -1,7 +1,6 @@
 package be.koder.library.vocabulary.author
 
 import be.koder.library.vocabulary.domain.ValueObject
-import sun.jvm.hotspot.oops.CellTypeState.value
 
 class FirstName(str: String) : ValueObject {
 
