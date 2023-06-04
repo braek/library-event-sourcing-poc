@@ -12,9 +12,9 @@ import be.koder.library.vocabulary.domain.AggregateId
 class Author : EventSourcedAggregate {
 
     private var id: AuthorId
-    private var firstName: FirstName
-    private var lastName: LastName
-    private var email: EmailAddress
+//    private var firstName: FirstName
+//    private var lastName: LastName
+//    private var email: EmailAddress
 
     constructor(eventStream: EventStream) : super(eventStream)
 
