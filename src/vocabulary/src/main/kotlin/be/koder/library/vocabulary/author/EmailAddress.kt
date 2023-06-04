@@ -1,13 +1,21 @@
 package be.koder.library.vocabulary.author
 
 import be.koder.library.vocabulary.domain.ValueObject
+import sun.java2d.cmm.ColorTransform.In
 import sun.jvm.hotspot.oops.CellTypeState.value
+import java.util.*
+import java.util.regex.Pattern
 
 class EmailAddress : ValueObject {
 
     private val value: String
+    private val pattern = Pattern.compile("^[a-z]{1,100}$")
 
     constructor(str: String) {
+        val sanitized = str.trim().lowercase(Locale.getDefault())
+        if (sanitized.isBlank() || !pattern.matcher(sanitized).matches()) {
+            throw InvalidEmailAddressException(sanitized)
+        }
         this.value = str
     }
 

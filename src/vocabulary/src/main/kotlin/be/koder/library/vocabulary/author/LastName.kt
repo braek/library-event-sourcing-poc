@@ -2,13 +2,13 @@ package be.koder.library.vocabulary.author
 
 import be.koder.library.vocabulary.domain.ValueObject
 
-class LastName(str: String) : ValueObject {
+class LastName : ValueObject {
 
     private val value: String
 
-    init {
+    constructor(str: String) {
         val sanitized = str.trim()
-        if (sanitized.length < 2 || sanitized.length > 20) {
+        if (sanitized.length < 2 || sanitized.length > 50) {
             throw InvalidLastNameException(sanitized)
         }
         this.value = sanitized.trim()
