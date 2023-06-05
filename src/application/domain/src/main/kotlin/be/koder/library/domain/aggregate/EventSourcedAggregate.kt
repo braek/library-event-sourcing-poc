@@ -19,8 +19,12 @@ abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
         mutations.add(event)
     }
 
-    fun hasStateChanges(): Boolean {
-        return mutations.isNotEmpty()
+    fun getOrigin(): EventStream {
+        return origin
+    }
+
+    fun noStateChanges(): Boolean {
+        return mutations.isEmpty()
     }
 
     fun getMutations(): EventStream {

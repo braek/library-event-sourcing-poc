@@ -1,7 +1,7 @@
 package be.koder.library.usecase.author
 
 import be.koder.library.api.author.CreateAuthorPresenter
-import be.koder.library.test.MockAuthorRepository
+import be.koder.library.test.InMemoryAuthorRepository
 import be.koder.library.test.MockEventStore
 import be.koder.library.test.MockEventStreamPublisher
 import be.koder.library.vocabulary.author.AuthorId
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Nested
 class CreateAuthorUseCaseTest {
 
     private val eventStore = MockEventStore()
-    private val authorRepository = MockAuthorRepository(eventStore)
+    private val authorRepository = InMemoryAuthorRepository(eventStore)
     private val eventStreamPublisher = MockEventStreamPublisher()
     private val useCase = CreateAuthorUseCase(authorRepository, eventStreamPublisher, authorRepository)
 
