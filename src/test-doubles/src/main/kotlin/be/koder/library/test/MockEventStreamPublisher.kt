@@ -8,11 +8,11 @@ import be.koder.library.domain.event.EventStream
 class MockEventStreamPublisher : EventStreamPublisher {
 
     private val handlers = ArrayList<EventHandler>()
-    private val events = ArrayList<Event>()
+    private val publishedEvents = ArrayList<Event>()
 
     override fun publish(eventStream: EventStream) {
         eventStream.forEach { event ->
-            events.add(event)
+            publishedEvents.add(event)
             handlers.forEach { handler ->
                 handler.handle(event)
             }
@@ -24,6 +24,6 @@ class MockEventStreamPublisher : EventStreamPublisher {
     }
 
     fun getPublishedEvents(): List<Event> {
-        return events.toList()
+        return publishedEvents.toList()
     }
 }
