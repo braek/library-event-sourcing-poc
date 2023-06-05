@@ -5,12 +5,12 @@ import be.koder.library.domain.event.EventStream
 
 abstract class EventSourcedAggregate : Aggregate {
 
-    private val statusQuo: EventStream
+    private val state: EventStream
     private val mutations: ArrayList<Event> = ArrayList()
 
     constructor(eventStream: EventStream) {
-        this.statusQuo = eventStream
-        this.statusQuo.events.forEach {
+        this.state = eventStream
+        this.state.events.forEach {
             dispatch(it)
         }
     }
@@ -20,7 +20,7 @@ abstract class EventSourcedAggregate : Aggregate {
         mutations.add(event)
     }
 
-    fun isMutated(): Boolean {
+    fun hasStateChanges(): Boolean {
         return mutations.isNotEmpty()
     }
 
