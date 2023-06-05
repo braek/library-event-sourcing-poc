@@ -1,5 +1,5 @@
 package be.koder.library.domain.event
 
-interface EventPublisher {
+interface EventStreamPublisher {
     fun publish(eventStream: EventStream)
 }
