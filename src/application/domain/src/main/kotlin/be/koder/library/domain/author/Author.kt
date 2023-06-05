@@ -1,6 +1,7 @@
 package be.koder.library.domain.author
 
 import be.koder.library.domain.aggregate.EventSourcedAggregate
+import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
 import be.koder.library.vocabulary.author.AuthorId
@@ -25,8 +26,10 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     companion object {
         @JvmStatic
-        fun createNew(): Author {
-            return Author(EventStream.empty())
+        fun createNew(firstName: FirstName, lastName: LastName, email: EmailAddress): Author {
+            val author = Author(EventStream.empty())
+            author.apply(AuthorCreated(AuthorId.createNew(), firstName, lastName, email))
+            return author
         }
     }
 }

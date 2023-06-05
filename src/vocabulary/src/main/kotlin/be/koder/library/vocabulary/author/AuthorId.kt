@@ -23,6 +23,11 @@ class AuthorId private constructor(private val value: UUID) : AggregateId {
     companion object {
 
         @JvmStatic
+        fun createNew(): AuthorId {
+            return AuthorId(UUID.randomUUID())
+        }
+
+        @JvmStatic
         fun fromString(str: String): AuthorId {
             return AuthorId(UUID.fromString(str))
         }
