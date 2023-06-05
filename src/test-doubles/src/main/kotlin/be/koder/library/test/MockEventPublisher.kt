@@ -20,7 +20,7 @@ class MockEventPublisher : EventPublisher {
         handlers.add(handler)
     }
 
-    fun getEvents(): List<Event> {
+    fun getPublishedEvents(): List<Event> {
         return events.toList()
     }
 }
