@@ -34,7 +34,7 @@ class InMemoryAuthorRepository(private val eventStore: MockEventStore) : AuthorR
     override fun save(aggregate: Author) {
 
         // No state changes: do nothing
-        if (aggregate.noStateChanges()) {
+        if (aggregate.getMutations().isEmpty()) {
             return
         }
 
