@@ -12,8 +12,11 @@ import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
 
 class CreateAuthorUseCase(
-    private val authorRepository: AuthorRepository, private val eventStreamPublisher: EventStreamPublisher, private val emailService: EmailService
+    private val authorRepository: AuthorRepository,
+    private val eventStreamPublisher: EventStreamPublisher,
+    private val emailService: EmailService
 ) : CreateAuthor, UseCase<CreateAuthorCommand, CreateAuthorPresenter> {
+
     override fun createAuthor(firstName: FirstName, lastName: LastName, email: EmailAddress, presenter: CreateAuthorPresenter) {
         execute(CreateAuthorCommand(firstName, lastName, email), presenter)
     }
