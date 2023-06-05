@@ -17,7 +17,7 @@ class EmailAddress : ValueObject {
         this.value = str
     }
 
-    override fun getValue(): Any {
+    override fun getValue(): String {
         return value
     }
 
