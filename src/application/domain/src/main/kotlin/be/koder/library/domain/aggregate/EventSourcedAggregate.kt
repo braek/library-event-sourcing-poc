@@ -5,11 +5,11 @@ import be.koder.library.domain.event.EventStream
 
 abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
 
-    private val state: EventStream = eventStream
+    private val origin: EventStream = eventStream
     private val mutations: ArrayList<Event> = ArrayList()
 
     init {
-        this.state.events.forEach {
+        this.origin.events.forEach {
             dispatch(it)
         }
     }

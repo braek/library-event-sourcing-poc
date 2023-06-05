@@ -5,7 +5,7 @@ import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
 interface Event {
-    fun id(): EventId
-    fun occurredOn(): Timestamp
-    fun tags(): Set<AggregateId>
+    fun getId(): EventId
+    fun getOccurredOn(): Timestamp
+    fun getTags(): Set<AggregateId>
 }
