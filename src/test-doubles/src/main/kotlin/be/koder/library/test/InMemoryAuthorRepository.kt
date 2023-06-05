@@ -32,20 +32,14 @@ class InMemoryAuthorRepository(private val eventStore: MockEventStore) : AuthorR
     }
 
     override fun save(aggregate: Author) {
-
-        // No state changes: do nothing
         if (aggregate.noStateChanges()) {
             return
         }
-
-        // Optimistic locking
         get(aggregate.getId()).ifPresent {
             if (aggregate.differsFromOrigin(it)) {
                 throw RuntimeException("Optimistic Locking Exception")
             }
         }
-
-        // Store events
         eventStore.append(aggregate.getMutations())
     }
 }
