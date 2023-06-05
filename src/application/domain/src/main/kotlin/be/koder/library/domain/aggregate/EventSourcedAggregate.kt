@@ -9,7 +9,7 @@ abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
     private val mutations: ArrayList<Event> = ArrayList()
 
     init {
-        this.origin.events.forEach {
+        this.origin.forEach {
             dispatch(it)
         }
     }
