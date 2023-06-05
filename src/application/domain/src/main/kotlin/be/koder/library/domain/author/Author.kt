@@ -17,10 +17,17 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
     private lateinit var email: EmailAddress
 
     override fun dispatch(event: Event) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getId(): AggregateId {
         return id
+    }
+
+    companion object {
+        @JvmStatic
+        fun createNew(): Author {
+            return Author(EventStream.empty())
+        }
     }
 }
