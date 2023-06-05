@@ -19,8 +19,8 @@ abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
         mutations.add(event)
     }
 
-    fun differsFromOrigin(eventStream: EventStream): Boolean {
-        return origin != eventStream
+    fun <T : EventSourcedAggregate> differsFromOrigin(other: T): Boolean {
+        return origin != other.origin
     }
 
     fun getMutations(): EventStream {

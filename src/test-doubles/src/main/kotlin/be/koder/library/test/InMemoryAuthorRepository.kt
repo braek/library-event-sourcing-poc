@@ -39,9 +39,10 @@ class InMemoryAuthorRepository(private val eventStore: MockEventStore) : AuthorR
         }
 
         // Optimistic locking
-        val actualState = eventStore.query(aggregate.getId())
-        if (aggregate.differsFromOrigin(actualState)) {
-            throw RuntimeException("Optimistic Locking Exception")
+        get(aggregate.getId()).ifPresent {
+            if (aggregate.differsFromOrigin(it)) {
+                throw RuntimeException("Optimistic Locking Exception")
+            }
         }
 
         // Store events
