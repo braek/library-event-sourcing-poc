@@ -7,7 +7,6 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
-import be.koder.library.vocabulary.domain.AggregateId
 
 class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
@@ -20,7 +19,7 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     }
 
-    override fun getId(): AggregateId {
+    override fun getId(): AuthorId {
         return id
     }
 
