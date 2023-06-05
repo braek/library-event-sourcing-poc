@@ -3,16 +3,17 @@ package be.koder.library.test
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventHandler
 import be.koder.library.domain.event.EventPublisher
+import be.koder.library.domain.event.EventStream
 
 class MockEventPublisher : EventPublisher {
 
     private val handlers = ArrayList<EventHandler>()
     private val events = ArrayList<Event>()
 
-    override fun publish(event: Event) {
-        events.add(event)
+    override fun publish(eventStream: EventStream) {
+        events.add(eventStream)
         handlers.forEach {
-            it.handle(event)
+            it.handle(eventStream)
         }
     }
 
