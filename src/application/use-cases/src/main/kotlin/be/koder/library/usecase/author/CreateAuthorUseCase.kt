@@ -26,5 +26,6 @@ class CreateAuthorUseCase(
         val author = Author.createNew(command.firstName, command.lastName, command.email)
         authorRepository.save(author)
         eventStreamPublisher.publish(author.getMutations())
+        presenter.created(author.getId())
     }
 }
