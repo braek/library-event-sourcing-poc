@@ -18,7 +18,7 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     override fun dispatch(event: Event) {
         if (event is AuthorCreated) {
-            exec(event as AuthorCreated)
+            exec(event)
         }
     }
 
