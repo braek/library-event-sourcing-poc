@@ -5,6 +5,8 @@ import java.util.stream.StreamSupport
 
 data class EventStream(private val events: List<Event>) : Iterable<Event> {
 
+    constructor(vararg events: Event) : this(events.asList())
+
     fun isEmpty(): Boolean {
         return events.isEmpty()
     }

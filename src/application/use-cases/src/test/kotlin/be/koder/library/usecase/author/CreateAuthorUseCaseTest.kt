@@ -70,13 +70,7 @@ class CreateAuthorUseCaseTest {
 
         @BeforeEach
         fun setup() {
-            eventStore.append(
-                EventStream(
-                    listOf(
-                        AuthorCreated(AuthorId.createNew(), firstName, lastName, email)
-                    )
-                )
-            )
+            eventStore.append(EventStream(AuthorCreated(AuthorId.createNew(), firstName, lastName, email)))
             useCase.createAuthor(firstName, lastName, email, this)
         }
 
