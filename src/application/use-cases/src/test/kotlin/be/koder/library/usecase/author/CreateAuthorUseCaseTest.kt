@@ -1,6 +1,7 @@
 package be.koder.library.usecase.author
 
 import be.koder.library.api.author.CreateAuthorPresenter
+import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.test.InMemoryAuthorRepository
 import be.koder.library.test.MockEventStore
 import be.koder.library.test.MockEventStreamPublisher
@@ -9,6 +10,7 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
+import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -45,6 +47,11 @@ class CreateAuthorUseCaseTest {
         @Test
         @DisplayName("it should publish an event")
         fun eventsPublished() {
+            assertThat(eventStreamPublisher.getPublishedEvents())
+                .usingRecursiveComparison()
+                .ignoringFields("id", "occurredOn")
+                .isEqualTo(listOf(AuthorCreated(authorId!!, firstName, lastName, email)))
+
 
         }
 
