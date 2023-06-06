@@ -2,6 +2,7 @@ package be.koder.library.usecase.author
 
 import be.koder.library.api.author.ModifyAuthorPresenter
 import be.koder.library.domain.author.event.AuthorCreated
+import be.koder.library.domain.author.event.AuthorModified
 import be.koder.library.domain.event.EventStream
 import be.koder.library.test.InMemoryAuthorRepository
 import be.koder.library.test.InMemoryEventStore
@@ -11,6 +12,7 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -51,6 +53,26 @@ class ModifyAuthorUseCaseTest {
         @DisplayName("it should provide feedback")
         fun feedbackProvided() {
             assertTrue(modifiedCalled)
+        }
+
+        @Test
+        @DisplayName("it should change the state")
+        fun stateChanged() {
+            var actualState = authorRepository.get(authorId).orElseThrow()
+            assertThat(actualState.getId()).isEqualTo(authorId)
+            assertThat(actualState.getFirstName()).isEqualTo(firstName)
+            assertThat(actualState.getLastName()).isEqualTo(lastName)
+            assertThat(actualState.getEmailAddress()).isEqualTo(emailAddress)
+        }
+
+        @Test
+        @DisplayName("it should publish an event")
+        fun eventPublished() {
+            assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(
+                listOf(
+                    AuthorModified(authorId, firstName, lastName, emailAddress)
+                )
+            )
         }
 
         override fun modified(authorId: AuthorId) {

@@ -22,6 +22,15 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         if (event is AuthorCreated) {
             exec(event)
         }
+        if (event is AuthorModified) {
+            exec(event)
+        }
+    }
+
+    private fun exec(event: AuthorModified) {
+        this.firstName = event.firstName
+        this.lastName = event.lastName
+        this.emailAddress = event.emailAddress
     }
 
     private fun exec(event: AuthorCreated) {
@@ -42,6 +51,18 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         }
         apply(AuthorModified(id, firstName, lastName, emailAddress))
         presenter.modified(id)
+    }
+
+    fun getFirstName(): FirstName {
+        return firstName
+    }
+
+    fun getLastName(): LastName {
+        return lastName
+    }
+
+    fun getEmailAddress(): EmailAddress {
+        return emailAddress
     }
 
     companion object {
