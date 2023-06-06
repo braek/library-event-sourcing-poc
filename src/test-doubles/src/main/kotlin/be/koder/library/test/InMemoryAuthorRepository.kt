@@ -6,21 +6,19 @@ import be.koder.library.domain.author.EmailService
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
-import java.lang.RuntimeException
 import java.util.*
-import kotlin.collections.HashSet
 
 class InMemoryAuthorRepository(private val eventStore: MockEventStore) : AuthorRepository, EmailService {
 
     override fun exists(email: EmailAddress): Boolean {
         val eventStream = eventStore.query(AuthorCreated::class)
-        val emailAddresses = HashSet<EmailAddress>()
+        val stack = HashSet<EmailAddress>()
         eventStream.forEach {
             if (it is AuthorCreated) {
-                emailAddresses.add(it.email)
+                stack.add(it.email)
             }
         }
-        return emailAddresses.contains(email)
+        return stack.contains(email)
     }
 
     override fun get(id: AuthorId): Optional<Author> {
