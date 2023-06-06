@@ -54,7 +54,7 @@ class CreateAuthorUseCaseTest {
             this.authorId = authorId
         }
 
-        override fun emailAddressAlreadyInUse(email: EmailAddress) {
+        override fun emailAddressAlreadyInUse(emailAddress: EmailAddress) {
             TestUtils.fail()
         }
     }
@@ -90,7 +90,7 @@ class CreateAuthorUseCaseTest {
             TestUtils.fail()
         }
 
-        override fun emailAddressAlreadyInUse(email: EmailAddress) {
+        override fun emailAddressAlreadyInUse(emailAddress: EmailAddress) {
             emailAddressAlreadyInUseCalled = true
         }
     }

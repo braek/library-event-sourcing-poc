@@ -4,7 +4,8 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 
 interface CreateAuthorPresenter {
+
     fun created(authorId: AuthorId)
 
-    fun emailAddressAlreadyInUse(email: EmailAddress)
+    fun emailAddressAlreadyInUse(emailAddress: EmailAddress)
 }
