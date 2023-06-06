@@ -21,7 +21,13 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
     }
 
     override fun alreadyInUse(emailAddress: EmailAddress): Boolean {
-        TODO("Not yet implemented")
+        val eventStream = eventStore.query(AuthorCreated::class)
+        val stack = HashSet<EmailAddress>()
+        eventStream.stream()
+            .filter { it is AuthorCreated }
+            .map { it as AuthorCreated }
+            .forEach { stack.add(it.emailAddress) }
+        return stack.contains(emailAddress)
     }
 
     override fun get(id: AuthorId): Optional<Author> {
