@@ -19,10 +19,6 @@ class MockEventStreamPublisher : EventStreamPublisher {
         }
     }
 
-    fun clear() {
-        publishedEvents.clear()
-    }
-
     fun subscribe(handler: EventHandler) {
         handlers.add(handler)
     }

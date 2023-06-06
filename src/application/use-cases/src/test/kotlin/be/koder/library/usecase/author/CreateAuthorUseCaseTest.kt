@@ -2,6 +2,7 @@ package be.koder.library.usecase.author
 
 import be.koder.library.api.author.CreateAuthorPresenter
 import be.koder.library.domain.author.event.AuthorCreated
+import be.koder.library.domain.event.EventStream
 import be.koder.library.test.*
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
@@ -69,8 +70,13 @@ class CreateAuthorUseCaseTest {
 
         @BeforeEach
         fun setup() {
-            useCase.createAuthor(firstName, lastName, email, MockCreateAuthorPresenter())
-            eventStreamPublisher.clear()
+            eventStore.append(
+                EventStream(
+                    listOf(
+                        AuthorCreated(AuthorId.createNew(), firstName, lastName, email)
+                    )
+                )
+            )
             useCase.createAuthor(firstName, lastName, email, this)
         }
 
