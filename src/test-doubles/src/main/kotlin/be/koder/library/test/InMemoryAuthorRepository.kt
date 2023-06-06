@@ -10,6 +10,7 @@ import java.util.*
 
 class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : AuthorRepository, EmailService {
 
+    // TODO: correct this implementation
     override fun alreadyInUse(emailAddress: EmailAddress, exclude: AuthorId): Boolean {
         val eventStream = eventStore.query(AuthorCreated::class)
         val stack = HashSet<EmailAddress>()
@@ -20,6 +21,7 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
         return stack.contains(emailAddress)
     }
 
+    // TODO: correct this implementation
     override fun alreadyInUse(emailAddress: EmailAddress): Boolean {
         val eventStream = eventStore.query(AuthorCreated::class)
         val stack = HashSet<EmailAddress>()
