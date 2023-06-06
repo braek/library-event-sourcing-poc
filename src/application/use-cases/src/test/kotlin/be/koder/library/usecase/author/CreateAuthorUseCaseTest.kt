@@ -42,6 +42,12 @@ class CreateAuthorUseCaseTest {
             assertTrue(createdCalled)
         }
 
+        @Test
+        @DisplayName("it should publish an event")
+        fun eventsPublished() {
+
+        }
+
         override fun created(authorId: AuthorId) {
             this.createdCalled = true
             this.authorId = authorId
