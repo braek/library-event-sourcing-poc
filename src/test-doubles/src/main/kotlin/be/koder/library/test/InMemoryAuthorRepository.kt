@@ -13,11 +13,10 @@ class InMemoryAuthorRepository(private val eventStore: MockEventStore) : AuthorR
     override fun exists(email: EmailAddress): Boolean {
         val eventStream = eventStore.query(AuthorCreated::class)
         val stack = HashSet<EmailAddress>()
-        eventStream.forEach {
-            if (it is AuthorCreated) {
-                stack.add(it.email)
-            }
-        }
+        eventStream.stream()
+            .filter { it is AuthorCreated }
+            .map { it as AuthorCreated }
+            .forEach { stack.add(it.email) }
         return stack.contains(email)
     }
 
