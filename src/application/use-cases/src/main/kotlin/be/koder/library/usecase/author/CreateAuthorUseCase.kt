@@ -26,7 +26,7 @@ class CreateAuthorUseCase(
             presenter.emailAlreadyInUse(command.email)
             return
         }
-        val author = Author.createNew(command.firstName, command.lastName, command.email)
+        val author = Author.create(command.firstName, command.lastName, command.email)
         authorRepository.save(author)
         eventStreamPublisher.publish(author.getMutations())
         presenter.created(author.getId())

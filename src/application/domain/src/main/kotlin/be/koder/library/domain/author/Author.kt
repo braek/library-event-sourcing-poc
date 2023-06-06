@@ -35,7 +35,7 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     companion object {
         @JvmStatic
-        fun createNew(firstName: FirstName, lastName: LastName, email: EmailAddress): Author {
+        fun create(firstName: FirstName, lastName: LastName, email: EmailAddress): Author {
             val author = Author(EventStream.empty())
             author.apply(AuthorCreated(AuthorId.createNew(), firstName, lastName, email))
             return author
