@@ -1,5 +1,6 @@
 package be.koder.library.usecase.author
 
+import be.koder.library.api.author.ModifyAuthor
 import be.koder.library.api.author.ModifyAuthorPresenter
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
@@ -85,6 +86,48 @@ class ModifyAuthorUseCaseTest {
 
         override fun authorNotFound() {
             TestUtils.fail()
+        }
+    }
+
+    @Nested
+    @DisplayName("when Author not found")
+    inner class TestWhenAuthorNotFound : ModifyAuthorPresenter {
+
+        private var authorNotFoundCalled = false
+
+        @BeforeEach
+        fun setup() {
+            useCase.modifyAuthor(
+                AuthorId.createNew(),
+                FirstName("Bruce"),
+                LastName("Wayne"),
+                EmailAddress("batman@gothamcity.com"),
+                this
+            )
+        }
+
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertTrue(authorNotFoundCalled)
+        }
+
+        @Test
+        @DisplayName("it should not publish events")
+        fun noEventsPublished() {
+            assertThat(eventStreamPublisher.getPublishedEvents()).isEmpty()
+        }
+
+        override fun modified(authorId: AuthorId) {
+            TestUtils.fail()
+        }
+
+        override fun emailAddressAlreadyInUse(emailAddress: EmailAddress) {
+            TestUtils.fail()
+        }
+
+        override fun authorNotFound() {
+            authorNotFoundCalled = true
         }
     }
 }
