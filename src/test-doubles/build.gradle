@@ -4,6 +4,8 @@ dependencies {
     implementation project(':queries')
     implementation project(':use-cases')
     implementation project(':vocabulary')
+
+    implementation 'org.jetbrains.kotlin:kotlin-test:1.8.21'
 }
 
 description = 'test-doubles'

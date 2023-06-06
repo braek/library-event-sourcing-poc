@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 class EmailAddress : ValueObject {
 
     private val value: String
-    private val pattern = Pattern.compile("^[a-z]{1,100}$")
+    private val pattern = Pattern.compile("^[\\w.]+@[\\w.]+$")
 
     constructor(str: String) {
         val sanitized = str.trim().lowercase(Locale.getDefault())

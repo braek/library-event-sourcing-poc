@@ -4,12 +4,13 @@ import be.koder.library.api.author.CreateAuthorPresenter
 import be.koder.library.test.InMemoryAuthorRepository
 import be.koder.library.test.MockEventStore
 import be.koder.library.test.MockEventStreamPublisher
+import be.koder.library.test.TestUtils
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
+import be.koder.library.vocabulary.author.FirstName
+import be.koder.library.vocabulary.author.LastName
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
 
 @DisplayName("Given a use case to create Authors")
 class CreateAuthorUseCaseTest {
@@ -23,18 +24,31 @@ class CreateAuthorUseCaseTest {
     @DisplayName("when Author created successfully")
     inner class TestHappyFlow : CreateAuthorPresenter {
 
+        private val firstName = FirstName("John")
+        private val lastName = LastName("Doe")
+        private val email = EmailAddress("john.doe@sandbox.com")
+        private var createdCalled = false
+        private var authorId: AuthorId? = null
+
         @BeforeEach
         fun setup() {
+            useCase.createAuthor(firstName, lastName, email, this)
+        }
 
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertNotNull(authorId)
+            assertTrue(createdCalled)
         }
 
         override fun created(authorId: AuthorId) {
-            TODO("Not yet implemented")
+            this.createdCalled = true
+            this.authorId = authorId
         }
 
         override fun emailAlreadyInUse(email: EmailAddress) {
-            TODO("Not yet implemented")
+            TestUtils.fail()
         }
-
     }
 }
