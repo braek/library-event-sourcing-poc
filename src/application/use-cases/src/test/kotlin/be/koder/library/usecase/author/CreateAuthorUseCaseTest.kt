@@ -2,15 +2,12 @@ package be.koder.library.usecase.author
 
 import be.koder.library.api.author.CreateAuthorPresenter
 import be.koder.library.domain.author.event.AuthorCreated
-import be.koder.library.test.InMemoryAuthorRepository
-import be.koder.library.test.MockEventStore
-import be.koder.library.test.MockEventStreamPublisher
-import be.koder.library.test.TestUtils
+import be.koder.library.test.*
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
-import org.assertj.core.api.AssertionsForClassTypes.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -47,9 +44,7 @@ class CreateAuthorUseCaseTest {
         @Test
         @DisplayName("it should publish an event")
         fun eventsPublished() {
-            assertThat(eventStreamPublisher.getPublishedEvents())
-                .usingRecursiveComparison()
-                .ignoringFields("id", "occurredOn")
+            assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn")
                 .isEqualTo(listOf(AuthorCreated(authorId!!, firstName, lastName, email)))
         }
 
@@ -60,6 +55,43 @@ class CreateAuthorUseCaseTest {
 
         override fun emailAlreadyInUse(email: EmailAddress) {
             TestUtils.fail()
+        }
+    }
+
+    @Nested
+    @DisplayName("when e-mail address already in use")
+    inner class TestEmailAlreadyInUse : CreateAuthorPresenter {
+
+        private val firstName = FirstName("John")
+        private val lastName = LastName("Doe")
+        private val email = EmailAddress("john.doe@sandbox.com")
+        private var emailAlreadyInUseCalled = false
+
+        @BeforeEach
+        fun setup() {
+            useCase.createAuthor(firstName, lastName, email, MockCreateAuthorPresenter())
+            eventStreamPublisher.clear()
+            useCase.createAuthor(firstName, lastName, email, this)
+        }
+
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertTrue(emailAlreadyInUseCalled)
+        }
+
+        @Test
+        @DisplayName("it should not publish events")
+        fun noEventsPublished() {
+            assertThat(eventStreamPublisher.getPublishedEvents()).isEmpty()
+        }
+
+        override fun created(authorId: AuthorId) {
+            TestUtils.fail()
+        }
+
+        override fun emailAlreadyInUse(email: EmailAddress) {
+            emailAlreadyInUseCalled = true
         }
     }
 }
