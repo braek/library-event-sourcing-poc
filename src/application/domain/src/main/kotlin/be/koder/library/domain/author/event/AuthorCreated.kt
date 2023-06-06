@@ -28,4 +28,8 @@ data class AuthorCreated internal constructor(
     override fun tags(): Set<AggregateId> {
         return tags
     }
+
+    fun authorId(): AuthorId {
+        return tags.iterator().next() as AuthorId;
+    }
 }

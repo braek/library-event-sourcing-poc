@@ -17,7 +17,16 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
     private lateinit var email: EmailAddress
 
     override fun dispatch(event: Event) {
+        if (event is AuthorCreated) {
+            exec(event as AuthorCreated)
+        }
+    }
 
+    private fun exec(event: AuthorCreated) {
+        this.id = event.authorId()
+        this.firstName = event.firstName
+        this.lastName = event.lastName
+        this.email = event.email
     }
 
     override fun getId(): AuthorId {
