@@ -1,6 +1,5 @@
 package be.koder.library.usecase.author
 
-import be.koder.library.api.author.ModifyAuthor
 import be.koder.library.api.author.ModifyAuthorPresenter
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
@@ -98,11 +97,7 @@ class ModifyAuthorUseCaseTest {
         @BeforeEach
         fun setup() {
             useCase.modifyAuthor(
-                AuthorId.createNew(),
-                FirstName("Bruce"),
-                LastName("Wayne"),
-                EmailAddress("batman@gothamcity.com"),
-                this
+                AuthorId.createNew(), FirstName("Bruce"), LastName("Wayne"), EmailAddress("batman@gothamcity.com"), this
             )
         }
 
@@ -129,5 +124,62 @@ class ModifyAuthorUseCaseTest {
         override fun authorNotFound() {
             authorNotFoundCalled = true
         }
+    }
+
+    @Nested
+    @DisplayName("when e-mail addresss already in use")
+    inner class TestWhenEmailAddressAlreadyInUse : ModifyAuthorPresenter {
+
+        private var emailAddressAlreadyInUseCalled = false
+        private var authorId = AuthorId.createNew()
+        private val firstName = FirstName("Bruce")
+        private val lastName = LastName("Wayne")
+        private val emailAddress = EmailAddress("joker@gothamcity.com")
+
+        @BeforeEach
+        fun setup() {
+            eventStore.append(
+                EventStream(
+                    AuthorCreated(
+                        authorId,
+                        firstName,
+                        lastName,
+                        EmailAddress("batman@gothamcity.com")
+                    ),
+                    AuthorCreated(
+                        AuthorId.createNew(),
+                        FirstName("Arthur"),
+                        LastName("Fleck"),
+                        emailAddress
+                    )
+                )
+            )
+            useCase.modifyAuthor(authorId, firstName, lastName, emailAddress, this)
+        }
+
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertTrue(emailAddressAlreadyInUseCalled)
+        }
+
+        @Test
+        @DisplayName("it should not publish events")
+        fun noEventsPublished() {
+            assertThat(eventStreamPublisher.getPublishedEvents()).isEmpty()
+        }
+
+        override fun modified(authorId: AuthorId) {
+            TestUtils.fail()
+        }
+
+        override fun emailAddressAlreadyInUse(emailAddress: EmailAddress) {
+            emailAddressAlreadyInUseCalled = true
+        }
+
+        override fun authorNotFound() {
+            TestUtils.fail()
+        }
+
     }
 }
