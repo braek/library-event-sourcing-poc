@@ -51,8 +51,6 @@ class CreateAuthorUseCaseTest {
                 .usingRecursiveComparison()
                 .ignoringFields("id", "occurredOn")
                 .isEqualTo(listOf(AuthorCreated(authorId!!, firstName, lastName, email)))
-
-
         }
 
         override fun created(authorId: AuthorId) {
