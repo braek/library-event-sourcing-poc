@@ -23,7 +23,7 @@ class CreateAuthorUseCase(
 
     override fun execute(command: CreateAuthorCommand, presenter: CreateAuthorPresenter) {
         if (emailService.alreadyInUse(command.email)) {
-            presenter.emailAlreadyInUse(command.email)
+            presenter.emailAddressAlreadyInUse(command.email)
             return
         }
         val author = Author.create(command.firstName, command.lastName, command.email)

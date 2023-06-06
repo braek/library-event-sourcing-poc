@@ -6,5 +6,5 @@ import be.koder.library.vocabulary.author.EmailAddress
 interface CreateAuthorPresenter {
     fun created(authorId: AuthorId)
 
-    fun emailAlreadyInUse(email: EmailAddress)
+    fun emailAddressAlreadyInUse(email: EmailAddress)
 }

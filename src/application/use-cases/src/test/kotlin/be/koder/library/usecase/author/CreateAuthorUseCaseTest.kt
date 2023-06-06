@@ -54,19 +54,19 @@ class CreateAuthorUseCaseTest {
             this.authorId = authorId
         }
 
-        override fun emailAlreadyInUse(email: EmailAddress) {
+        override fun emailAddressAlreadyInUse(email: EmailAddress) {
             TestUtils.fail()
         }
     }
 
     @Nested
     @DisplayName("when e-mail address already in use")
-    inner class TestEmailAlreadyInUse : CreateAuthorPresenter {
+    inner class TestEmailAddressAlreadyInUse : CreateAuthorPresenter {
 
         private val firstName = FirstName("John")
         private val lastName = LastName("Doe")
         private val emailAddress = EmailAddress("john.doe@sandbox.com")
-        private var emailAlreadyInUseCalled = false
+        private var emailAddressAlreadyInUseCalled = false
 
         @BeforeEach
         fun setup() {
@@ -77,7 +77,7 @@ class CreateAuthorUseCaseTest {
         @Test
         @DisplayName("it should provide feedback")
         fun feedbackProvided() {
-            assertTrue(emailAlreadyInUseCalled)
+            assertTrue(emailAddressAlreadyInUseCalled)
         }
 
         @Test
@@ -90,8 +90,8 @@ class CreateAuthorUseCaseTest {
             TestUtils.fail()
         }
 
-        override fun emailAlreadyInUse(email: EmailAddress) {
-            emailAlreadyInUseCalled = true
+        override fun emailAddressAlreadyInUse(email: EmailAddress) {
+            emailAddressAlreadyInUseCalled = true
         }
     }
 }

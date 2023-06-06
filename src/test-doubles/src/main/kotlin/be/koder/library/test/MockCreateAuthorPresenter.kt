@@ -8,5 +8,5 @@ class MockCreateAuthorPresenter : CreateAuthorPresenter {
 
     override fun created(authorId: AuthorId) {}
 
-    override fun emailAlreadyInUse(email: EmailAddress) {}
+    override fun emailAddressAlreadyInUse(email: EmailAddress) {}
 }
