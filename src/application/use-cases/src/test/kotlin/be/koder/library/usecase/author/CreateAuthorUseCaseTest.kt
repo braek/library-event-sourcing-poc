@@ -61,7 +61,7 @@ class CreateAuthorUseCaseTest {
 
     @Nested
     @DisplayName("when e-mail address already in use")
-    inner class TestEmailAddressAlreadyInUse : CreateAuthorPresenter {
+    inner class TestWhenEmailAddressAlreadyInUse : CreateAuthorPresenter {
 
         private val firstName = FirstName("John")
         private val lastName = LastName("Doe")
