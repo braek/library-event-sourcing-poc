@@ -23,7 +23,15 @@ class ModifyAuthorUseCase(
 
     override fun execute(command: ModifyAuthorCommand, presenter: ModifyAuthorPresenter) {
         authorRepository.get(command.authorId).ifPresentOrElse({
-
+            it.modify(
+                command.firstName,
+                command.lastName,
+                command.emailAddress,
+                emailService,
+                ModifyAuthorDomainPresenterDecorator(presenter)
+            )
+            authorRepository.save(it)
+            eventStreamPublisher.publish(it.getMutations())
         }, presenter::authorNotFound)
     }
 }

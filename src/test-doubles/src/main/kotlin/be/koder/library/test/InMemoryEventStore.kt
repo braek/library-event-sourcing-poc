@@ -7,7 +7,7 @@ import be.koder.library.vocabulary.domain.AggregateId
 import java.util.stream.Collectors
 import kotlin.reflect.KClass
 
-class MockEventStore : EventStore {
+class InMemoryEventStore : EventStore {
 
     private val events: ArrayList<Event> = ArrayList()
 

@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Assertions.*
 @DisplayName("Given a use case to create Authors")
 class CreateAuthorUseCaseTest {
 
-    private val eventStore = MockEventStore()
+    private val eventStore = InMemoryEventStore()
     private val authorRepository = InMemoryAuthorRepository(eventStore)
-    private val eventStreamPublisher = MockEventStreamPublisher()
+    private val eventStreamPublisher = InMemoryEventStreamPublisher()
     private val useCase = CreateAuthorUseCase(authorRepository, eventStreamPublisher, authorRepository)
 
     @Nested

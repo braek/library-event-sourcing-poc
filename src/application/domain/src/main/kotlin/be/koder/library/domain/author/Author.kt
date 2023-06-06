@@ -2,6 +2,8 @@ package be.koder.library.domain.author
 
 import be.koder.library.domain.aggregate.EventSourcedAggregate
 import be.koder.library.domain.author.event.AuthorCreated
+import be.koder.library.domain.author.event.AuthorModified
+import be.koder.library.domain.author.presenter.ModifyAuthorDomainPresenter
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
 import be.koder.library.vocabulary.author.AuthorId
@@ -31,6 +33,15 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     override fun getId(): AuthorId {
         return id
+    }
+
+    fun modify(firstName: FirstName, lastName: LastName, emailAddress: EmailAddress, emailService: EmailService, presenter: ModifyAuthorDomainPresenter) {
+        if (emailService.alreadyInUse(emailAddress, id)) {
+            presenter.emailAddressAlreadyInUse(emailAddress)
+            return
+        }
+        apply(AuthorModified(id, firstName, lastName, emailAddress))
+        presenter.modified(id)
     }
 
     companion object {

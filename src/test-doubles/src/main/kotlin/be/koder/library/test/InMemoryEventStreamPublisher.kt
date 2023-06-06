@@ -5,7 +5,7 @@ import be.koder.library.domain.event.EventHandler
 import be.koder.library.domain.event.EventStreamPublisher
 import be.koder.library.domain.event.EventStream
 
-class MockEventStreamPublisher : EventStreamPublisher {
+class InMemoryEventStreamPublisher : EventStreamPublisher {
 
     private val handlers = ArrayList<EventHandler>()
     private val publishedEvents = ArrayList<Event>()

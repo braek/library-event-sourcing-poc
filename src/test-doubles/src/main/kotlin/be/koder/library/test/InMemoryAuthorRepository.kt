@@ -8,9 +8,9 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import java.util.*
 
-class InMemoryAuthorRepository(private val eventStore: MockEventStore) : AuthorRepository, EmailService {
+class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : AuthorRepository, EmailService {
 
-    override fun alreadyInUse(emailAddress: EmailAddress): Boolean {
+    override fun alreadyInUse(emailAddress: EmailAddress, exclude: AuthorId): Boolean {
         val eventStream = eventStore.query(AuthorCreated::class)
         val stack = HashSet<EmailAddress>()
         eventStream.stream()
@@ -18,6 +18,10 @@ class InMemoryAuthorRepository(private val eventStore: MockEventStore) : AuthorR
             .map { it as AuthorCreated }
             .forEach { stack.add(it.emailAddress) }
         return stack.contains(emailAddress)
+    }
+
+    override fun alreadyInUse(emailAddress: EmailAddress): Boolean {
+        TODO("Not yet implemented")
     }
 
     override fun get(id: AuthorId): Optional<Author> {
