@@ -180,6 +180,5 @@ class ModifyAuthorUseCaseTest {
         override fun authorNotFound() {
             TestUtils.fail()
         }
-
     }
 }
