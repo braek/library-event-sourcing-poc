@@ -10,14 +10,14 @@ import java.util.*
 
 class InMemoryAuthorRepository(private val eventStore: MockEventStore) : AuthorRepository, EmailService {
 
-    override fun exists(email: EmailAddress): Boolean {
+    override fun alreadyInUse(emailAddress: EmailAddress): Boolean {
         val eventStream = eventStore.query(AuthorCreated::class)
         val stack = HashSet<EmailAddress>()
         eventStream.stream()
             .filter { it is AuthorCreated }
             .map { it as AuthorCreated }
-            .forEach { stack.add(it.email) }
-        return stack.contains(email)
+            .forEach { stack.add(it.emailAddress) }
+        return stack.contains(emailAddress)
     }
 
     override fun get(id: AuthorId): Optional<Author> {

@@ -14,7 +14,7 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
     private lateinit var id: AuthorId
     private lateinit var firstName: FirstName
     private lateinit var lastName: LastName
-    private lateinit var email: EmailAddress
+    private lateinit var emailAddress: EmailAddress
 
     override fun dispatch(event: Event) {
         if (event is AuthorCreated) {
@@ -26,7 +26,7 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         this.id = event.authorId()
         this.firstName = event.firstName
         this.lastName = event.lastName
-        this.email = event.email
+        this.emailAddress = event.emailAddress
     }
 
     override fun getId(): AuthorId {

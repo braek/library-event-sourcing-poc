@@ -26,13 +26,13 @@ class CreateAuthorUseCaseTest {
 
         private val firstName = FirstName("John")
         private val lastName = LastName("Doe")
-        private val email = EmailAddress("john.doe@sandbox.com")
+        private val emailAddress = EmailAddress("john.doe@sandbox.com")
         private var createdCalled = false
         private var authorId: AuthorId? = null
 
         @BeforeEach
         fun setup() {
-            useCase.createAuthor(firstName, lastName, email, this)
+            useCase.createAuthor(firstName, lastName, emailAddress, this)
         }
 
         @Test
@@ -46,7 +46,7 @@ class CreateAuthorUseCaseTest {
         @DisplayName("it should publish an event")
         fun eventsPublished() {
             assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn")
-                .isEqualTo(listOf(AuthorCreated(authorId!!, firstName, lastName, email)))
+                .isEqualTo(listOf(AuthorCreated(authorId!!, firstName, lastName, emailAddress)))
         }
 
         override fun created(authorId: AuthorId) {
@@ -65,13 +65,13 @@ class CreateAuthorUseCaseTest {
 
         private val firstName = FirstName("John")
         private val lastName = LastName("Doe")
-        private val email = EmailAddress("john.doe@sandbox.com")
+        private val emailAddress = EmailAddress("john.doe@sandbox.com")
         private var emailAlreadyInUseCalled = false
 
         @BeforeEach
         fun setup() {
-            eventStore.append(EventStream(AuthorCreated(AuthorId.createNew(), firstName, lastName, email)))
-            useCase.createAuthor(firstName, lastName, email, this)
+            eventStore.append(EventStream(AuthorCreated(AuthorId.createNew(), firstName, lastName, emailAddress)))
+            useCase.createAuthor(firstName, lastName, emailAddress, this)
         }
 
         @Test

@@ -22,7 +22,7 @@ class CreateAuthorUseCase(
     }
 
     override fun execute(command: CreateAuthorCommand, presenter: CreateAuthorPresenter) {
-        if (emailService.exists(command.email)) {
+        if (emailService.alreadyInUse(command.email)) {
             presenter.emailAlreadyInUse(command.email)
             return
         }
