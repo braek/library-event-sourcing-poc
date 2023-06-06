@@ -1,4 +1,4 @@
-package be.koder.library.usecase.author
+package be.koder.library.usecase.author.presenter
 
 import be.koder.library.api.author.ModifyAuthorPresenter
 import be.koder.library.domain.author.presenter.ModifyAuthorDomainPresenter

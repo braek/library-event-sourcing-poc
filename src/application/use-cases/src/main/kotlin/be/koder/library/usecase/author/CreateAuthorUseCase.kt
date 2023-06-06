@@ -7,6 +7,7 @@ import be.koder.library.domain.author.AuthorRepository
 import be.koder.library.domain.author.EmailService
 import be.koder.library.domain.event.EventStreamPublisher
 import be.koder.library.usecase.UseCase
+import be.koder.library.usecase.author.command.CreateAuthorCommand
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
