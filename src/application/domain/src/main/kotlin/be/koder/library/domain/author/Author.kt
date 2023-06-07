@@ -3,6 +3,7 @@ package be.koder.library.domain.author
 import be.koder.library.domain.aggregate.EventSourcedAggregate
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
+import be.koder.library.domain.author.event.AuthorRemoved
 import be.koder.library.domain.author.presenter.ModifyAuthorDomainPresenter
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
@@ -63,6 +64,10 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     fun getEmailAddress(): EmailAddress {
         return emailAddress
+    }
+
+    fun remove() {
+        apply(AuthorRemoved(id))
     }
 
     companion object {

@@ -8,5 +8,5 @@ import be.koder.library.vocabulary.author.LastName
 data class CreateAuthorCommand(
     val firstName: FirstName,
     val lastName: LastName,
-    val email: EmailAddress
+    val emailAddress: EmailAddress
 ) : Command

@@ -23,11 +23,11 @@ class CreateAuthorUseCase(
     }
 
     override fun execute(command: CreateAuthorCommand, presenter: CreateAuthorPresenter) {
-        if (emailService.alreadyInUse(command.email)) {
-            presenter.emailAddressAlreadyInUse(command.email)
+        if (emailService.alreadyInUse(command.emailAddress)) {
+            presenter.emailAddressAlreadyInUse(command.emailAddress)
             return
         }
-        val author = Author.create(command.firstName, command.lastName, command.email)
+        val author = Author.create(command.firstName, command.lastName, command.emailAddress)
         authorRepository.save(author)
         eventStreamPublisher.publish(author.getMutations())
         presenter.created(author.getId())
