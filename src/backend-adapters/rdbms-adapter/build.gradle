@@ -44,7 +44,7 @@ jooq {
                     password = flyway.password
                 }
                 generator {
-                    name = 'org.jooq.codegen.DefaultGenerator'
+                    name = 'org.jooq.codegen.KotlinGenerator'
                     database {
                         name = 'org.jooq.meta.postgres.PostgresDatabase'
                         inputSchema = 'sandbox'
@@ -57,7 +57,7 @@ jooq {
                     }
                     target {
                         packageName = 'be.koder.library.rdbms'
-                        directory = 'src/jooq/java'
+                        directory = 'src/jooq/kotlin'
                     }
                 }
             }
@@ -70,7 +70,7 @@ sourceSets {
         kotlin {}
     }
     jooq {
-        java {}
+        kotlin {}
     }
     test {
         kotlin {}
