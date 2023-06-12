@@ -5,9 +5,9 @@ import be.koder.library.vocabulary.domain.AggregateId
 import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.jooq.JSONB
-import java.io.IOException
 
 object JsonbMapper {
 
@@ -20,7 +20,7 @@ object JsonbMapper {
     fun write(event: Event): JSONB {
         try {
             return JSONB.valueOf(objectMapper.writeValueAsString(event))
-        } catch (e: IOException) {
+        } catch (e: JsonProcessingException) {
             throw RuntimeException(e)
         }
     }
