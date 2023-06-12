@@ -37,14 +37,11 @@ class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
     }
 
     private fun mapEventRecord(event: Event): EventRecord {
-        if (event is AuthorCreated) {
-            val record = dsl.newRecord(EVENT)
-            record.id = event.id.getValue()
-            record.occurredOn = event.occurredOn.toOffsetDateTime()
-            record.payload = JsonbMapper.write(event)
-            record.type = event.javaClass.simpleName
-            return record
-        }
-        throw IllegalArgumentException("Cannot map Event to EventRecord")
+        val record = dsl.newRecord(EVENT)
+        record.id = event.id().getValue()
+        record.occurredOn = event.occurredOn().toOffsetDateTime()
+        record.payload = JsonbMapper.write(event)
+        record.type = event.javaClass.simpleName
+        return record
     }
 }
