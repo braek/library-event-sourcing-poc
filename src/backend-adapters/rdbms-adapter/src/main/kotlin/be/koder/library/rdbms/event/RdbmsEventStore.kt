@@ -31,7 +31,7 @@ class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
             val record = dsl.newRecord(TAG)
             record.eventId = event.id().getValue()
             record.type = it.javaClass.simpleName
-            record.value = it.getValue() as UUID
+            record.value = it.getValue().toString()
             records.add(record)
         }
         return records.toList()

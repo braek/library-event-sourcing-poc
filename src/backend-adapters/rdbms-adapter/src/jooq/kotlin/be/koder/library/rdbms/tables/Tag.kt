@@ -75,7 +75,7 @@ open class Tag(
     /**
      * The column <code>sandbox.tag.value</code>.
      */
-    val VALUE: TableField<TagRecord, UUID?> = createField(DSL.name("value"), SQLDataType.UUID.nullable(false), this, "")
+    val VALUE: TableField<TagRecord, String?> = createField(DSL.name("value"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     private constructor(alias: Name, aliased: Table<TagRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<TagRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
@@ -124,5 +124,5 @@ open class Tag(
     // -------------------------------------------------------------------------
     // Row3 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row3<UUID?, String?, UUID?> = super.fieldsRow() as Row3<UUID?, String?, UUID?>
+    override fun fieldsRow(): Row3<UUID?, String?, String?> = super.fieldsRow() as Row3<UUID?, String?, String?>
 }
