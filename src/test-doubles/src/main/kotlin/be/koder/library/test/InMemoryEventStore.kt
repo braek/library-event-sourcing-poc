@@ -19,7 +19,9 @@ class InMemoryEventStore : EventStore {
         return EventStream(events.stream().filter { it.tags().contains(aggregateId) }.collect(Collectors.toList()))
     }
 
-    fun <T : Event> query(clazz: KClass<T>): EventStream {
-        return EventStream(events.stream().filter { it::class == clazz }.collect(Collectors.toList()))
+    fun <T : Event> query(vararg clazz: KClass<T>): EventStream {
+        return EventStream(events.stream()
+            .filter { clazz.toList().contains(it::class) }
+            .collect(Collectors.toList()))
     }
 }

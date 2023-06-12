@@ -4,6 +4,8 @@ import be.koder.library.domain.author.Author
 import be.koder.library.domain.author.AuthorRepository
 import be.koder.library.domain.author.EmailService
 import be.koder.library.domain.author.event.AuthorCreated
+import be.koder.library.domain.author.event.AuthorModified
+import be.koder.library.domain.author.event.AuthorRemoved
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import java.util.*
@@ -12,13 +14,14 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
 
     // TODO: correct this implementation
     override fun alreadyInUse(emailAddress: EmailAddress, exclude: AuthorId): Boolean {
-        val eventStream = eventStore.query(AuthorCreated::class)
-        val stack = HashSet<EmailAddress>()
-        eventStream.stream()
-            .filter { it is AuthorCreated }
-            .map { it as AuthorCreated }
-            .forEach { stack.add(it.emailAddress) }
-        return stack.contains(emailAddress)
+        val stack: Map<AuthorId, EmailAddress> = mapOf()
+        val eventStream = eventStore.query(AuthorCreated::class, AuthorModified::class)
+//        val stack = HashSet<EmailAddress>()
+//        eventStream.stream()
+//            .filter { it is AuthorCreated }
+//            .map { it as AuthorCreated }
+//            .forEach { stack.add(it.emailAddress) }
+        return stack.values.contains(emailAddress)
     }
 
     // TODO: correct this implementation
