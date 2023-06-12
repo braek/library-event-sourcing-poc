@@ -6,17 +6,35 @@ import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
 import be.koder.library.rdbms.mapper.JsonbMapper
 import be.koder.library.rdbms.tables.records.EventRecord
+import be.koder.library.rdbms.tables.records.TagRecord
 import be.koder.library.rdbms.tables.references.EVENT
+import be.koder.library.rdbms.tables.references.TAG
 import org.jooq.DSLContext
+import java.util.*
 
 class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
     override fun append(eventStream: EventStream) {
-        val records = mutableListOf<EventRecord>()
+        val eventRecords = mutableListOf<EventRecord>()
+        val tagRecords = mutableListOf<TagRecord>()
         eventStream.forEach {
-            records.add(mapEventRecord(it))
+            eventRecords.add(mapEventRecord(it))
+            tagRecords.addAll(mapTagRecords(it))
         }
-        dsl.batchInsert(records)
+        dsl.batchInsert(eventRecords)
+        dsl.batchInsert(tagRecords)
+    }
+
+    private fun mapTagRecords(event: Event): List<TagRecord> {
+        val records = mutableListOf<TagRecord>()
+        event.tags().forEach {
+            val record = dsl.newRecord(TAG)
+            record.eventId = event.id().getValue()
+            record.type = it.javaClass.simpleName
+            record.value = it.getValue() as UUID
+            records.add(record)
+        }
+        return records.toList()
     }
 
     private fun mapEventRecord(event: Event): EventRecord {
