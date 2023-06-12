@@ -10,8 +10,10 @@ import be.koder.library.rdbms.tables.records.TagRecord
 import be.koder.library.rdbms.tables.references.EVENT
 import be.koder.library.rdbms.tables.references.TAG
 import org.jooq.DSLContext
+import org.springframework.transaction.annotation.Transactional
 
-class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
+@Transactional
+open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
     override fun append(eventStream: EventStream) {
         val eventRecords = mutableListOf<EventRecord>()
