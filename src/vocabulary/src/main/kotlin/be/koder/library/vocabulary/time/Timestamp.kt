@@ -1,9 +1,8 @@
 package be.koder.library.vocabulary.time
 
 import be.koder.library.vocabulary.domain.ValueObject
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.*
+import java.time.ZoneOffset.UTC
 
 class Timestamp private constructor(private val value: Instant) : ValueObject {
 
@@ -23,7 +22,11 @@ class Timestamp private constructor(private val value: Instant) : ValueObject {
     }
 
     fun toLocalDateTime(): LocalDateTime {
-        return LocalDateTime.ofInstant(value, ZoneOffset.UTC)
+        return LocalDateTime.ofInstant(value, UTC)
+    }
+
+    fun toOffsetDateTime(): OffsetDateTime {
+        return OffsetDateTime.ofInstant(value, UTC)
     }
 
     override fun toString(): String {
@@ -39,7 +42,7 @@ class Timestamp private constructor(private val value: Instant) : ValueObject {
 
         @JvmStatic
         fun fromLocalDateTime(ldt: LocalDateTime): Timestamp {
-            return Timestamp(ldt.toInstant(ZoneOffset.UTC))
+            return Timestamp(ldt.toInstant(UTC))
         }
     }
 }
