@@ -10,7 +10,6 @@ import be.koder.library.rdbms.tables.records.TagRecord
 import be.koder.library.rdbms.tables.references.EVENT
 import be.koder.library.rdbms.tables.references.TAG
 import org.jooq.DSLContext
-import java.util.*
 
 class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
