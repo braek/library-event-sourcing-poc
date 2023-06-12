@@ -1,4 +1,4 @@
-package be.koder.library.rdbms
+package be.koder.library.rdbms.event
 
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
