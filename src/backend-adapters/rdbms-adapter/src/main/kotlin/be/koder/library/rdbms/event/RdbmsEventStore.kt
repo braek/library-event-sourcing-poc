@@ -27,7 +27,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
         record.occurredOn = event.occurredOn().toOffsetDateTime()
         record.type = event.javaClass.simpleName
         record.tags = mapTags(event.tags())
-        record.payload = JsonbMapper.toJson(event)
+        record.payload = JsonbMapper.convertPayloadToJson(event)
         return record
     }
 
