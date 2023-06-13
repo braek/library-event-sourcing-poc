@@ -8,7 +8,7 @@ import org.jooq.JSONB
 import java.io.IOException
 import java.lang.IllegalArgumentException
 
-object JsonbMapper {
+object PayloadMapper {
 
     private val objectMapper: ObjectMapper = ObjectMapper()
 

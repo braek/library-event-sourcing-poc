@@ -3,7 +3,7 @@ package be.koder.library.rdbms.event
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
-import be.koder.library.rdbms.event.mapper.JsonbMapper
+import be.koder.library.rdbms.event.mapper.PayloadMapper
 import be.koder.library.rdbms.tables.records.EventRecord
 import be.koder.library.rdbms.tables.references.EVENT
 import be.koder.library.vocabulary.domain.AggregateId
@@ -27,7 +27,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
         record.occurredOn = event.occurredOn().toOffsetDateTime()
         record.type = event.javaClass.simpleName
         record.tags = mapTags(event.tags())
-        record.payload = JsonbMapper.convertPayloadToJson(event)
+        record.payload = PayloadMapper.convertPayloadToJson(event)
         return record
     }
 
