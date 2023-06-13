@@ -1,12 +1,15 @@
-buildscript {
-    dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21'
-    }
-}
-
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.21'
     id 'org.springframework.boot' version '2.7.12'
+}
+
+repositories {
+    mavenCentral()
+}
+
+kotlin {
+    jvmToolchain(11)
 }
 
 subprojects {
@@ -15,15 +18,15 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'kotlin'
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-        kotlinOptions {
-            jvmTarget = '11'
-            apiVersion = '1.6'
-            languageVersion = '1.6'
-        }
-    }
+//    tasks.withType(KotlinCompile).configureEach {
+//        sourceCompatibility = JavaVersion.VERSION_11
+//        targetCompatibility = JavaVersion.VERSION_11
+//        kotlinOptions {
+//            jvmTarget = '11'
+//            apiVersion = '1.6'
+//            languageVersion = '1.6'
+//        }
+//    }
 
     test {
         useJUnitPlatform()

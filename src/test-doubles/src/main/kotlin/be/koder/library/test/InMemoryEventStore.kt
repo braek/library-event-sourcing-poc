@@ -5,7 +5,6 @@ import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
 import be.koder.library.vocabulary.domain.AggregateId
 import java.util.stream.Collectors
-import kotlin.reflect.KClass
 
 class InMemoryEventStore : EventStore {
 
@@ -19,9 +18,9 @@ class InMemoryEventStore : EventStore {
         return EventStream(events.stream().filter { it.tags().contains(aggregateId) }.collect(Collectors.toList()))
     }
 
-    fun <T : Event> query(vararg clazz: KClass<T>): EventStream {
+    fun queryByTypes(vararg types: String): EventStream {
         return EventStream(events.stream()
-            .filter { clazz.toList().contains(it::class) }
+            .filter { types.toList().contains(it.javaClass.simpleName) }
             .collect(Collectors.toList()))
     }
 }

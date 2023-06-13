@@ -2,11 +2,11 @@ package be.koder.library.vocabulary.author
 
 import be.koder.library.vocabulary.domain.ValueObject
 
-class LastName : ValueObject {
+class LastName(str: String) : ValueObject {
 
     private val value: String
 
-    constructor(str: String) {
+    init {
         val sanitized = str.trim()
         if (sanitized.length < 2 || sanitized.length > 50) {
             throw InvalidLastNameException(sanitized)

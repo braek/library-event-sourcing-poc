@@ -1,6 +1,5 @@
 package be.koder.library.rdbms.event
 
-import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream

@@ -12,32 +12,32 @@ import java.util.*
 
 class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : AuthorRepository, EmailService {
 
-    // TODO: correct this implementation
     override fun alreadyInUse(emailAddress: EmailAddress, exclude: AuthorId): Boolean {
-        val stack: Map<AuthorId, EmailAddress> = mapOf()
-        val eventStream = eventStore.query(AuthorCreated::class, AuthorModified::class)
-//        val stack = HashSet<EmailAddress>()
-//        eventStream.stream()
-//            .filter { it is AuthorCreated }
-//            .map { it as AuthorCreated }
-//            .forEach { stack.add(it.emailAddress) }
+        val stack = buildEmailAddressStack()
+        stack.remove(exclude)
         return stack.values.contains(emailAddress)
     }
 
-    // TODO: correct this implementation
     override fun alreadyInUse(emailAddress: EmailAddress): Boolean {
-        val eventStream = eventStore.query(AuthorCreated::class)
-        val stack = HashSet<EmailAddress>()
+        return buildEmailAddressStack().values.contains(emailAddress)
+    }
+
+    private fun buildEmailAddressStack(): MutableMap<AuthorId, EmailAddress> {
+        val stack: MutableMap<AuthorId, EmailAddress> = mutableMapOf()
+        val eventStream = eventStore.queryByTypes(
+            AuthorCreated::class.simpleName!!,
+            AuthorModified::class.simpleName!!
+        )
         eventStream.stream()
             .filter { it is AuthorCreated }
             .map { it as AuthorCreated }
-            .forEach { stack.add(it.emailAddress) }
-        return stack.contains(emailAddress)
+            .forEach { stack[it.authorId()] = it.emailAddress }
+        return stack
     }
 
     override fun get(id: AuthorId): Optional<Author> {
         val eventStream = eventStore.query(id)
-        if (eventStream.isEmpty()) {
+        if (eventStream.isEmpty() || eventStream.containsEventOfType(AuthorRemoved::class.simpleName!!)) {
             return Optional.empty()
         }
         return Optional.of(Author(eventStream))

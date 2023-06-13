@@ -4,17 +4,16 @@ import be.koder.library.vocabulary.domain.ValueObject
 import java.util.*
 import java.util.regex.Pattern
 
-class EmailAddress : ValueObject {
+class EmailAddress(str: String) : ValueObject {
 
-    private val value: String
+    private val value: String = str
     private val pattern = Pattern.compile("^[\\w.]+@[\\w.]+$")
 
-    constructor(str: String) {
+    init {
         val sanitized = str.trim().lowercase(Locale.getDefault())
         if (sanitized.isBlank() || !pattern.matcher(sanitized).matches()) {
             throw InvalidEmailAddressException(sanitized)
         }
-        this.value = str
     }
 
     override fun getValue(): String {
