@@ -6,7 +6,7 @@ include(':queries')
 include(':test-doubles')
 include(':use-cases')
 include(':vocabulary')
-//include(':rdbms-adapter')
+include(':rdbms-adapter')
 
 // Application
 project(':api').projectDir = file('src/application/api')
@@ -19,4 +19,4 @@ project(':test-doubles').projectDir = file('src/test-doubles')
 project(':vocabulary').projectDir = file('src/vocabulary')
 
 // Backend
-//project(':rdbms-adapter').projectDir = file('src/backend-adapters/rdbms-adapter')
+project(':rdbms-adapter').projectDir = file('src/backend-adapters/rdbms-adapter')
