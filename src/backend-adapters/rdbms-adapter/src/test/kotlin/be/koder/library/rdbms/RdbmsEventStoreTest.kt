@@ -1,7 +1,13 @@
 package be.koder.library.rdbms
 
+import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.event.EventStore
+import be.koder.library.domain.event.EventStream
 import be.koder.library.rdbms.event.RdbmsEventStore
+import be.koder.library.vocabulary.author.AuthorId
+import be.koder.library.vocabulary.author.EmailAddress
+import be.koder.library.vocabulary.author.FirstName
+import be.koder.library.vocabulary.author.LastName
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -16,6 +22,14 @@ class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventSt
 
     @Test
     fun testIt() {
+        eventStore.append(EventStream(
+            AuthorCreated(
+                AuthorId.createNew(),
+                FirstName("Bruce"),
+                LastName("Wayne"),
+                EmailAddress("batman@gothamcity.com")
+            )
+        ))
         assertTrue(false)
     }
 }

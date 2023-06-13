@@ -4,14 +4,11 @@
 package be.koder.library.rdbms.keys
 
 
-import be.koder.library.rdbms.tables.Event
+import be.koder.library.rdbms.tables.EventStore
 import be.koder.library.rdbms.tables.FlywaySchemaHistory
-import be.koder.library.rdbms.tables.Tag
-import be.koder.library.rdbms.tables.records.EventRecord
+import be.koder.library.rdbms.tables.records.EventStoreRecord
 import be.koder.library.rdbms.tables.records.FlywaySchemaHistoryRecord
-import be.koder.library.rdbms.tables.records.TagRecord
 
-import org.jooq.ForeignKey
 import org.jooq.UniqueKey
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
@@ -22,13 +19,6 @@ import org.jooq.impl.Internal
 // UNIQUE and PRIMARY KEY definitions
 // -------------------------------------------------------------------------
 
-val EVENT_PKEY: UniqueKey<EventRecord> = Internal.createUniqueKey(Event.EVENT, DSL.name("event_pkey"), arrayOf(Event.EVENT.ID), true)
-val EVENT_SEQUENCE_ID_KEY: UniqueKey<EventRecord> = Internal.createUniqueKey(Event.EVENT, DSL.name("event_sequence_id_key"), arrayOf(Event.EVENT.SEQUENCE_ID), true)
+val EVENT_STORE_PKEY: UniqueKey<EventStoreRecord> = Internal.createUniqueKey(EventStore.EVENT_STORE, DSL.name("event_store_pkey"), arrayOf(EventStore.EVENT_STORE.ID), true)
+val EVENT_STORE_SEQUENCE_ID_KEY: UniqueKey<EventStoreRecord> = Internal.createUniqueKey(EventStore.EVENT_STORE, DSL.name("event_store_sequence_id_key"), arrayOf(EventStore.EVENT_STORE.SEQUENCE_ID), true)
 val FLYWAY_SCHEMA_HISTORY_PK: UniqueKey<FlywaySchemaHistoryRecord> = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, DSL.name("flyway_schema_history_pk"), arrayOf(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK), true)
-val PK_TAG: UniqueKey<TagRecord> = Internal.createUniqueKey(Tag.TAG, DSL.name("pk_tag"), arrayOf(Tag.TAG.EVENT_ID, Tag.TAG.TYPE, Tag.TAG.VALUE), true)
-
-// -------------------------------------------------------------------------
-// FOREIGN KEY definitions
-// -------------------------------------------------------------------------
-
-val TAG__FK_TAG_EVENT: ForeignKey<TagRecord, EventRecord> = Internal.createForeignKey(Tag.TAG, DSL.name("fk_tag_event"), arrayOf(Tag.TAG.EVENT_ID), be.koder.library.rdbms.keys.EVENT_PKEY, arrayOf(Event.EVENT.ID), true)

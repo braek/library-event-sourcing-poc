@@ -7,18 +7,17 @@ import be.koder.library.vocabulary.time.Timestamp
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.jooq.JSONB
 
 object JsonbMapper {
 
     private val objectMapper: ObjectMapper = ObjectMapper()
 
-    init {
-        objectMapper.addMixIn(Event::class.java, EventMixin::class.java)
-    }
-
     fun write(event: Event): JSONB {
         try {
+            objectMapper.addMixIn(Event::class.java, EventMixin::class.java)
+            objectMapper.registerModule(JavaTimeModule())
             return JSONB.valueOf(objectMapper.writeValueAsString(event))
         } catch (e: JsonProcessingException) {
             throw RuntimeException(e)

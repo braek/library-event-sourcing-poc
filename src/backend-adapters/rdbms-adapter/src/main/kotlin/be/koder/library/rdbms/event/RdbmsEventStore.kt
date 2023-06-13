@@ -4,10 +4,9 @@ import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
 import be.koder.library.rdbms.mapper.JsonbMapper
-import be.koder.library.rdbms.tables.records.EventRecord
-import be.koder.library.rdbms.tables.records.TagRecord
-import be.koder.library.rdbms.tables.references.EVENT
-import be.koder.library.rdbms.tables.references.TAG
+import be.koder.library.rdbms.tables.records.EventStoreRecord
+import be.koder.library.rdbms.tables.references.EVENT_STORE
+import be.koder.library.vocabulary.domain.AggregateId
 import org.jooq.DSLContext
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,34 +14,28 @@ import org.springframework.transaction.annotation.Transactional
 open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
     override fun append(eventStream: EventStream) {
-        val eventRecords = mutableListOf<EventRecord>()
-        val tagRecords = mutableListOf<TagRecord>()
+        val records = mutableListOf<EventStoreRecord>()
         eventStream.forEach {
-            eventRecords.add(mapEventRecord(it))
-            tagRecords.addAll(mapTagRecords(it))
+            records.add(mapRecord(it))
         }
-        dsl.batchInsert(eventRecords)
-        dsl.batchInsert(tagRecords)
+        dsl.batchInsert(records).execute()
     }
 
-    private fun mapTagRecords(event: Event): List<TagRecord> {
-        val records = mutableListOf<TagRecord>()
-        event.tags().forEach {
-            val record = dsl.newRecord(TAG)
-            record.eventId = event.id().getValue()
-            record.type = it.javaClass.simpleName
-            record.value = it.getValue().toString()
-            records.add(record)
-        }
-        return records.toList()
-    }
-
-    private fun mapEventRecord(event: Event): EventRecord {
-        val record = dsl.newRecord(EVENT)
+    private fun mapRecord(event: Event): EventStoreRecord {
+        val record = dsl.newRecord(EVENT_STORE)
         record.id = event.id().getValue()
         record.occurredOn = event.occurredOn().toOffsetDateTime()
-        record.payload = JsonbMapper.write(event)
         record.type = event.javaClass.simpleName
+        record.tags = mapTags(event.tags())
+        record.payload = JsonbMapper.write(event)
         return record
+    }
+
+    private fun mapTags(tags: Set<AggregateId>): Array<String?> {
+        val result = mutableSetOf<String>()
+        tags.forEach {
+            result.add(it.javaClass.simpleName + "#" + it.getValue().toString())
+        }
+        return result.toTypedArray()
     }
 }
