@@ -1,4 +1,4 @@
-CREATE TABLE event_store
+CREATE TABLE event
 (
     id          UUID                     NOT NULL PRIMARY KEY,
     sequence_id BIGSERIAL                NOT NULL UNIQUE,

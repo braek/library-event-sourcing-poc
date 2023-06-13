@@ -4,8 +4,8 @@ import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
 import be.koder.library.rdbms.mapper.JsonbMapper
-import be.koder.library.rdbms.tables.records.EventStoreRecord
-import be.koder.library.rdbms.tables.references.EVENT_STORE
+import be.koder.library.rdbms.tables.records.EventRecord
+import be.koder.library.rdbms.tables.references.EVENT
 import be.koder.library.vocabulary.domain.AggregateId
 import org.jooq.DSLContext
 import org.springframework.transaction.annotation.Transactional
@@ -14,15 +14,15 @@ import org.springframework.transaction.annotation.Transactional
 open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
     override fun append(eventStream: EventStream) {
-        val records = mutableListOf<EventStoreRecord>()
+        val records = mutableListOf<EventRecord>()
         eventStream.forEach {
             records.add(mapRecord(it))
         }
         dsl.batchInsert(records).execute()
     }
 
-    private fun mapRecord(event: Event): EventStoreRecord {
-        val record = dsl.newRecord(EVENT_STORE)
+    private fun mapRecord(event: Event): EventRecord {
+        val record = dsl.newRecord(EVENT)
         record.id = event.id().getValue()
         record.occurredOn = event.occurredOn().toOffsetDateTime()
         record.type = event.javaClass.simpleName

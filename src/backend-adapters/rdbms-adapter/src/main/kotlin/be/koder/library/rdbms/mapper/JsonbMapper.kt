@@ -26,13 +26,10 @@ object JsonbMapper {
 
     abstract class EventMixin {
 
-        @JsonIgnore
-        abstract fun id(): EventId
+        @JsonIgnore val id: EventId = EventId.createNew()
 
-        @JsonIgnore
-        abstract fun occurredOn(): Timestamp
+        @JsonIgnore val occurredOn: Timestamp = Timestamp.now()
 
-        @JsonIgnore
-        abstract fun tags(): Set<AggregateId>
+        @JsonIgnore val tags: Set<AggregateId> = setOf()
     }
 }

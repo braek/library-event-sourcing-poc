@@ -4,15 +4,15 @@
 package be.koder.library.rdbms.tables.references
 
 
-import be.koder.library.rdbms.tables.EventStore
+import be.koder.library.rdbms.tables.Event
 import be.koder.library.rdbms.tables.FlywaySchemaHistory
 
 
 
 /**
- * The table <code>sandbox.event_store</code>.
+ * The table <code>sandbox.event</code>.
  */
-val EVENT_STORE = EventStore.EVENT_STORE
+val EVENT = Event.EVENT
 
 /**
  * The table <code>sandbox.flyway_schema_history</code>.

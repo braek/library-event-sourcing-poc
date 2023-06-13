@@ -13,6 +13,6 @@ import org.jooq.impl.SQLDataType
 
 
 /**
- * The sequence <code>sandbox.event_store_sequence_id_seq</code>
+ * The sequence <code>sandbox.event_sequence_id_seq</code>
  */
-val EVENT_STORE_SEQUENCE_ID_SEQ: Sequence<Long> = Internal.createSequence("event_store_sequence_id_seq", Sandbox.SANDBOX, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null)
+val EVENT_SEQUENCE_ID_SEQ: Sequence<Long> = Internal.createSequence("event_sequence_id_seq", Sandbox.SANDBOX, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null)
