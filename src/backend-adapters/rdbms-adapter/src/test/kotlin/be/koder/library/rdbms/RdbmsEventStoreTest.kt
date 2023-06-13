@@ -1,6 +1,8 @@
 package be.koder.library.rdbms
 
 import be.koder.library.domain.author.event.AuthorCreated
+import be.koder.library.domain.author.event.AuthorModified
+import be.koder.library.domain.author.event.AuthorRemoved
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
 import be.koder.library.rdbms.event.RdbmsEventStore
@@ -22,14 +24,24 @@ class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventSt
 
     @Test
     fun testIt() {
-        eventStore.append(EventStream(
-            AuthorCreated(
-                AuthorId.createNew(),
-                FirstName("Bruce"),
-                LastName("Wayne"),
-                EmailAddress("batman@gothamcity.com")
+        val authorId = AuthorId.createNew()
+        eventStore.append(
+            EventStream(
+                AuthorCreated(
+                    authorId,
+                    FirstName("Bruce"),
+                    LastName("Wayne"),
+                    EmailAddress("batman@gothamcity.com")
+                ),
+                AuthorModified(
+                    authorId,
+                    FirstName("Arthur"),
+                    LastName("Fleck"),
+                    EmailAddress("joker@gothamcity.com")
+                ),
+                AuthorRemoved(authorId)
             )
-        ))
+        )
         assertTrue(false)
     }
 }
