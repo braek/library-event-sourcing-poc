@@ -25,4 +25,8 @@ object TagMapper {
         }
         throw IllegalArgumentException(String.format("Cannot map AggregateId to String (%s)", aggregateId.getValue().toString()))
     }
+
+    enum class Tag {
+        AUTHOR
+    }
 }
