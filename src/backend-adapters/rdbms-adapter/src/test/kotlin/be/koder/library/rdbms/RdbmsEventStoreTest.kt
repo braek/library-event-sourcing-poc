@@ -38,7 +38,11 @@ class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventSt
                     FirstName("Arthur"),
                     LastName("Fleck"),
                     EmailAddress("joker@gothamcity.com")
-                ),
+                )
+            )
+        )
+        eventStore.append(
+            EventStream(
                 AuthorRemoved(authorId)
             )
         )

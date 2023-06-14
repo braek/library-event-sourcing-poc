@@ -5,6 +5,7 @@ package be.koder.library.rdbms.tables
 
 
 import be.koder.library.rdbms.Sandbox
+import be.koder.library.rdbms.indexes.TAGS_INDEX
 import be.koder.library.rdbms.keys.EVENT_PKEY
 import be.koder.library.rdbms.keys.EVENT_SEQUENCE_ID_KEY
 import be.koder.library.rdbms.tables.records.EventRecord
@@ -17,10 +18,11 @@ import kotlin.collections.List
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Identity
+import org.jooq.Index
 import org.jooq.JSONB
 import org.jooq.Name
 import org.jooq.Record
-import org.jooq.Row6
+import org.jooq.Row7
 import org.jooq.Schema
 import org.jooq.Table
 import org.jooq.TableField
@@ -76,6 +78,11 @@ open class Event(
     val SEQUENCE_ID: TableField<EventRecord, Long?> = createField(DSL.name("sequence_id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "")
 
     /**
+     * The column <code>sandbox.event.persisted_on</code>.
+     */
+    val PERSISTED_ON: TableField<EventRecord, OffsetDateTime?> = createField(DSL.name("persisted_on"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "")
+
+    /**
      * The column <code>sandbox.event.occurred_on</code>.
      */
     val OCCURRED_ON: TableField<EventRecord, OffsetDateTime?> = createField(DSL.name("occurred_on"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "")
@@ -115,6 +122,7 @@ open class Event(
 
     constructor(child: Table<out Record>, key: ForeignKey<out Record, EventRecord>): this(Internal.createPathAlias(child, key), child, key, EVENT, null)
     override fun getSchema(): Schema = Sandbox.SANDBOX
+    override fun getIndexes(): List<Index> = listOf(TAGS_INDEX)
     override fun getIdentity(): Identity<EventRecord, Long?> = super.getIdentity() as Identity<EventRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<EventRecord> = EVENT_PKEY
     override fun getKeys(): List<UniqueKey<EventRecord>> = listOf(EVENT_PKEY, EVENT_SEQUENCE_ID_KEY)
@@ -132,7 +140,7 @@ open class Event(
     override fun rename(name: Name): Event = Event(name, null)
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row6<UUID?, Long?, OffsetDateTime?, String?, JSONB?, Array<String?>?> = super.fieldsRow() as Row6<UUID?, Long?, OffsetDateTime?, String?, JSONB?, Array<String?>?>
+    override fun fieldsRow(): Row7<UUID?, Long?, OffsetDateTime?, OffsetDateTime?, String?, JSONB?, Array<String?>?> = super.fieldsRow() as Row7<UUID?, Long?, OffsetDateTime?, OffsetDateTime?, String?, JSONB?, Array<String?>?>
 }

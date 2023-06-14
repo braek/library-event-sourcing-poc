@@ -12,6 +12,7 @@ object EventRecordMapper {
         val record = dsl.newRecord(EVENT)
         record.id = event.id().getValue()
         record.type = event.javaClass.simpleName
+        record.occurredOn = event.occurredOn().toOffsetDateTime()
         record.tags = event.tags()
             .stream()
             .map { TagMapper.map(it) }
