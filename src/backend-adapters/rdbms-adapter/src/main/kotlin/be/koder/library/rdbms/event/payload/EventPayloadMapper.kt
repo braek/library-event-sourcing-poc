@@ -17,14 +17,18 @@ object EventPayloadMapper {
         if (event is AuthorCreated) {
             return write(
                 AuthorCreatedPayload(
-                    event.firstName.toString(), event.lastName.toString(), event.emailAddress.toString()
+                    event.firstName.toString(),
+                    event.lastName.toString(),
+                    event.emailAddress.toString()
                 )
             )
         }
         if (event is AuthorModified) {
             return write(
                 AuthorModifiedPayload(
-                    event.firstName.toString(), event.lastName.toString(), event.emailAddress.toString()
+                    event.firstName.toString(),
+                    event.lastName.toString(),
+                    event.emailAddress.toString()
                 )
             )
         }
