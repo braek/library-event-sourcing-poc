@@ -14,7 +14,7 @@ object EventRecordMapper {
         record.type = event.javaClass.simpleName
         record.tags = event.tags()
             .stream()
-            .map { Tag(it).toString() }
+            .map { TagMapper.map(it) }
             .collect(Collectors.toSet())
             .toTypedArray()
         record.payload = EventPayloadMapper.convertPayloadToJson(event)
