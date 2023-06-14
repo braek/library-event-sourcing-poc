@@ -1,4 +1,4 @@
-package be.koder.library.rdbms.event.mapper
+package be.koder.library.rdbms.event.payload
 
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.jooq.JSONB
 import java.io.IOException
 
-object PayloadMapper {
+object EventPayloadMapper {
 
     private val objectMapper: ObjectMapper = ObjectMapper()
 
@@ -42,7 +42,7 @@ object PayloadMapper {
         }
     }
 
-    private fun <T : EventPayload> read(payload: JSONB, clazz: Class<T>): T {
+    fun <T : EventPayload> read(payload: JSONB, clazz: Class<T>): T {
         try {
             return objectMapper.readValue(payload.data(), clazz)
         } catch (e: IOException) {

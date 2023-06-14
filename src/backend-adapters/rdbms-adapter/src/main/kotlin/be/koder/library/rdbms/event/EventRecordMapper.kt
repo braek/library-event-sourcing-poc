@@ -1,6 +1,7 @@
-package be.koder.library.rdbms.event.mapper
+package be.koder.library.rdbms.event
 
 import be.koder.library.domain.event.Event
+import be.koder.library.rdbms.event.payload.EventPayloadMapper
 import be.koder.library.rdbms.tables.records.EventRecord
 import be.koder.library.rdbms.tables.references.EVENT
 import be.koder.library.vocabulary.domain.AggregateId
@@ -13,7 +14,7 @@ object EventRecordMapper {
         record.id = event.id().getValue()
         record.type = event.javaClass.simpleName
         record.tags = mapTags(event.tags())
-        record.payload = PayloadMapper.convertPayloadToJson(event)
+        record.payload = EventPayloadMapper.convertPayloadToJson(event)
         return record
     }
 

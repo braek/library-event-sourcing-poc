@@ -29,5 +29,10 @@ class EventId private constructor(private val value: UUID) : ValueObject {
         fun createNew(): EventId {
             return EventId(UUID.randomUUID())
         }
+
+        @JvmStatic
+        fun fromUuid(uuid: UUID): Any {
+            return EventId(uuid)
+        }
     }
 }

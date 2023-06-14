@@ -44,5 +44,10 @@ class Timestamp private constructor(private val value: Instant) : ValueObject {
         fun fromLocalDateTime(ldt: LocalDateTime): Timestamp {
             return Timestamp(ldt.toInstant(UTC))
         }
+
+        @JvmStatic
+        fun fromOffsetDateTime(offsetDateTime: OffsetDateTime): Timestamp {
+            return Timestamp(offsetDateTime.toInstant())
+        }
     }
 }
