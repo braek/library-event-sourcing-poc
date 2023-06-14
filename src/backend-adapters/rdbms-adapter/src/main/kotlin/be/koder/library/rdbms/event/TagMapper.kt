@@ -12,14 +12,17 @@ object TagMapper {
             val parts = str.split("#")
             val type = parts[0]
             val value = parts[1]
-            if (AuthorId::class.java.simpleName.equals(type)) {
+            if (Tag.AUTHOR.name.lowercase() == type) {
                 return AuthorId.fromString(value)
             }
         }
-        throw IllegalArgumentException("Cannot create AggregateId from String")
+        throw IllegalArgumentException(String.format("Cannot map String to AggregateId (%s)", str))
     }
 
     fun map(aggregateId: AggregateId): String {
-        return aggregateId.javaClass.simpleName + "#" + aggregateId.getValue().toString()
+        if (aggregateId is AuthorId) {
+            return String.format("%s#%s", Tag.AUTHOR.name.lowercase(), aggregateId.getValue().toString())
+        }
+        throw IllegalArgumentException(String.format("Cannot map AggregateId to String (%s)", aggregateId.getValue().toString()))
     }
 }
