@@ -4,25 +4,20 @@ import be.koder.library.domain.event.Event
 import be.koder.library.rdbms.event.payload.EventPayloadMapper
 import be.koder.library.rdbms.tables.records.EventRecord
 import be.koder.library.rdbms.tables.references.EVENT
-import be.koder.library.vocabulary.domain.AggregateId
 import org.jooq.DSLContext
+import java.util.stream.Collectors
 
 object EventRecordMapper {
-
     fun map(event: Event, dsl: DSLContext): EventRecord {
         val record = dsl.newRecord(EVENT)
         record.id = event.id().getValue()
         record.type = event.javaClass.simpleName
-        record.tags = mapTags(event.tags())
+        record.tags = event.tags()
+            .stream()
+            .map { Tag(it).toString() }
+            .collect(Collectors.toSet())
+            .toTypedArray()
         record.payload = EventPayloadMapper.convertPayloadToJson(event)
         return record
-    }
-
-    private fun mapTags(tags: Set<AggregateId>): Array<String?> {
-        val result = mutableSetOf<String>()
-        tags.forEach {
-            result.add(it.javaClass.simpleName + "#" + it.getValue().toString())
-        }
-        return result.toTypedArray()
     }
 }
