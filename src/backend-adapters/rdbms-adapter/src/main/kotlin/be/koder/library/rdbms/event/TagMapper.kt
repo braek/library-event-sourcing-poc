@@ -6,8 +6,9 @@ import java.util.regex.Pattern
 
 object TagMapper {
 
+    private val regex = Pattern.compile("^\\w+#\\w+$")
+
     fun map(str: String): AggregateId {
-        val regex = Pattern.compile("^\\w+#\\w+$")
         if (regex.matcher(str).matches()) {
             val parts = str.split("#")
             val type = parts[0]
