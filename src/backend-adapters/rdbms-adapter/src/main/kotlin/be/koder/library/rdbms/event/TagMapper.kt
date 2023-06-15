@@ -16,14 +16,14 @@ object TagMapper {
                 return AuthorId.fromString(value)
             }
         }
-        throw IllegalArgumentException(String.format("Cannot map String to AggregateId (%s)", str))
+        throw IllegalArgumentException(String.format("Cannot map String (%s) to AggregateId", str))
     }
 
     fun map(aggregateId: AggregateId): String {
         if (aggregateId is AuthorId) {
-            return String.format("%s#%s", Tag.AUTHOR.name.lowercase(), aggregateId.getValue().toString())
+            return Tag.AUTHOR.name.lowercase() + "#" + aggregateId.toString()
         }
-        throw IllegalArgumentException(String.format("Cannot map AggregateId to String (%s)", aggregateId.getValue().toString()))
+        throw IllegalArgumentException(String.format("Cannot map AggregateId (%s) to String", aggregateId.toString()))
     }
 
     enum class Tag {
