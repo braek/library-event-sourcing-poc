@@ -4,6 +4,9 @@ import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
 import be.koder.library.domain.author.event.AuthorRemoved
 import be.koder.library.domain.event.Event
+import be.koder.library.rdbms.event.stored.author.StoredAuthorCreated
+import be.koder.library.rdbms.event.stored.author.StoredAuthorModified
+import be.koder.library.rdbms.event.stored.author.StoredAuthorRemoved
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
