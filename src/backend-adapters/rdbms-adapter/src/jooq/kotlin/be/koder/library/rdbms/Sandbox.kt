@@ -4,8 +4,8 @@
 package be.koder.library.rdbms
 
 
-import be.koder.library.rdbms.sequences.EVENT_SEQUENCE_ID_SEQ
-import be.koder.library.rdbms.tables.Event
+import be.koder.library.rdbms.sequences.EVENT_STORE_SEQUENCE_ID_SEQ
+import be.koder.library.rdbms.tables.EventStore
 import be.koder.library.rdbms.tables.FlywaySchemaHistory
 
 import kotlin.collections.List
@@ -30,9 +30,9 @@ open class Sandbox : SchemaImpl("sandbox", DefaultCatalog.DEFAULT_CATALOG) {
     }
 
     /**
-     * The table <code>sandbox.event</code>.
+     * The table <code>sandbox.event_store</code>.
      */
-    val EVENT get() = Event.EVENT
+    val EVENT_STORE get() = EventStore.EVENT_STORE
 
     /**
      * The table <code>sandbox.flyway_schema_history</code>.
@@ -42,11 +42,11 @@ open class Sandbox : SchemaImpl("sandbox", DefaultCatalog.DEFAULT_CATALOG) {
     override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
     override fun getSequences(): List<Sequence<*>> = listOf(
-        EVENT_SEQUENCE_ID_SEQ
+        EVENT_STORE_SEQUENCE_ID_SEQ
     )
 
     override fun getTables(): List<Table<*>> = listOf(
-        Event.EVENT,
+        EventStore.EVENT_STORE,
         FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY
     )
 }

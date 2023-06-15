@@ -9,6 +9,10 @@ class AuthorId private constructor(private val value: UUID) : AggregateId {
         return value
     }
 
+    override fun toString(): String {
+        return value.toString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

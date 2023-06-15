@@ -1,4 +1,4 @@
-CREATE TABLE event
+CREATE TABLE event_store
 (
     id           UUID                     NOT NULL PRIMARY KEY,
     sequence_id  BIGSERIAL                NOT NULL UNIQUE,
@@ -8,4 +8,4 @@ CREATE TABLE event
     payload      JSONB                    NOT NULL,
     tags         VARCHAR[] NOT NULL
 );
-CREATE INDEX tags_index ON event USING GIN(tags);
+CREATE INDEX tags_index ON event_store USING GIN(tags);
