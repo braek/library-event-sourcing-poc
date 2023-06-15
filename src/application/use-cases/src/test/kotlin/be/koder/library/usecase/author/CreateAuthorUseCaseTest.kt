@@ -8,6 +8,8 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
+import be.koder.library.vocabulary.event.EventId
+import be.koder.library.vocabulary.time.Timestamp
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
@@ -46,7 +48,7 @@ class CreateAuthorUseCaseTest {
         @DisplayName("it should publish an event")
         fun eventsPublished() {
             assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn")
-                .isEqualTo(listOf(AuthorCreated(authorId!!, firstName, lastName, emailAddress)))
+                .isEqualTo(listOf(AuthorCreated(EventId.createNew(), Timestamp.now(), authorId!!, firstName, lastName, emailAddress)))
         }
 
         override fun created(authorId: AuthorId) {
@@ -70,7 +72,7 @@ class CreateAuthorUseCaseTest {
 
         @BeforeEach
         fun setup() {
-            eventStore.append(EventStream(AuthorCreated(AuthorId.createNew(), firstName, lastName, emailAddress)))
+            eventStore.append(EventStream(AuthorCreated(EventId.createNew(), Timestamp.now(), AuthorId.createNew(), firstName, lastName, emailAddress)))
             useCase.createAuthor(firstName, lastName, emailAddress, this)
         }
 

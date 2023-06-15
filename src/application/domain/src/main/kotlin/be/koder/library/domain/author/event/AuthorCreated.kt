@@ -10,26 +10,15 @@ import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
 data class AuthorCreated internal constructor(
-    val id: EventId, val occurredOn: Timestamp, val tags: Set<AggregateId>, val firstName: FirstName, val lastName: LastName, val emailAddress: EmailAddress
+    override val id: EventId,
+    override val occurredOn: Timestamp,
+    override val tags: Set<AggregateId>,
+    val authorId: AuthorId,
+    val firstName: FirstName,
+    val lastName: LastName,
+    val emailAddress: EmailAddress
 ) : Event {
-
-    constructor(authorId: AuthorId, firstName: FirstName, lastName: LastName, emailAddress: EmailAddress) : this(
-        EventId.createNew(), Timestamp.now(), setOf(authorId), firstName, lastName, emailAddress
+    constructor(id: EventId, occurredOn: Timestamp, authorId: AuthorId, firstName: FirstName, lastName: LastName, emailAddress: EmailAddress) : this(
+        id, occurredOn, setOf(authorId), authorId, firstName, lastName, emailAddress
     )
-
-    override fun id(): EventId {
-        return id
-    }
-
-    override fun occurredOn(): Timestamp {
-        return occurredOn
-    }
-
-    override fun tags(): Set<AggregateId> {
-        return tags
-    }
-
-    fun authorId(): AuthorId {
-        return tags.iterator().next() as AuthorId;
-    }
 }

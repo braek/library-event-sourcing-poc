@@ -31,7 +31,7 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
         eventStream.stream()
             .filter { it is AuthorCreated }
             .map { it as AuthorCreated }
-            .forEach { stack[it.authorId()] = it.emailAddress }
+            .forEach { stack[it.authorId] = it.emailAddress }
         return stack
     }
 

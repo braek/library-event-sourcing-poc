@@ -31,8 +31,13 @@ class EventId private constructor(private val value: UUID) : ValueObject {
         }
 
         @JvmStatic
-        fun fromUuid(uuid: UUID): Any {
+        fun fromUuid(uuid: UUID): EventId {
             return EventId(uuid)
+        }
+
+        @JvmStatic
+        fun fromString(str: String): EventId {
+            return fromUuid(UUID.fromString(str))
         }
     }
 }

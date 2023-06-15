@@ -12,6 +12,8 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
+import be.koder.library.vocabulary.event.EventId
+import be.koder.library.vocabulary.time.Timestamp
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -42,7 +44,7 @@ class ModifyAuthorUseCaseTest {
             eventStore.append(
                 EventStream(
                     AuthorCreated(
-                        authorId, FirstName("Bruce"), LastName("Wayne"), EmailAddress("batman@gothamcity.com")
+                        EventId.createNew(), Timestamp.now(), authorId, FirstName("Bruce"), LastName("Wayne"), EmailAddress("batman@gothamcity.com")
                     )
                 )
             )
@@ -70,7 +72,7 @@ class ModifyAuthorUseCaseTest {
         fun eventPublished() {
             assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(
                 listOf(
-                    AuthorModified(authorId, firstName, lastName, emailAddress)
+                    AuthorModified(EventId.createNew(), Timestamp.now(), authorId, firstName, lastName, emailAddress)
                 )
             )
         }
@@ -141,12 +143,16 @@ class ModifyAuthorUseCaseTest {
             eventStore.append(
                 EventStream(
                     AuthorCreated(
+                        EventId.createNew(),
+                        Timestamp.now(),
                         authorId,
                         firstName,
                         lastName,
                         EmailAddress("batman@gothamcity.com")
                     ),
                     AuthorCreated(
+                        EventId.createNew(),
+                        Timestamp.now(),
                         AuthorId.createNew(),
                         FirstName("Arthur"),
                         LastName("Fleck"),

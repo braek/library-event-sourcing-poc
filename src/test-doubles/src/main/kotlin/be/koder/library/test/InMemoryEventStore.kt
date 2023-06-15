@@ -15,7 +15,7 @@ class InMemoryEventStore : EventStore {
     }
 
     fun query(aggregateId: AggregateId): EventStream {
-        return EventStream(events.stream().filter { it.tags().contains(aggregateId) }.collect(Collectors.toList()))
+        return EventStream(events.stream().filter { it.tags.contains(aggregateId) }.collect(Collectors.toList()))
     }
 
     fun queryByTypes(vararg types: String): EventStream {

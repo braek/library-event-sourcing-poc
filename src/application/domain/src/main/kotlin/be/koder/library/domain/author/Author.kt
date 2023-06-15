@@ -11,6 +11,8 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
+import be.koder.library.vocabulary.event.EventId
+import be.koder.library.vocabulary.time.Timestamp
 
 class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
@@ -35,7 +37,7 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
     }
 
     private fun exec(event: AuthorCreated) {
-        this.id = event.authorId()
+        this.id = event.authorId
         this.firstName = event.firstName
         this.lastName = event.lastName
         this.emailAddress = event.emailAddress
@@ -50,7 +52,7 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
             presenter.emailAddressAlreadyInUse(emailAddress)
             return
         }
-        apply(AuthorModified(id, firstName, lastName, emailAddress))
+        apply(AuthorModified(EventId.createNew(), Timestamp.now(), id, firstName, lastName, emailAddress))
         presenter.modified(id)
     }
 
@@ -67,14 +69,14 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
     }
 
     fun remove() {
-        apply(AuthorRemoved(id))
+        apply(AuthorRemoved(EventId.createNew(), Timestamp.now(), id))
     }
 
     companion object {
         @JvmStatic
         fun create(firstName: FirstName, lastName: LastName, email: EmailAddress): Author {
             val author = Author(EventStream.empty())
-            author.apply(AuthorCreated(AuthorId.createNew(), firstName, lastName, email))
+            author.apply(AuthorCreated(EventId.createNew(), Timestamp.now(), AuthorId.createNew(), firstName, lastName, email))
             return author
         }
     }

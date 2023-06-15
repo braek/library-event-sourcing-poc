@@ -10,10 +10,10 @@ import java.util.stream.Collectors
 object EventRecordMapper {
     fun map(event: Event, dsl: DSLContext): EventStoreRecord {
         val record = dsl.newRecord(EVENT_STORE)
-        record.id = event.id().getValue()
+        record.id = event.id.getValue()
         record.type = event.javaClass.simpleName
-        record.occurredOn = event.occurredOn().toOffsetDateTime()
-        record.tags = event.tags()
+        record.occurredOn = event.occurredOn.toOffsetDateTime()
+        record.tags = event.tags
             .stream()
             .map { TagMapper.map(it) }
             .collect(Collectors.toSet())

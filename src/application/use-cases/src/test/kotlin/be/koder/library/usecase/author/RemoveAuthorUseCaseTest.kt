@@ -1,9 +1,7 @@
 package be.koder.library.usecase.author
 
 import be.koder.library.api.author.RemoveAuthorPresenter
-import be.koder.library.domain.author.Author
 import be.koder.library.domain.author.event.AuthorCreated
-import be.koder.library.domain.author.event.AuthorModified
 import be.koder.library.domain.author.event.AuthorRemoved
 import be.koder.library.domain.event.EventStream
 import be.koder.library.test.InMemoryAuthorRepository
@@ -14,6 +12,8 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
+import be.koder.library.vocabulary.event.EventId
+import be.koder.library.vocabulary.time.Timestamp
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -42,6 +42,8 @@ class RemoveAuthorUseCaseTest {
             eventStore.append(
                 EventStream(
                     AuthorCreated(
+                        EventId.createNew(),
+                        Timestamp.now(),
                         authorId,
                         FirstName("Bruce"),
                         LastName("Wayne"),
@@ -64,7 +66,7 @@ class RemoveAuthorUseCaseTest {
         fun eventPublished() {
             assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(
                 listOf(
-                    AuthorRemoved(authorId)
+                    AuthorRemoved(EventId.createNew(), Timestamp.now(), authorId)
                 )
             )
         }

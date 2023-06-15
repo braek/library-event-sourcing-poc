@@ -7,28 +7,13 @@ import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
 data class AuthorRemoved(
-    val id: EventId,
-    val occurredOn: Timestamp,
-    val tags: Set<AggregateId>
+    override val id: EventId,
+    override val occurredOn: Timestamp,
+    override val tags: Set<AggregateId>,
+    val authorId: AuthorId
 ) : Event {
 
-    constructor(authorId: AuthorId) : this(
-        EventId.createNew(), Timestamp.now(), setOf(authorId)
+    constructor(id: EventId, occurredOn: Timestamp, authorId: AuthorId) : this(
+        id, occurredOn, setOf(authorId), authorId
     )
-
-    override fun id(): EventId {
-        return id
-    }
-
-    override fun occurredOn(): Timestamp {
-        return occurredOn
-    }
-
-    override fun tags(): Set<AggregateId> {
-        return tags
-    }
-
-    fun authorId(): AuthorId {
-        return tags.iterator().next() as AuthorId;
-    }
 }
