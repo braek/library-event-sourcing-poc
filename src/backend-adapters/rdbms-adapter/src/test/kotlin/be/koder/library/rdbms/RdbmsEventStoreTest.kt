@@ -5,6 +5,7 @@ import be.koder.library.domain.author.event.AuthorModified
 import be.koder.library.domain.author.event.AuthorRemoved
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
+import be.koder.library.domain.event.EventStreamQuery
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
@@ -51,6 +52,7 @@ class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventSt
                 AuthorRemoved(EventId.createNew(), Timestamp.now(), authorId)
             )
         )
-        assertTrue(false)
+        val eventStream = eventStore.query(EventStreamQuery(setOf(authorId)))
+        assertFalse(eventStream.isEmpty())
     }
 }

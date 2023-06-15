@@ -12,6 +12,7 @@ dependencies {
     implementation project(':queries')
     implementation project(':vocabulary')
 
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.springframework.boot:spring-boot-starter-jooq'
 

@@ -7,8 +7,9 @@ import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
 import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
+import com.fasterxml.jackson.annotation.JsonCreator
 
-data class StoredAuthorCreated internal constructor(
+data class StoredAuthorCreated @JsonCreator public constructor(
     override val id: String,
     override val occurredOn: String,
     val authorId: String,

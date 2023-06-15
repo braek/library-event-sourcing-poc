@@ -6,6 +6,7 @@ import be.koder.library.domain.author.event.AuthorRemoved
 import be.koder.library.domain.event.Event
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.jooq.JSONB
 import java.io.IOException
 
@@ -14,6 +15,7 @@ object StoredEventMapper {
     private val objectMapper: ObjectMapper = ObjectMapper()
 
     fun toJsonb(event: Event): JSONB {
+        objectMapper.registerModule(KotlinModule())
         if (event is AuthorCreated) {
             return write(StoredAuthorCreated(event))
         }
@@ -42,15 +44,16 @@ object StoredEventMapper {
         }
     }
 
-    fun convertJsonToPayload(json: JSONB, type: String): StoredEvent {
+    fun toEvent(json: JSONB, type: String): Event {
+        objectMapper.registerModule(KotlinModule())
         if (AuthorCreated::class.java.simpleName.equals(type)) {
-            return read(json, StoredAuthorCreated::class.java)
+            return read(json, StoredAuthorCreated::class.java).toEvent()
         }
         if (AuthorModified::class.java.simpleName.equals(type)) {
-            return read(json, StoredAuthorModified::class.java)
+            return read(json, StoredAuthorModified::class.java).toEvent()
         }
         if (AuthorRemoved::class.java.simpleName.equals(type)) {
-            return read(json, StoredAuthorRemoved::class.java)
+            return read(json, StoredAuthorRemoved::class.java).toEvent()
         }
         throw IllegalArgumentException("Cannot convert JSON to Event")
     }
