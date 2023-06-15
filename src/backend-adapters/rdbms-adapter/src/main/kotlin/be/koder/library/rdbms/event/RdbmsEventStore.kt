@@ -27,6 +27,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
             .collect(Collectors.toSet())
         return EventStream(dsl.selectFrom(EVENT_STORE)
             .where(EVENT_STORE.TAGS.contains(tags.toTypedArray()))
+            .and(EVENT_STORE.TYPE.`in`(query.types))
             .orderBy(EVENT_STORE.SEQUENCE_ID.asc())
             .fetch()
             .map { StoredEventMapper.toEvent(it.payload!!, it.type!!) }
