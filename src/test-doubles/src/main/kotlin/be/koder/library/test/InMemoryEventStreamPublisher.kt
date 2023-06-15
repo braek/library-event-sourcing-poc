@@ -2,8 +2,8 @@ package be.koder.library.test
 
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventHandler
-import be.koder.library.domain.event.EventStreamPublisher
 import be.koder.library.domain.event.EventStream
+import be.koder.library.domain.event.EventStreamPublisher
 
 class InMemoryEventStreamPublisher : EventStreamPublisher {
 

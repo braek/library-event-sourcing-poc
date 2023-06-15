@@ -9,29 +9,13 @@ import be.koder.library.rdbms.indexes.TAGS_INDEX
 import be.koder.library.rdbms.keys.EVENT_STORE_PKEY
 import be.koder.library.rdbms.keys.EVENT_STORE_SEQUENCE_ID_KEY
 import be.koder.library.rdbms.tables.records.EventStoreRecord
-
-import java.time.OffsetDateTime
-import java.util.UUID
-
-import kotlin.collections.List
-
-import org.jooq.Field
-import org.jooq.ForeignKey
-import org.jooq.Identity
-import org.jooq.Index
-import org.jooq.JSONB
-import org.jooq.Name
-import org.jooq.Record
-import org.jooq.Row7
-import org.jooq.Schema
-import org.jooq.Table
-import org.jooq.TableField
-import org.jooq.TableOptions
-import org.jooq.UniqueKey
+import org.jooq.*
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
 import org.jooq.impl.TableImpl
+import java.time.OffsetDateTime
+import java.util.*
 
 
 /**

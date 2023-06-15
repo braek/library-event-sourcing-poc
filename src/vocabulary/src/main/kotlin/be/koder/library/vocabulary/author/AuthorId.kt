@@ -1,7 +1,7 @@
 package be.koder.library.vocabulary.author
 
 import be.koder.library.vocabulary.domain.AggregateId
-import java.util.UUID
+import java.util.*
 
 class AuthorId private constructor(private val value: UUID) : AggregateId {
 
