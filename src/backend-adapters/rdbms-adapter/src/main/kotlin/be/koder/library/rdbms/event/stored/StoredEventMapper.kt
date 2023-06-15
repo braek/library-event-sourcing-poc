@@ -28,7 +28,7 @@ object StoredEventMapper {
         if (event is AuthorRemoved) {
             return write(StoredAuthorRemoved(event))
         }
-        throw IllegalArgumentException("Cannot convert Event to JSON")
+        throw IllegalArgumentException(String.format("Cannot convert Event (%s) to JSON", event.javaClass.simpleName))
     }
 
     private fun write(payload: StoredEvent): JSONB {
@@ -49,7 +49,7 @@ object StoredEventMapper {
         if (AuthorRemoved::class.java.simpleName.equals(type)) {
             return read(json, StoredAuthorRemoved::class.java).toEvent()
         }
-        throw IllegalArgumentException("Cannot convert JSON to Event")
+        throw IllegalArgumentException(String.format("Cannot convert JSON to Event (%s)", type))
     }
 
     private fun <T : StoredEvent> read(payload: JSONB, clazz: Class<T>): T {
