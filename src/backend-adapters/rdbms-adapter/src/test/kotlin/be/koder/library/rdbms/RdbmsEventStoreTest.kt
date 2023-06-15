@@ -29,7 +29,12 @@ class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventSt
         fun eventStored(event: Event) {
             val eventStream = EventStream(event)
             eventStore.append(eventStream)
-            val persistedEventStream = eventStore.query(EventStreamQuery(event.tags))
+            val persistedEventStream = eventStore.query(EventStreamQuery(
+                event.tags,
+                setOf(
+                    event.javaClass.simpleName
+                )
+            ))
             assertThat(persistedEventStream).isEqualTo(eventStream)
         }
     }
