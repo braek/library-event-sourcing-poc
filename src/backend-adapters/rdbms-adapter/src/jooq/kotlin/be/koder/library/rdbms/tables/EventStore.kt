@@ -9,13 +9,29 @@ import be.koder.library.rdbms.indexes.TAGS_INDEX
 import be.koder.library.rdbms.keys.EVENT_STORE_PKEY
 import be.koder.library.rdbms.keys.EVENT_STORE_SEQUENCE_ID_KEY
 import be.koder.library.rdbms.tables.records.EventStoreRecord
-import org.jooq.*
+
+import java.time.OffsetDateTime
+import java.util.UUID
+
+import kotlin.collections.List
+
+import org.jooq.Field
+import org.jooq.ForeignKey
+import org.jooq.Identity
+import org.jooq.Index
+import org.jooq.JSONB
+import org.jooq.Name
+import org.jooq.Record
+import org.jooq.Row8
+import org.jooq.Schema
+import org.jooq.Table
+import org.jooq.TableField
+import org.jooq.TableOptions
+import org.jooq.UniqueKey
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
 import org.jooq.impl.TableImpl
-import java.time.OffsetDateTime
-import java.util.*
 
 
 /**
@@ -62,6 +78,11 @@ open class EventStore(
     val SEQUENCE_ID: TableField<EventStoreRecord, Long?> = createField(DSL.name("sequence_id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "")
 
     /**
+     * The column <code>sandbox.event_store.version</code>.
+     */
+    val VERSION: TableField<EventStoreRecord, Int?> = createField(DSL.name("version"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field("1", SQLDataType.INTEGER)), this, "")
+
+    /**
      * The column <code>sandbox.event_store.persisted_on</code>.
      */
     val PERSISTED_ON: TableField<EventStoreRecord, OffsetDateTime?> = createField(DSL.name("persisted_on"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "")
@@ -72,6 +93,11 @@ open class EventStore(
     val OCCURRED_ON: TableField<EventStoreRecord, OffsetDateTime?> = createField(DSL.name("occurred_on"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "")
 
     /**
+     * The column <code>sandbox.event_store.tags</code>.
+     */
+    val TAGS: TableField<EventStoreRecord, Array<String?>?> = createField(DSL.name("tags"), SQLDataType.VARCHAR.getArrayDataType(), this, "")
+
+    /**
      * The column <code>sandbox.event_store.type</code>.
      */
     val TYPE: TableField<EventStoreRecord, String?> = createField(DSL.name("type"), SQLDataType.VARCHAR.nullable(false), this, "")
@@ -80,11 +106,6 @@ open class EventStore(
      * The column <code>sandbox.event_store.payload</code>.
      */
     val PAYLOAD: TableField<EventStoreRecord, JSONB?> = createField(DSL.name("payload"), SQLDataType.JSONB.nullable(false), this, "")
-
-    /**
-     * The column <code>sandbox.event_store.tags</code>.
-     */
-    val TAGS: TableField<EventStoreRecord, Array<String?>?> = createField(DSL.name("tags"), SQLDataType.VARCHAR.getArrayDataType(), this, "")
 
     private constructor(alias: Name, aliased: Table<EventStoreRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<EventStoreRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
@@ -124,7 +145,7 @@ open class EventStore(
     override fun rename(name: Name): EventStore = EventStore(name, null)
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row7<UUID?, Long?, OffsetDateTime?, OffsetDateTime?, String?, JSONB?, Array<String?>?> = super.fieldsRow() as Row7<UUID?, Long?, OffsetDateTime?, OffsetDateTime?, String?, JSONB?, Array<String?>?>
+    override fun fieldsRow(): Row8<UUID?, Long?, Int?, OffsetDateTime?, OffsetDateTime?, Array<String?>?, String?, JSONB?> = super.fieldsRow() as Row8<UUID?, Long?, Int?, OffsetDateTime?, OffsetDateTime?, Array<String?>?, String?, JSONB?>
 }

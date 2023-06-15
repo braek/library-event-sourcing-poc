@@ -8,12 +8,26 @@ import be.koder.library.rdbms.Sandbox
 import be.koder.library.rdbms.indexes.FLYWAY_SCHEMA_HISTORY_S_IDX
 import be.koder.library.rdbms.keys.FLYWAY_SCHEMA_HISTORY_PK
 import be.koder.library.rdbms.tables.records.FlywaySchemaHistoryRecord
-import org.jooq.*
+
+import java.time.LocalDateTime
+
+import kotlin.collections.List
+
+import org.jooq.Field
+import org.jooq.ForeignKey
+import org.jooq.Index
+import org.jooq.Name
+import org.jooq.Record
+import org.jooq.Row10
+import org.jooq.Schema
+import org.jooq.Table
+import org.jooq.TableField
+import org.jooq.TableOptions
+import org.jooq.UniqueKey
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
 import org.jooq.impl.TableImpl
-import java.time.LocalDateTime
 
 
 /**

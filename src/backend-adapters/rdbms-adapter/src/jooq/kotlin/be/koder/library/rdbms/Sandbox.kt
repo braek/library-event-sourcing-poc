@@ -7,6 +7,9 @@ package be.koder.library.rdbms
 import be.koder.library.rdbms.sequences.EVENT_STORE_SEQUENCE_ID_SEQ
 import be.koder.library.rdbms.tables.EventStore
 import be.koder.library.rdbms.tables.FlywaySchemaHistory
+
+import kotlin.collections.List
+
 import org.jooq.Catalog
 import org.jooq.Sequence
 import org.jooq.Table

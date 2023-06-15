@@ -4,6 +4,8 @@
 package be.koder.library.rdbms
 
 
+import kotlin.collections.List
+
 import org.jooq.Schema
 import org.jooq.impl.CatalogImpl
 
