@@ -2,8 +2,8 @@ package be.koder.library.rdbms.event
 
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.event.Event
-import be.koder.library.rdbms.event.payload.AuthorCreatedPayload
-import be.koder.library.rdbms.event.payload.EventPayloadMapper
+import be.koder.library.rdbms.event.stored.StoredAuthorCreated
+import be.koder.library.rdbms.event.stored.StoredEventMapper
 import be.koder.library.rdbms.tables.records.EventStoreRecord
 import be.koder.library.vocabulary.domain.AggregateId
 import be.koder.library.vocabulary.event.EventId
@@ -16,7 +16,7 @@ object EventMapper {
         val occurredOn = Timestamp.fromOffsetDateTime(record.occurredOn!!)
         val tags = mapTags(record.tags!!)
         if (AuthorCreated::class.java.simpleName.equals(record.type)) {
-            val payload = EventPayloadMapper.read(record.payload!!, AuthorCreatedPayload::class.java)
+            val payload = StoredEventMapper.read(record.payload!!, StoredAuthorCreated::class.java)
         }
         throw IllegalArgumentException("Cannot map EventRecord to Event")
     }
