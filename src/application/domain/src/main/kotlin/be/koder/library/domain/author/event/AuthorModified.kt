@@ -18,6 +18,11 @@ data class AuthorModified internal constructor(
     val lastName: LastName,
     val emailAddress: EmailAddress
 ) : Event {
+
+    constructor(authorId: AuthorId, firstName: FirstName, lastName: LastName, emailAddress: EmailAddress) : this(
+        EventId.createNew(), Timestamp.now(), setOf(authorId), authorId, firstName, lastName, emailAddress
+    )
+
     constructor(id: EventId, occurredOn: Timestamp, authorId: AuthorId, firstName: FirstName, lastName: LastName, emailAddress: EmailAddress) : this(
         id, occurredOn, setOf(authorId), authorId, firstName, lastName, emailAddress
     )

@@ -52,7 +52,7 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
             presenter.emailAddressAlreadyInUse(emailAddress)
             return
         }
-        apply(AuthorModified(EventId.createNew(), Timestamp.now(), id, firstName, lastName, emailAddress))
+        apply(AuthorModified(id, firstName, lastName, emailAddress))
         presenter.modified(id)
     }
 
@@ -69,14 +69,14 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
     }
 
     fun remove() {
-        apply(AuthorRemoved(EventId.createNew(), Timestamp.now(), id))
+        apply(AuthorRemoved(id))
     }
 
     companion object {
         @JvmStatic
         fun create(firstName: FirstName, lastName: LastName, email: EmailAddress): Author {
             val author = Author(EventStream.empty())
-            author.apply(AuthorCreated(EventId.createNew(), Timestamp.now(), AuthorId.createNew(), firstName, lastName, email))
+            author.apply(AuthorCreated(AuthorId.createNew(), firstName, lastName, email))
             return author
         }
     }
