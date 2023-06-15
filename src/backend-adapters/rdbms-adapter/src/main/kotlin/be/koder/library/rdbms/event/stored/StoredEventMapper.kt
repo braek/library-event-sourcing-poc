@@ -13,7 +13,7 @@ object StoredEventMapper {
 
     private val objectMapper: ObjectMapper = ObjectMapper()
 
-    fun convertPayloadToJson(event: Event): JSONB {
+    fun toJsonb(event: Event): JSONB {
         if (event is AuthorCreated) {
             return write(StoredAuthorCreated(event))
         }
