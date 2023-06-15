@@ -3,8 +3,13 @@ package be.koder.library.vocabulary.time
 import be.koder.library.vocabulary.domain.ValueObject
 import java.time.*
 import java.time.ZoneOffset.UTC
+import java.time.temporal.ChronoUnit
 
-class Timestamp private constructor(private val value: Instant) : ValueObject {
+class Timestamp private constructor(private var value: Instant) : ValueObject {
+
+    init {
+        this.value = value.truncatedTo(ChronoUnit.MICROS)
+    }
 
     override fun getValue(): Instant {
         return value
@@ -38,6 +43,11 @@ class Timestamp private constructor(private val value: Instant) : ValueObject {
         @JvmStatic
         fun now(): Timestamp {
             return Timestamp(Instant.now())
+        }
+
+        @JvmStatic
+        fun fromString(str: String): Timestamp {
+            return Timestamp(Instant.parse(str))
         }
 
         @JvmStatic
