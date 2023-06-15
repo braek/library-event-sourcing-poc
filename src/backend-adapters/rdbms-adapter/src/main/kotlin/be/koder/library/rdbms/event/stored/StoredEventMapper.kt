@@ -14,8 +14,11 @@ object StoredEventMapper {
 
     private val objectMapper: ObjectMapper = ObjectMapper()
 
-    fun toJsonb(event: Event): JSONB {
+    init {
         objectMapper.registerModule(KotlinModule())
+    }
+
+    fun toJsonb(event: Event): JSONB {
         if (event is AuthorCreated) {
             return write(StoredAuthorCreated(event))
         }
@@ -36,16 +39,7 @@ object StoredEventMapper {
         }
     }
 
-    fun <T : StoredEvent> read(payload: JSONB, clazz: Class<T>): T {
-        try {
-            return objectMapper.readValue(payload.data(), clazz)
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
-    }
-
     fun toEvent(json: JSONB, type: String): Event {
-        objectMapper.registerModule(KotlinModule())
         if (AuthorCreated::class.java.simpleName.equals(type)) {
             return read(json, StoredAuthorCreated::class.java).toEvent()
         }
@@ -56,5 +50,13 @@ object StoredEventMapper {
             return read(json, StoredAuthorRemoved::class.java).toEvent()
         }
         throw IllegalArgumentException("Cannot convert JSON to Event")
+    }
+
+    private fun <T : StoredEvent> read(payload: JSONB, clazz: Class<T>): T {
+        try {
+            return objectMapper.readValue(payload.data(), clazz)
+        } catch (e: IOException) {
+            throw RuntimeException(e)
+        }
     }
 }
