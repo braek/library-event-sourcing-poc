@@ -5,7 +5,7 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
-data class StoredAuthorRemoved(
+data class StoredAuthorRemoved internal constructor(
     override val id: String,
     override val occurredOn: String,
     val authorId: String
