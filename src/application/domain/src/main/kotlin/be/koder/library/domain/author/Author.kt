@@ -11,8 +11,6 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
-import be.koder.library.vocabulary.event.EventId
-import be.koder.library.vocabulary.time.Timestamp
 
 class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
