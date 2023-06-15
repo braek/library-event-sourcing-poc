@@ -52,5 +52,4 @@ open class RdbmsConfig {
         config.setSettings(Settings().withExecuteWithOptimisticLocking(true).withExecuteWithOptimisticLockingExcludeUnversioned(true))
         return DefaultDSLContext(config)
     }
-
 }
