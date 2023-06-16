@@ -1,4 +1,4 @@
-package be.koder.library.rdbms.event.stored.author
+package be.koder.library.rdbms.event.stored
 
 import be.koder.library.domain.author.event.AuthorModified
 import be.koder.library.domain.event.Event

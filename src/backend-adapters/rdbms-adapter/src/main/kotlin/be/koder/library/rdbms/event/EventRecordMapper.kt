@@ -18,7 +18,7 @@ object EventRecordMapper {
             .map { TagMapper.map(it) }
             .collect(Collectors.toSet())
             .toTypedArray()
-        record.payload = StoredEventMapper.toJsonb(event)
+        record.payload = StoredEventMapper.toJson(event)
         return record
     }
 }
