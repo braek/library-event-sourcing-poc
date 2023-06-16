@@ -1,6 +1,7 @@
 package be.koder.library.rdbms.event.stored
 
 import be.koder.library.domain.author.event.AuthorModified
+import be.koder.library.rdbms.util.MapperUtil
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
@@ -19,7 +20,7 @@ data class StoredAuthorModified internal constructor(
 
     constructor(event: AuthorModified) : this(
         event.id.toString(),
-        event.occurredOn.toString(),
+        MapperUtil.map(event.occurredOn),
         event.authorId.toString(),
         event.firstName.toString(),
         event.lastName.toString(),
