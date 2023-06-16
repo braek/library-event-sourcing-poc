@@ -1,7 +1,6 @@
 package be.koder.library.rdbms.event.stored
 
 import be.koder.library.domain.author.event.AuthorRemoved
-import be.koder.library.rdbms.event.stored.StoredEvent
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp

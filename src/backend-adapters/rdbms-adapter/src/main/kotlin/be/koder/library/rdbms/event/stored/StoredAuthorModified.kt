@@ -1,8 +1,6 @@
 package be.koder.library.rdbms.event.stored
 
 import be.koder.library.domain.author.event.AuthorModified
-import be.koder.library.domain.event.Event
-import be.koder.library.rdbms.event.stored.StoredEvent
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
