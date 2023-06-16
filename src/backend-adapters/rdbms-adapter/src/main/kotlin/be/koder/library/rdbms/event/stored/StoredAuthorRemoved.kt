@@ -7,7 +7,7 @@ import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
 data class StoredAuthorRemoved internal constructor(
-    override val id: String,
+    override val eventId: String,
     override val occurredOn: String,
     val authorId: String
 ) : StoredEvent {
@@ -20,7 +20,7 @@ data class StoredAuthorRemoved internal constructor(
 
     override fun toEvent(): AuthorRemoved {
         return AuthorRemoved(
-            EventId.fromString(id),
+            EventId.fromString(eventId),
             Timestamp.fromString(occurredOn),
             AuthorId.fromString(authorId)
         )

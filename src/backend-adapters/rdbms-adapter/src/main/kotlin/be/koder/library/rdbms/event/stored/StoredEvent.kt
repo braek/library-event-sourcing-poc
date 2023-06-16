@@ -4,7 +4,7 @@ import be.koder.library.domain.event.Event
 
 interface StoredEvent {
 
-    val id: String
+    val eventId: String
 
     val occurredOn: String
 

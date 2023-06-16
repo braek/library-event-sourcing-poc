@@ -10,7 +10,7 @@ import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
 data class StoredAuthorCreated internal constructor(
-    override val id: String,
+    override val eventId: String,
     override val occurredOn: String,
     val authorId: String,
     val firstName: String,
@@ -29,7 +29,7 @@ data class StoredAuthorCreated internal constructor(
 
     override fun toEvent(): AuthorCreated {
         return AuthorCreated(
-            EventId.fromString(id),
+            EventId.fromString(eventId),
             Timestamp.fromString(occurredOn),
             AuthorId.fromString(authorId),
             FirstName(firstName),
