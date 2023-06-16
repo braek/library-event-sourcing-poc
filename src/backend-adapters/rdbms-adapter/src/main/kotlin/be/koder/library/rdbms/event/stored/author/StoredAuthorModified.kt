@@ -28,7 +28,7 @@ data class StoredAuthorModified internal constructor(
         event.emailAddress.toString()
     )
 
-    override fun toEvent(): Event {
+    override fun toEvent(): AuthorModified {
         return AuthorModified(
             EventId.fromString(id),
             Timestamp.fromString(occurredOn),
