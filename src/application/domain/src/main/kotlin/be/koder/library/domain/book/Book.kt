@@ -10,11 +10,11 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     private lateinit var id: BookId
 
-    override fun dispatch(event: Event) {
-        // TODO: implement this one
-    }
-
     override fun getId(): AggregateId {
         return id
+    }
+
+    override fun dispatch(event: Event) {
+        // TODO: implement this one
     }
 }
