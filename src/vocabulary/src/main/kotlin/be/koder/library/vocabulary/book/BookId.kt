@@ -1,9 +1,9 @@
 package be.koder.library.vocabulary.book
 
-import be.koder.library.vocabulary.domain.ValueObject
+import be.koder.library.vocabulary.domain.AggregateId
 import java.util.*
 
-class BookId private constructor(private val value: UUID) : ValueObject {
+class BookId private constructor(private val value: UUID) : AggregateId {
 
     override fun getValue(): UUID {
         return value
