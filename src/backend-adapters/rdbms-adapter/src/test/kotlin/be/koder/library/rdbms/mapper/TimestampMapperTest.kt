@@ -24,4 +24,20 @@ class TimestampMapperTest {
         val str = TimestampMapper.map(timestamp)
         assertThat(str).isEqualTo("2001-01-01T10:00:00.001000Z")
     }
+
+    @Test
+    @DisplayName("when Timestamp with precision of milliseconds")
+    fun testPrecisionOfMilliseconds() {
+        val timestamp = Timestamp.fromString("2001-01-01T10:00:00.000001Z")
+        val str = TimestampMapper.map(timestamp)
+        assertThat(str).isEqualTo("2001-01-01T10:00:00.000001Z")
+    }
+
+    @Test
+    @DisplayName("when Timestamp with precision of nanoseconds")
+    fun testPrecisionOfNanoseconds() {
+        val timestamp = Timestamp.fromString("2001-01-01T10:00:00.000000789Z")
+        val str = TimestampMapper.map(timestamp)
+        assertThat(str).isEqualTo("2001-01-01T10:00:00.000000Z")
+    }
 }
