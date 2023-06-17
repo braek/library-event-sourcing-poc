@@ -1,20 +1,16 @@
 # Tables
 
 ```sql
-CREATE TABLE event
+CREATE TABLE event_store
 (
-    id          UUID                     NOT NULL PRIMARY KEY,
-    sequence_id BIGSERIAL                NOT NULL UNIQUE,
-    occurred_on TIMESTAMP WITH TIME ZONE NOT NULL,
-    type        VARCHAR                  NOT NULL,
-    payload     JSONB                    NOT NULL
+    id           UUID                     NOT NULL PRIMARY KEY,
+    sequence_id  BIGSERIAL                NOT NULL UNIQUE,
+    version      INTEGER                  NOT NULL DEFAULT 1,
+    persisted_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    occurred_on  TIMESTAMP WITH TIME ZONE NOT NULL,
+    tags         VARCHAR[] NOT NULL,
+    type         VARCHAR                  NOT NULL,
+    payload      JSONB                    NOT NULL
 );
-CREATE TABLE tag
-(
-    event_id UUID    NOT NULL,
-    type     VARCHAR NOT NULL,
-    value    UUID    NOT NULL,
-    CONSTRAINT pk_tag PRIMARY KEY (event_id, type, value),
-    CONSTRAINT fk_tag_event FOREIGN KEY (event_id) REFERENCES event (id)
-);
+CREATE INDEX tags_index ON event_store USING GIN(tags);
 ```
