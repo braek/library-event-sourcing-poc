@@ -11,7 +11,7 @@ class FirstName(str: String) : ValueObject {
         if (sanitized.length < 2 || sanitized.length > 50) {
             throw InvalidFirstNameException(sanitized)
         }
-        this.value = sanitized.trim()
+        value = sanitized.trim()
     }
 
     override fun getValue(): String {

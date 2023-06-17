@@ -1,17 +1,17 @@
-package be.koder.library.vocabulary.author
+package be.koder.library.vocabulary.book
 
 import be.koder.library.vocabulary.domain.ValueObject
 
-class LastName(str: String) : ValueObject {
+class Title private constructor(str: String) : ValueObject {
 
     private val value: String
 
     init {
         val sanitized = str.trim()
-        if (sanitized.length < 2 || sanitized.length > 50) {
-            throw InvalidLastNameException(sanitized)
+        if (sanitized.isEmpty() || sanitized.length > 100) {
+            throw InvalidTitleException(sanitized)
         }
-        value = sanitized.trim()
+        this.value = sanitized
     }
 
     override fun getValue(): String {
@@ -25,11 +25,18 @@ class LastName(str: String) : ValueObject {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as LastName
+        other as Title
         return value == other.value
     }
 
     override fun hashCode(): Int {
         return value.hashCode()
+    }
+
+    companion object {
+        @JvmStatic
+        fun fromString(str: String): Title {
+            return Title(str)
+        }
     }
 }

@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 
 class EmailAddress(str: String) : ValueObject {
 
-    private val value: String = str
+    private val value: String
     private val pattern = Pattern.compile("^[\\w.]+@[\\w.]+$")
 
     init {
@@ -14,6 +14,7 @@ class EmailAddress(str: String) : ValueObject {
         if (sanitized.isBlank() || !pattern.matcher(sanitized).matches()) {
             throw InvalidEmailAddressException(sanitized)
         }
+        value = sanitized
     }
 
     override fun getValue(): String {
