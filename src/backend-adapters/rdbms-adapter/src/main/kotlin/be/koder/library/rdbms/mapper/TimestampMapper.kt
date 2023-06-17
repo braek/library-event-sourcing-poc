@@ -10,6 +10,7 @@ object TimestampMapper {
 
     // Purpose: make sure that the Timestamp is written as String with precision of milliseconds
     fun map(timestamp: Timestamp): String {
+        // Default precision = microseconds
         val str = timestamp.getValue().toString()
         // Precision = seconds
         if (regexSeconds.matcher(str).matches()) {
