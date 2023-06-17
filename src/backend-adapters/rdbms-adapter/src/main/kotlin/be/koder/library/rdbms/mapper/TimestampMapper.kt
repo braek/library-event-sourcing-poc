@@ -1,9 +1,9 @@
-package be.koder.library.rdbms.util
+package be.koder.library.rdbms.mapper
 
 import be.koder.library.vocabulary.time.Timestamp
 import java.util.regex.Pattern
 
-object MapperUtil {
+object TimestampMapper {
 
     // Purpose: make sure that the Timestamp is written as String with precision of milliseconds
     fun map(timestamp: Timestamp): String {

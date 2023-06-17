@@ -1,7 +1,7 @@
 package be.koder.library.rdbms.event.stored
 
 import be.koder.library.domain.author.event.AuthorRemoved
-import be.koder.library.rdbms.util.MapperUtil
+import be.koder.library.rdbms.mapper.TimestampMapper
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
@@ -14,7 +14,7 @@ data class StoredAuthorRemoved internal constructor(
 
     constructor(event: AuthorRemoved) : this(
         event.id.toString(),
-        MapperUtil.map(event.occurredOn),
+        TimestampMapper.map(event.occurredOn),
         event.authorId.toString()
     )
 
