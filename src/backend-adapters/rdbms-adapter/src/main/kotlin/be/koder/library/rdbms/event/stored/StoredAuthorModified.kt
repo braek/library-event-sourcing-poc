@@ -16,7 +16,7 @@ data class StoredAuthorModified internal constructor(
     val firstName: String,
     val lastName: String,
     val emailAddress: String
-) : StoredEvent {
+) : StoredEvent<AuthorModified> {
 
     constructor(event: AuthorModified) : this(
         event.id.toString(),

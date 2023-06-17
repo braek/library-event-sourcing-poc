@@ -10,7 +10,7 @@ data class StoredAuthorRemoved internal constructor(
     override val eventId: String,
     override val occurredOn: String,
     val authorId: String
-) : StoredEvent {
+) : StoredEvent<AuthorRemoved> {
 
     constructor(event: AuthorRemoved) : this(
         event.id.toString(),
