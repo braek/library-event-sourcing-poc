@@ -24,7 +24,7 @@ class CreateAuthorUseCase(
     }
 
     override fun execute(command: CreateAuthorCommand, presenter: CreateAuthorPresenter) {
-        AuthorCreator(emailService, authorRepository, eventStreamPublisher).create(
+        AuthorCreator(authorRepository, eventStreamPublisher, emailService).create(
             command.firstName,
             command.lastName,
             command.emailAddress,

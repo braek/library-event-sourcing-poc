@@ -7,9 +7,9 @@ import be.koder.library.vocabulary.author.FirstName
 import be.koder.library.vocabulary.author.LastName
 
 class AuthorCreator(
-    private val emailService: EmailService,
     private val authorRepository: AuthorRepository,
-    private val eventStreamPublisher: EventStreamPublisher
+    private val eventStreamPublisher: EventStreamPublisher,
+    private val emailService: EmailService
 ) {
     fun create(
         firstName: FirstName,
