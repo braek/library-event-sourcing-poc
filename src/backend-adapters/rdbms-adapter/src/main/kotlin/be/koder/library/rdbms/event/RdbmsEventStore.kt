@@ -13,9 +13,9 @@ import java.util.stream.Collectors
 @Transactional
 open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
-    override fun append(eventStream: EventStream) {
+    override fun append(mutations: EventStream) {
         val records = mutableListOf<EventStoreRecord>()
-        eventStream.forEach {
+        mutations.forEach {
             records.add(EventRecordMapper.map(it, dsl))
         }
         dsl.batchInsert(records).execute()

@@ -11,8 +11,8 @@ class InMemoryEventStore : EventStore {
 
     private val events: ArrayList<Event> = ArrayList()
 
-    override fun append(eventStream: EventStream) {
-        eventStream.forEach { events.add(it) }
+    override fun append(mutations: EventStream) {
+        mutations.forEach { events.add(it) }
     }
 
     override fun query(query: EventStreamQuery): EventStream {
