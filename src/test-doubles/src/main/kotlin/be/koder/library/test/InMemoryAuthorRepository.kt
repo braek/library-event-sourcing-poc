@@ -61,6 +61,6 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
                 throw RuntimeException("Optimistic Locking Exception")
             }
         }
-        eventStore.append(aggregate.getMutations(), aggregate.getId())
+        eventStore.append(aggregate.getMutations())
     }
 }
