@@ -31,7 +31,7 @@ object StoredEventMapper {
         throw IllegalArgumentException(String.format("Cannot convert Event (%s) to JSON", event.javaClass.simpleName))
     }
 
-    private fun write(payload: StoredEvent): JSONB {
+    private fun write(payload: StoredEvent<*>): JSONB {
         try {
             return JSONB.valueOf(objectMapper.writeValueAsString(payload))
         } catch (e: JsonProcessingException) {
@@ -52,7 +52,7 @@ object StoredEventMapper {
         throw IllegalArgumentException(String.format("Cannot convert JSON to Event (%s)", type))
     }
 
-    private fun <T : StoredEvent> read(payload: JSONB, clazz: Class<T>): T {
+    private fun <T : StoredEvent<*>> read(payload: JSONB, clazz: Class<T>): T {
         try {
             return objectMapper.readValue(payload.data(), clazz)
         } catch (e: IOException) {
