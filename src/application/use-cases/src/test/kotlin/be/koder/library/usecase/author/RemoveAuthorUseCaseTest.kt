@@ -49,7 +49,7 @@ class RemoveAuthorUseCaseTest {
                         LastName("Wayne"),
                         EmailAddress("batman@gothamcity.com")
                     )
-                )
+                ),
             )
             useCase.removeAuthor(authorId, this)
         }

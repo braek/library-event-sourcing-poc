@@ -46,7 +46,7 @@ class ModifyAuthorUseCaseTest {
                     AuthorCreated(
                         EventId.createNew(), Timestamp.now(), authorId, FirstName("Bruce"), LastName("Wayne"), EmailAddress("batman@gothamcity.com")
                     )
-                )
+                ),
             )
             useCase.modifyAuthor(authorId, firstName, lastName, emailAddress, this)
         }
@@ -158,7 +158,7 @@ class ModifyAuthorUseCaseTest {
                         LastName("Fleck"),
                         emailAddress
                     )
-                )
+                ),
             )
             useCase.modifyAuthor(authorId, firstName, lastName, emailAddress, this)
         }

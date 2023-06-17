@@ -26,12 +26,21 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
         val stack: MutableMap<AuthorId, EmailAddress> = mutableMapOf()
         val eventStream = eventStore.queryByTypes(
             AuthorCreated::class.simpleName!!,
-            AuthorModified::class.simpleName!!
+            AuthorModified::class.simpleName!!,
+            AuthorRemoved::class.simpleName!!
         )
         eventStream.stream()
             .filter { it is AuthorCreated }
             .map { it as AuthorCreated }
             .forEach { stack[it.authorId] = it.emailAddress }
+        eventStream.stream()
+            .filter { it is AuthorModified }
+            .map { it as AuthorModified }
+            .forEach { stack[it.authorId] = it.emailAddress }
+        eventStream.stream()
+            .filter { it is AuthorRemoved }
+            .map { it as AuthorRemoved }
+            .forEach { stack.remove(it.authorId) }
         return stack
     }
 
@@ -52,6 +61,6 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
                 throw RuntimeException("Optimistic Locking Exception")
             }
         }
-        eventStore.append(aggregate.getMutations())
+        eventStore.append(aggregate.getMutations(), aggregate.getId())
     }
 }

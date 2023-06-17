@@ -11,7 +11,7 @@ class InMemoryEventStore : EventStore {
 
     private val events: ArrayList<Event> = ArrayList()
 
-    override fun append(mutations: EventStream) {
+    override fun append(mutations: EventStream, tag: AggregateId) {
         mutations.forEach { events.add(it) }
     }
 
