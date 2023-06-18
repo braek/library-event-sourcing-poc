@@ -1,4 +1,4 @@
-package be.koder.library.rdbms.event.stored
+package be.koder.library.rdbms.event.json
 
 import be.koder.library.domain.author.event.AuthorRemoved
 import be.koder.library.rdbms.mapper.TimestampMapper
@@ -6,11 +6,11 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
-data class StoredAuthorRemoved internal constructor(
+data class AuthorRemovedJson internal constructor(
     override val eventId: String,
     override val occurredOn: String,
     val authorId: String
-) : StoredEvent<AuthorRemoved> {
+) : EventJson<AuthorRemoved> {
 
     constructor(event: AuthorRemoved) : this(
         event.id.toString(),

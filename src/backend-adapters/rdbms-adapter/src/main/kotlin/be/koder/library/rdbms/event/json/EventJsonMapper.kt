@@ -1,4 +1,4 @@
-package be.koder.library.rdbms.event.stored
+package be.koder.library.rdbms.event.json
 
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.jooq.JSONB
 import java.io.IOException
 
-object StoredEventMapper {
+object EventJsonMapper {
 
     private val objectMapper: ObjectMapper = ObjectMapper()
 
@@ -20,18 +20,18 @@ object StoredEventMapper {
 
     fun toJson(event: Event): JSONB {
         if (event is AuthorCreated) {
-            return write(StoredAuthorCreated(event))
+            return write(AuthorCreatedJson(event))
         }
         if (event is AuthorModified) {
-            return write(StoredAuthorModified(event))
+            return write(AuthorModifiedJson(event))
         }
         if (event is AuthorRemoved) {
-            return write(StoredAuthorRemoved(event))
+            return write(AuthorRemovedJson(event))
         }
         throw IllegalArgumentException(String.format("Cannot convert Event (%s) to JSON", event.javaClass.simpleName))
     }
 
-    private fun write(payload: StoredEvent<*>): JSONB {
+    private fun write(payload: EventJson<*>): JSONB {
         try {
             return JSONB.valueOf(objectMapper.writeValueAsString(payload))
         } catch (e: JsonProcessingException) {
@@ -41,18 +41,18 @@ object StoredEventMapper {
 
     fun toEvent(json: JSONB, type: String): Event {
         if (AuthorCreated::class.java.simpleName.equals(type)) {
-            return read(json, StoredAuthorCreated::class.java).toEvent()
+            return read(json, AuthorCreatedJson::class.java).toEvent()
         }
         if (AuthorModified::class.java.simpleName.equals(type)) {
-            return read(json, StoredAuthorModified::class.java).toEvent()
+            return read(json, AuthorModifiedJson::class.java).toEvent()
         }
         if (AuthorRemoved::class.java.simpleName.equals(type)) {
-            return read(json, StoredAuthorRemoved::class.java).toEvent()
+            return read(json, AuthorRemovedJson::class.java).toEvent()
         }
         throw IllegalArgumentException(String.format("Cannot convert JSON to Event (%s)", type))
     }
 
-    private fun <T : StoredEvent<*>> read(payload: JSONB, clazz: Class<T>): T {
+    private fun <T : EventJson<*>> read(payload: JSONB, clazz: Class<T>): T {
         try {
             return objectMapper.readValue(payload.data(), clazz)
         } catch (e: IOException) {

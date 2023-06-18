@@ -1,4 +1,4 @@
-package be.koder.library.rdbms.event.stored
+package be.koder.library.rdbms.event.json
 
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.rdbms.mapper.TimestampMapper
@@ -9,14 +9,14 @@ import be.koder.library.vocabulary.author.LastName
 import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
-data class StoredAuthorCreated internal constructor(
+data class AuthorCreatedJson internal constructor(
     override val eventId: String,
     override val occurredOn: String,
     val authorId: String,
     val firstName: String,
     val lastName: String,
     val emailAddress: String
-) : StoredEvent<AuthorCreated> {
+) : EventJson<AuthorCreated> {
 
     constructor(event: AuthorCreated) : this(
         event.id.toString(),

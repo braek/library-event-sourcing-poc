@@ -1,8 +1,8 @@
-package be.koder.library.rdbms.event.stored
+package be.koder.library.rdbms.event.json
 
 import be.koder.library.domain.event.Event
 
-interface StoredEvent<T : Event> {
+interface EventJson<T : Event> {
 
     val eventId: String
 

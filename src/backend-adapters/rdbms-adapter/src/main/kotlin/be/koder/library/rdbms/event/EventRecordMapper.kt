@@ -1,7 +1,7 @@
 package be.koder.library.rdbms.event
 
 import be.koder.library.domain.event.Event
-import be.koder.library.rdbms.event.stored.StoredEventMapper
+import be.koder.library.rdbms.event.json.EventJsonMapper
 import be.koder.library.rdbms.tables.records.EventStoreRecord
 import be.koder.library.rdbms.tables.references.EVENT_STORE
 import org.jooq.DSLContext
@@ -18,7 +18,7 @@ object EventRecordMapper {
             .map { TagMapper.map(it) }
             .collect(Collectors.toSet())
             .toTypedArray()
-        record.payload = StoredEventMapper.toJson(event)
+        record.payload = EventJsonMapper.toJson(event)
         return record
     }
 }
