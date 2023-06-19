@@ -22,6 +22,10 @@ class CreateBookUseCase(
     }
 
     override fun execute(command: CreateBookCommand, presenter: CreateBookPresenter) {
+        if (isbnService.alreadyInUse(command.isbn)) {
+            presenter.isbnAlreadyInUse(command.isbn)
+            return
+        }
         val book = Book.create(command.title, command.isbn)
         bookRepository.save(book)
         eventStreamPublisher.publish(book.getMutations())
