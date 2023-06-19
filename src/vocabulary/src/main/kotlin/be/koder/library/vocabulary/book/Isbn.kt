@@ -36,4 +36,11 @@ class Isbn private constructor(str: String) : ValueObject {
     override fun hashCode(): Int {
         return value.hashCode()
     }
+
+    companion object {
+        @JvmStatic
+        fun fromString(str: String): Isbn {
+            return Isbn(str)
+        }
+    }
 }
