@@ -4,7 +4,7 @@ import be.koder.library.api.book.CreateBookPresenter
 import be.koder.library.domain.book.event.BookCreated
 import be.koder.library.test.InMemoryBookRepository
 import be.koder.library.test.InMemoryEventStore
-import be.koder.library.test.InMemoryEventStreamPublisher
+import be.koder.library.test.InMemoryEventPublisher
 import be.koder.library.test.TestUtils
 import be.koder.library.vocabulary.book.BookId
 import be.koder.library.vocabulary.book.Isbn
@@ -21,7 +21,7 @@ class CreateBookUseCaseTest {
 
     private val eventStore = InMemoryEventStore()
     private val bookRepository = InMemoryBookRepository(eventStore)
-    private val eventStreamPublisher = InMemoryEventStreamPublisher()
+    private val eventStreamPublisher = InMemoryEventPublisher()
     private val useCase = CreateBookUseCase(bookRepository, eventStreamPublisher, bookRepository)
 
     @Nested
@@ -61,5 +61,18 @@ class CreateBookUseCaseTest {
         override fun isbnAlreadyInUse(isbn: Isbn) {
             TestUtils.fail()
         }
+    }
+
+    @Nested
+    @DisplayName("when ISBN already in use")
+    inner class TestWhenIsbnAlreadyInUse : CreateBookPresenter {
+        override fun created(bookId: BookId) {
+            TODO("Not yet implemented")
+        }
+
+        override fun isbnAlreadyInUse(isbn: Isbn) {
+            TODO("Not yet implemented")
+        }
+
     }
 }

@@ -5,7 +5,7 @@ import be.koder.library.api.author.CreateAuthorPresenter
 import be.koder.library.domain.author.AuthorCreator
 import be.koder.library.domain.author.AuthorRepository
 import be.koder.library.domain.author.EmailService
-import be.koder.library.domain.event.EventStreamPublisher
+import be.koder.library.domain.event.EventPublisher
 import be.koder.library.usecase.UseCase
 import be.koder.library.usecase.author.command.CreateAuthorCommand
 import be.koder.library.usecase.author.presenter.CreateAuthorDomainPresenterDecorator
@@ -15,7 +15,7 @@ import be.koder.library.vocabulary.author.LastName
 
 class CreateAuthorUseCase(
     private val authorRepository: AuthorRepository,
-    private val eventStreamPublisher: EventStreamPublisher,
+    private val eventPublisher: EventPublisher,
     private val emailService: EmailService
 ) : CreateAuthor, UseCase<CreateAuthorCommand, CreateAuthorPresenter> {
 
@@ -24,7 +24,7 @@ class CreateAuthorUseCase(
     }
 
     override fun execute(command: CreateAuthorCommand, presenter: CreateAuthorPresenter) {
-        AuthorCreator(authorRepository, eventStreamPublisher, emailService).create(
+        AuthorCreator(authorRepository, eventPublisher, emailService).create(
             command.firstName,
             command.lastName,
             command.emailAddress,

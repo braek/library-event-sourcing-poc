@@ -19,7 +19,7 @@ class CreateAuthorUseCaseTest {
 
     private val eventStore = InMemoryEventStore()
     private val authorRepository = InMemoryAuthorRepository(eventStore)
-    private val eventStreamPublisher = InMemoryEventStreamPublisher()
+    private val eventStreamPublisher = InMemoryEventPublisher()
     private val useCase = CreateAuthorUseCase(authorRepository, eventStreamPublisher, authorRepository)
 
     @Nested

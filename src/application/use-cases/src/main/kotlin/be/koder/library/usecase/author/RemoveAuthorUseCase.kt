@@ -3,13 +3,13 @@ package be.koder.library.usecase.author
 import be.koder.library.api.author.RemoveAuthor
 import be.koder.library.api.author.RemoveAuthorPresenter
 import be.koder.library.domain.author.AuthorRepository
-import be.koder.library.domain.event.EventStreamPublisher
+import be.koder.library.domain.event.EventPublisher
 import be.koder.library.usecase.UseCase
 import be.koder.library.usecase.author.command.RemoveAuthorCommand
 import be.koder.library.vocabulary.author.AuthorId
 
 class RemoveAuthorUseCase(
-    private val authorRepository: AuthorRepository, private val eventStreamPublisher: EventStreamPublisher
+    private val authorRepository: AuthorRepository, private val eventPublisher: EventPublisher
 ) : RemoveAuthor, UseCase<RemoveAuthorCommand, RemoveAuthorPresenter> {
 
     override fun removeAuthor(authorId: AuthorId, presenter: RemoveAuthorPresenter) {
@@ -21,7 +21,7 @@ class RemoveAuthorUseCase(
             {
                 it.remove()
                 authorRepository.save(it)
-                eventStreamPublisher.publish(it.getMutations())
+                eventPublisher.publish(it.getMutations())
                 presenter.removed(command.authorId)
             }, presenter::authorNotFound
         )

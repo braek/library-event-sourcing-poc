@@ -4,7 +4,7 @@ import be.koder.library.api.author.ModifyAuthor
 import be.koder.library.api.author.ModifyAuthorPresenter
 import be.koder.library.domain.author.AuthorRepository
 import be.koder.library.domain.author.EmailService
-import be.koder.library.domain.event.EventStreamPublisher
+import be.koder.library.domain.event.EventPublisher
 import be.koder.library.usecase.UseCase
 import be.koder.library.usecase.author.command.ModifyAuthorCommand
 import be.koder.library.usecase.author.presenter.ModifyAuthorDomainPresenterDecorator
@@ -16,7 +16,7 @@ import be.koder.library.vocabulary.author.LastName
 class ModifyAuthorUseCase(
     private val authorRepository: AuthorRepository,
     private val emailService: EmailService,
-    private val eventStreamPublisher: EventStreamPublisher
+    private val eventPublisher: EventPublisher
 ) : ModifyAuthor, UseCase<ModifyAuthorCommand, ModifyAuthorPresenter> {
 
     override fun modifyAuthor(authorId: AuthorId, firstName: FirstName, lastName: LastName, emailAddress: EmailAddress, presenter: ModifyAuthorPresenter) {
@@ -33,7 +33,7 @@ class ModifyAuthorUseCase(
                 ModifyAuthorDomainPresenterDecorator(presenter)
             )
             authorRepository.save(it)
-            eventStreamPublisher.publish(it.getMutations())
+            eventPublisher.publish(it.getMutations())
         }, presenter::authorNotFound)
     }
 }

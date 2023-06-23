@@ -6,7 +6,7 @@ import be.koder.library.domain.author.event.AuthorModified
 import be.koder.library.domain.event.EventStream
 import be.koder.library.test.InMemoryAuthorRepository
 import be.koder.library.test.InMemoryEventStore
-import be.koder.library.test.InMemoryEventStreamPublisher
+import be.koder.library.test.InMemoryEventPublisher
 import be.koder.library.test.TestUtils
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
@@ -26,7 +26,7 @@ class ModifyAuthorUseCaseTest {
 
     private val eventStore = InMemoryEventStore()
     private val authorRepository = InMemoryAuthorRepository(eventStore)
-    private val eventStreamPublisher = InMemoryEventStreamPublisher()
+    private val eventStreamPublisher = InMemoryEventPublisher()
     private val useCase = ModifyAuthorUseCase(authorRepository, authorRepository, eventStreamPublisher)
 
     @Nested
