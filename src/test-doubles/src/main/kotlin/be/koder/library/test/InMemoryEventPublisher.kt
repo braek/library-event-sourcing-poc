@@ -12,12 +12,15 @@ class InMemoryEventPublisher : EventPublisher {
 
     override fun publish(eventStream: EventStream) {
         eventStream.forEach { event ->
-            doPublish(event)
+            publish(event)
         }
     }
 
     override fun publish(event: Event) {
-        doPublish(event)
+        publishedEvents.add(event)
+        handlers.forEach { handler ->
+            handler.handle(event)
+        }
     }
 
     fun subscribe(handler: EventHandler) {
@@ -26,12 +29,5 @@ class InMemoryEventPublisher : EventPublisher {
 
     fun getPublishedEvents(): List<Event> {
         return publishedEvents.toList()
-    }
-
-    private fun doPublish(event: Event) {
-        publishedEvents.add(event)
-        handlers.forEach { handler ->
-            handler.handle(event)
-        }
     }
 }
