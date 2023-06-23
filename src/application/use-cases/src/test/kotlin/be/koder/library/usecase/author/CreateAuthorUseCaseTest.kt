@@ -53,13 +53,12 @@ class CreateAuthorUseCaseTest {
 
         @Test
         @DisplayName("it should be saved")
-        fun bookSaved() {
+        fun authorSaved() {
             val author = authorRepository.get(authorId!!).map { it.takeSnapshot() }.orElseThrow()
             assertThat(author.id).isNotNull()
             assertThat(author.firstName).isEqualTo(firstName)
             assertThat(author.lastName).isEqualTo(lastName)
             assertThat(author.emailAddress).isEqualTo(emailAddress)
-
         }
 
         override fun created(authorId: AuthorId) {
