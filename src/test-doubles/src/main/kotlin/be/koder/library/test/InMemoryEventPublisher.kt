@@ -30,4 +30,8 @@ class InMemoryEventPublisher : EventPublisher {
     fun getPublishedEvents(): List<Event> {
         return publishedEvents.toList()
     }
+
+    fun clear() {
+        publishedEvents.clear()
+    }
 }

@@ -80,6 +80,7 @@ class CreateBookUseCaseTest {
         @BeforeEach
         fun setup() {
             useCase.createBook(title, isbn, MockCreateBookPresenter())
+            eventPublisher.clear()
             useCase.createBook(title, isbn, this)
         }
 
@@ -87,6 +88,12 @@ class CreateBookUseCaseTest {
         @DisplayName("it should provide feedback")
         fun feedbackProvided() {
             assertTrue(isbnAlreadyInUseCalled)
+        }
+
+        @Test
+        @DisplayName("it should not publish events")
+        fun noEventsPublished() {
+            assertThat(eventPublisher.getPublishedEvents()).isEmpty()
         }
 
         override fun isbnAlreadyInUse(isbn: Isbn) {

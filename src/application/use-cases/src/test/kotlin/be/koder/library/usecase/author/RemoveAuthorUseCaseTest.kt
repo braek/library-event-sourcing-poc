@@ -104,6 +104,12 @@ class RemoveAuthorUseCaseTest {
             assertTrue(authorNotFoundCalled)
         }
 
+        @Test
+        @DisplayName("it should not publish events")
+        fun noEventsPublished() {
+            assertThat(eventPublisher.getPublishedEvents()).isEmpty()
+        }
+
         override fun removed(authorId: AuthorId) {
             TestUtils.fail()
         }
