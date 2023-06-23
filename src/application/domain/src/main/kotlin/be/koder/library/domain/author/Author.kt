@@ -45,6 +45,15 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         return id
     }
 
+    fun takeSnapshot(): AuthorSnapshot {
+        return AuthorSnapshot(
+            id,
+            firstName,
+            lastName,
+            emailAddress
+        )
+    }
+
     fun modify(firstName: FirstName, lastName: LastName, emailAddress: EmailAddress, emailService: EmailService, presenter: ModifyAuthorDomainPresenter) {
         if (emailService.alreadyInUse(emailAddress, id)) {
             presenter.emailAddressAlreadyInUse(emailAddress)

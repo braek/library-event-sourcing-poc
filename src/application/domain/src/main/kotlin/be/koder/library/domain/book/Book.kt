@@ -18,12 +18,12 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         return id
     }
 
-    fun getTitle(): Title {
-        return title
-    }
-
-    fun getIsbn(): Isbn {
-        return isbn
+    fun takeSnapshot(): BookSnapshot {
+        return BookSnapshot(
+            id,
+            isbn,
+            title
+        )
     }
 
     override fun dispatch(event: Event) {

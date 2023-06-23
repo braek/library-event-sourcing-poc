@@ -51,6 +51,17 @@ class CreateAuthorUseCaseTest {
                 .isEqualTo(listOf(AuthorCreated(EventId.createNew(), Timestamp.now(), authorId!!, firstName, lastName, emailAddress)))
         }
 
+        @Test
+        @DisplayName("it should be saved")
+        fun bookSaved() {
+            val author = authorRepository.get(authorId!!).map { it.takeSnapshot() }.orElseThrow()
+            assertThat(author.id).isNotNull()
+            assertThat(author.firstName).isEqualTo(firstName)
+            assertThat(author.lastName).isEqualTo(lastName)
+            assertThat(author.emailAddress).isEqualTo(emailAddress)
+
+        }
+
         override fun created(authorId: AuthorId) {
             this.createdCalled = true
             this.authorId = authorId
@@ -72,7 +83,7 @@ class CreateAuthorUseCaseTest {
 
         @BeforeEach
         fun setup() {
-            eventStore.append(EventStream(AuthorCreated(EventId.createNew(), Timestamp.now(), AuthorId.createNew(), firstName, lastName, emailAddress)),)
+            eventStore.append(EventStream(AuthorCreated(EventId.createNew(), Timestamp.now(), AuthorId.createNew(), firstName, lastName, emailAddress)))
             useCase.createAuthor(firstName, lastName, emailAddress, this)
         }
 

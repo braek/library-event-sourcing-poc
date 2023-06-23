@@ -53,10 +53,10 @@ class CreateBookUseCaseTest {
         @Test
         @DisplayName("it should be saved")
         fun bookSaved() {
-            val book = bookRepository.get(createdBookId!!).orElseThrow()
-            assertThat(book.getId()).isNotNull()
-            assertThat(book.getTitle()).isEqualTo(title)
-            assertThat(book.getIsbn()).isEqualTo(isbn)
+            val book = bookRepository.get(createdBookId!!).map { it.takeSnapshot() }.orElseThrow()
+            assertThat(book.id).isNotNull()
+            assertThat(book.title).isEqualTo(title)
+            assertThat(book.isbn).isEqualTo(isbn)
         }
 
         override fun created(bookId: BookId) {
