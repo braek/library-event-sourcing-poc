@@ -1,9 +1,9 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:6000/sandbox
-    username: sandbox
-    password: sandbox
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: none
+be:
+  koder:
+    library:
+      rdbms:
+        enabled: true
+        url: jdbc:postgresql://localhost:6000/sandbox
+        username: sandbox
+        password: sandbox
+        driver-class-name: org.postgresql.Driver
