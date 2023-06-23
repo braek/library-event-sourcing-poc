@@ -15,11 +15,11 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
     override fun alreadyInUse(emailAddress: EmailAddress, exclude: AuthorId): Boolean {
         val stack = buildEmailAddressStack()
         stack.remove(exclude)
-        return stack.values.contains(emailAddress)
+        return stack.containsValue(emailAddress)
     }
 
     override fun alreadyInUse(emailAddress: EmailAddress): Boolean {
-        return buildEmailAddressStack().values.contains(emailAddress)
+        return buildEmailAddressStack().containsValue(emailAddress)
     }
 
     private fun buildEmailAddressStack(): MutableMap<AuthorId, EmailAddress> {

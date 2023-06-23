@@ -2,10 +2,7 @@ package be.koder.library.usecase.book
 
 import be.koder.library.api.book.CreateBookPresenter
 import be.koder.library.domain.book.event.BookCreated
-import be.koder.library.test.InMemoryBookRepository
-import be.koder.library.test.InMemoryEventStore
-import be.koder.library.test.InMemoryEventPublisher
-import be.koder.library.test.TestUtils
+import be.koder.library.test.*
 import be.koder.library.vocabulary.book.BookId
 import be.koder.library.vocabulary.book.Isbn
 import be.koder.library.vocabulary.book.Title
@@ -53,6 +50,15 @@ class CreateBookUseCaseTest {
                 .isEqualTo(listOf(BookCreated(createdBookId!!, title, isbn)))
         }
 
+        @Test
+        @DisplayName("it should be saved")
+        fun bookSaved() {
+            val book = bookRepository.get(createdBookId!!).orElseThrow()
+            assertThat(book.getId()).isNotNull()
+            assertThat(book.getTitle()).isEqualTo(title)
+            assertThat(book.getIsbn()).isEqualTo(isbn)
+        }
+
         override fun created(bookId: BookId) {
             createdCalled = true
             createdBookId = bookId
@@ -66,13 +72,29 @@ class CreateBookUseCaseTest {
     @Nested
     @DisplayName("when ISBN already in use")
     inner class TestWhenIsbnAlreadyInUse : CreateBookPresenter {
-        override fun created(bookId: BookId) {
-            TODO("Not yet implemented")
+
+        private var isbnAlreadyInUseCalled: Boolean = false
+        private val title = Title.fromString("Domain-Driven Design")
+        private val isbn = Isbn.fromString("9780321125217")
+
+        @BeforeEach
+        fun setup() {
+            useCase.createBook(title, isbn, MockCreateBookPresenter())
+            useCase.createBook(title, isbn, this)
+        }
+
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertTrue(isbnAlreadyInUseCalled)
         }
 
         override fun isbnAlreadyInUse(isbn: Isbn) {
-            TODO("Not yet implemented")
+            isbnAlreadyInUseCalled = true
         }
 
+        override fun created(bookId: BookId) {
+            TestUtils.fail()
+        }
     }
 }

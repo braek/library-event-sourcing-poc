@@ -18,6 +18,14 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         return id
     }
 
+    fun getTitle(): Title {
+        return title
+    }
+
+    fun getIsbn(): Isbn {
+        return isbn
+    }
+
     override fun dispatch(event: Event) {
         if (event is BookCreated) {
             exec(event)
