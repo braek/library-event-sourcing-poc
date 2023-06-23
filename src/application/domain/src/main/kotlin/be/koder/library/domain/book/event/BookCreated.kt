@@ -1,6 +1,7 @@
 package be.koder.library.domain.book.event
 
 import be.koder.library.domain.event.Event
+import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.book.BookId
 import be.koder.library.vocabulary.book.Isbn
 import be.koder.library.vocabulary.book.Title
@@ -14,24 +15,27 @@ data class BookCreated internal constructor(
     override val tags: Set<AggregateId>,
     val bookId: BookId,
     val title: Title,
-    val isbn: Isbn
+    val isbn: Isbn,
+    val author: AuthorId
 ) : Event {
 
-    constructor(bookId: BookId, title: Title, isbn: Isbn) : this(
+    constructor(bookId: BookId, title: Title, isbn: Isbn, author: AuthorId) : this(
         EventId.createNew(),
         Timestamp.now(),
         setOf(bookId),
         bookId,
         title,
-        isbn
+        isbn,
+        author
     )
 
-    constructor(id: EventId, occurredOn: Timestamp, bookId: BookId, title: Title, isbn: Isbn) : this(
+    constructor(id: EventId, occurredOn: Timestamp, bookId: BookId, title: Title, isbn: Isbn, author: AuthorId) : this(
         id,
         occurredOn,
         setOf(bookId),
         bookId,
         title,
-        isbn
+        isbn,
+        author
     )
 }

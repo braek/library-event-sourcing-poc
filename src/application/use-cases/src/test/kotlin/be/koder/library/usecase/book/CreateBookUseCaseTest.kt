@@ -3,6 +3,7 @@ package be.koder.library.usecase.book
 import be.koder.library.api.book.CreateBookPresenter
 import be.koder.library.domain.book.event.BookCreated
 import be.koder.library.test.*
+import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.book.BookId
 import be.koder.library.vocabulary.book.Isbn
 import be.koder.library.vocabulary.book.Title
@@ -29,11 +30,12 @@ class CreateBookUseCaseTest {
         private var createdBookId: BookId? = null
         private val title = Title.fromString("Domain-Driven Design")
         private val isbn = Isbn.fromString("9780321125217")
+        private val author = AuthorId.createNew()
 
         @BeforeEach
         fun setup() {
             useCase.createBook(
-                title, isbn, this
+                title, isbn, author, this
             )
         }
 
@@ -47,7 +49,7 @@ class CreateBookUseCaseTest {
         @DisplayName("it should publish an event")
         fun eventPublished() {
             assertThat(eventPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn")
-                .isEqualTo(listOf(BookCreated(createdBookId!!, title, isbn)))
+                .isEqualTo(listOf(BookCreated(createdBookId!!, title, isbn, author)))
         }
 
         @Test
@@ -57,6 +59,7 @@ class CreateBookUseCaseTest {
             assertThat(book.id).isNotNull()
             assertThat(book.title).isEqualTo(title)
             assertThat(book.isbn).isEqualTo(isbn)
+            assertThat(book.authors).isEqualTo(setOf(author))
         }
 
         override fun created(bookId: BookId) {
@@ -76,12 +79,13 @@ class CreateBookUseCaseTest {
         private var isbnAlreadyInUseCalled: Boolean = false
         private val title = Title.fromString("Domain-Driven Design")
         private val isbn = Isbn.fromString("9780321125217")
+        private val author = AuthorId.createNew()
 
         @BeforeEach
         fun setup() {
-            useCase.createBook(title, isbn, MockCreateBookPresenter())
+            useCase.createBook(title, isbn, author, MockCreateBookPresenter())
             eventPublisher.clear()
-            useCase.createBook(title, isbn, this)
+            useCase.createBook(title, isbn, author, this)
         }
 
         @Test

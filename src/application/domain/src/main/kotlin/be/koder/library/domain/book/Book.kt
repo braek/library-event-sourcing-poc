@@ -4,6 +4,7 @@ import be.koder.library.domain.aggregate.EventSourcedAggregate
 import be.koder.library.domain.book.event.BookCreated
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
+import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.book.BookId
 import be.koder.library.vocabulary.book.Isbn
 import be.koder.library.vocabulary.book.Title
@@ -13,6 +14,7 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
     private lateinit var id: BookId
     private lateinit var title: Title
     private lateinit var isbn: Isbn
+    private lateinit var authors: MutableSet<AuthorId>
 
     override fun getId(): BookId {
         return id
@@ -20,9 +22,7 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     fun takeSnapshot(): BookSnapshot {
         return BookSnapshot(
-            id,
-            isbn,
-            title
+            id, isbn, title, authors.toSet()
         )
     }
 
@@ -36,13 +36,15 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         this.id = event.bookId
         this.title = event.title
         this.isbn = event.isbn
+        this.authors = mutableSetOf()
+        this.authors.add(event.author)
     }
 
     companion object {
         @JvmStatic
-        fun create(title: Title, isbn: Isbn): Book {
+        fun create(title: Title, isbn: Isbn, author: AuthorId): Book {
             val book = Book(EventStream.empty())
-            book.apply(BookCreated(BookId.createNew(), title, isbn))
+            book.apply(BookCreated(BookId.createNew(), title, isbn, author))
             return book
         }
     }
