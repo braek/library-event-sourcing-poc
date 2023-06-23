@@ -12,11 +12,9 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ContextConfiguration
 
 @SpringBootTest
 @DisplayName("Given an RDBMS event store")
-@ContextConfiguration(initializers = [TestBeanConfig::class])
 class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventStore) {
 
     @Nested
@@ -28,13 +26,15 @@ class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventSt
         @DisplayName("it should be stored successfully")
         fun eventStored(event: Event) {
             val eventStream = EventStream(event)
-            eventStore.append(eventStream, )
-            val persistedEventStream = eventStore.query(EventStreamQuery(
-                event.tags,
-                setOf(
-                    event.javaClass.simpleName
+            eventStore.append(eventStream)
+            val persistedEventStream = eventStore.query(
+                EventStreamQuery(
+                    event.tags,
+                    setOf(
+                        event.javaClass.simpleName
+                    )
                 )
-            ))
+            )
             assertThat(persistedEventStream).isEqualTo(eventStream)
         }
     }
