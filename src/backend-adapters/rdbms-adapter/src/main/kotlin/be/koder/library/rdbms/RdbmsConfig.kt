@@ -1,5 +1,7 @@
 package be.koder.library.rdbms
 
+import be.koder.library.domain.event.EventStore
+import be.koder.library.rdbms.event.RdbmsEventStore
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.conf.Settings
@@ -51,5 +53,10 @@ open class RdbmsConfig {
         config.set(connectionProvider)
         config.setSettings(Settings().withExecuteWithOptimisticLocking(true).withExecuteWithOptimisticLockingExcludeUnversioned(true))
         return DefaultDSLContext(config)
+    }
+
+    @Bean
+    open fun eventStore(dsl: DSLContext): EventStore {
+        return RdbmsEventStore(dsl)
     }
 }
