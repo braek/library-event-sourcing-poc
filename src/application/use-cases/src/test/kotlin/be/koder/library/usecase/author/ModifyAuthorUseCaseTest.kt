@@ -26,8 +26,8 @@ class ModifyAuthorUseCaseTest {
 
     private val eventStore = InMemoryEventStore()
     private val authorRepository = InMemoryAuthorRepository(eventStore)
-    private val eventStreamPublisher = InMemoryEventPublisher()
-    private val useCase = ModifyAuthorUseCase(authorRepository, authorRepository, eventStreamPublisher)
+    private val eventPublisher = InMemoryEventPublisher()
+    private val useCase = ModifyAuthorUseCase(authorRepository, authorRepository, eventPublisher)
 
     @Nested
     @DisplayName("when Author modified successfully")
@@ -70,7 +70,7 @@ class ModifyAuthorUseCaseTest {
         @Test
         @DisplayName("it should publish an event")
         fun eventPublished() {
-            assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(
+            assertThat(eventPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(
                 listOf(
                     AuthorModified(EventId.createNew(), Timestamp.now(), authorId, firstName, lastName, emailAddress)
                 )
@@ -112,7 +112,7 @@ class ModifyAuthorUseCaseTest {
         @Test
         @DisplayName("it should not publish events")
         fun noEventsPublished() {
-            assertThat(eventStreamPublisher.getPublishedEvents()).isEmpty()
+            assertThat(eventPublisher.getPublishedEvents()).isEmpty()
         }
 
         override fun modified(authorId: AuthorId) {
@@ -172,7 +172,7 @@ class ModifyAuthorUseCaseTest {
         @Test
         @DisplayName("it should not publish events")
         fun noEventsPublished() {
-            assertThat(eventStreamPublisher.getPublishedEvents()).isEmpty()
+            assertThat(eventPublisher.getPublishedEvents()).isEmpty()
         }
 
         override fun modified(authorId: AuthorId) {

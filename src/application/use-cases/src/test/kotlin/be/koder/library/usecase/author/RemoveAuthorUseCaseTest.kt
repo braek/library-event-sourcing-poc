@@ -26,8 +26,8 @@ class RemoveAuthorUseCaseTest {
 
     private val eventStore = InMemoryEventStore()
     private val authorRepository = InMemoryAuthorRepository(eventStore)
-    private val eventStreamPublisher = InMemoryEventPublisher()
-    private val useCase = RemoveAuthorUseCase(authorRepository, eventStreamPublisher)
+    private val eventPublisher = InMemoryEventPublisher()
+    private val useCase = RemoveAuthorUseCase(authorRepository, eventPublisher)
 
     @Nested
     @DisplayName("when Author removed successfully")
@@ -64,7 +64,7 @@ class RemoveAuthorUseCaseTest {
         @Test
         @DisplayName("it should publish an event")
         fun eventPublished() {
-            assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(
+            assertThat(eventPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(
                 listOf(
                     AuthorRemoved(EventId.createNew(), Timestamp.now(), authorId)
                 )

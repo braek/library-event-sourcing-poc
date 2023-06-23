@@ -19,8 +19,8 @@ class CreateAuthorUseCaseTest {
 
     private val eventStore = InMemoryEventStore()
     private val authorRepository = InMemoryAuthorRepository(eventStore)
-    private val eventStreamPublisher = InMemoryEventPublisher()
-    private val useCase = CreateAuthorUseCase(authorRepository, eventStreamPublisher, authorRepository)
+    private val eventPublisher = InMemoryEventPublisher()
+    private val useCase = CreateAuthorUseCase(authorRepository, eventPublisher, authorRepository)
 
     @Nested
     @DisplayName("when Author created successfully")
@@ -47,7 +47,7 @@ class CreateAuthorUseCaseTest {
         @Test
         @DisplayName("it should publish an event")
         fun eventsPublished() {
-            assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn")
+            assertThat(eventPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn")
                 .isEqualTo(listOf(AuthorCreated(EventId.createNew(), Timestamp.now(), authorId!!, firstName, lastName, emailAddress)))
         }
 
@@ -95,7 +95,7 @@ class CreateAuthorUseCaseTest {
         @Test
         @DisplayName("it should not publish events")
         fun noEventsPublished() {
-            assertThat(eventStreamPublisher.getPublishedEvents()).isEmpty()
+            assertThat(eventPublisher.getPublishedEvents()).isEmpty()
         }
 
         override fun created(authorId: AuthorId) {

@@ -18,8 +18,8 @@ class CreateBookUseCaseTest {
 
     private val eventStore = InMemoryEventStore()
     private val bookRepository = InMemoryBookRepository(eventStore)
-    private val eventStreamPublisher = InMemoryEventPublisher()
-    private val useCase = CreateBookUseCase(bookRepository, eventStreamPublisher, bookRepository)
+    private val eventPublisher = InMemoryEventPublisher()
+    private val useCase = CreateBookUseCase(bookRepository, eventPublisher, bookRepository)
 
     @Nested
     @DisplayName("when Book created successfully")
@@ -46,7 +46,7 @@ class CreateBookUseCaseTest {
         @Test
         @DisplayName("it should publish an event")
         fun eventPublished() {
-            assertThat(eventStreamPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn")
+            assertThat(eventPublisher.getPublishedEvents()).usingRecursiveComparison().ignoringFields("id", "occurredOn")
                 .isEqualTo(listOf(BookCreated(createdBookId!!, title, isbn)))
         }
 
