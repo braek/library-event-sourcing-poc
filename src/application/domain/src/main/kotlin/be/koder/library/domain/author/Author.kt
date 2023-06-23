@@ -63,18 +63,6 @@ class Author(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         presenter.modified(id)
     }
 
-    fun getFirstName(): FirstName {
-        return firstName
-    }
-
-    fun getLastName(): LastName {
-        return lastName
-    }
-
-    fun getEmailAddress(): EmailAddress {
-        return emailAddress
-    }
-
     fun remove() {
         apply(AuthorRemoved(id))
     }

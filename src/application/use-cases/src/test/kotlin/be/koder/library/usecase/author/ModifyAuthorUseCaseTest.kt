@@ -60,11 +60,11 @@ class ModifyAuthorUseCaseTest {
         @Test
         @DisplayName("it should change the state")
         fun stateChanged() {
-            var actualState = authorRepository.get(authorId).orElseThrow()
-            assertThat(actualState.getId()).isEqualTo(authorId)
-            assertThat(actualState.getFirstName()).isEqualTo(firstName)
-            assertThat(actualState.getLastName()).isEqualTo(lastName)
-            assertThat(actualState.getEmailAddress()).isEqualTo(emailAddress)
+            var actualState = authorRepository.get(authorId).map { it.takeSnapshot() }.orElseThrow()
+            assertThat(actualState.id).isEqualTo(authorId)
+            assertThat(actualState.firstName).isEqualTo(firstName)
+            assertThat(actualState.lastName).isEqualTo(lastName)
+            assertThat(actualState.emailAddress).isEqualTo(emailAddress)
         }
 
         @Test
