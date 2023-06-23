@@ -86,4 +86,30 @@ class RemoveAuthorUseCaseTest {
             TestUtils.fail()
         }
     }
+
+    @Nested
+    @DisplayName("when non-existing Author removed")
+    inner class TestNonExistingAuthorRemoved : RemoveAuthorPresenter {
+
+        private var authorNotFoundCalled: Boolean = false
+
+        @BeforeEach
+        fun setup() {
+            useCase.removeAuthor(AuthorId.createNew(), this)
+        }
+
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertTrue(authorNotFoundCalled)
+        }
+
+        override fun removed(authorId: AuthorId) {
+            TestUtils.fail()
+        }
+
+        override fun authorNotFound() {
+            authorNotFoundCalled = true
+        }
+    }
 }
