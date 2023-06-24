@@ -3,6 +3,7 @@ package be.koder.library.domain.aggregate
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
 import be.koder.library.vocabulary.event.EventId
+import java.util.Objects.isNull
 import kotlin.collections.ArrayList
 
 abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
@@ -37,4 +38,11 @@ abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
     }
 
     protected abstract fun dispatch(event: Event)
+
+    fun eventStreamChanged(lastEventId: EventId?): Boolean {
+        if(isNull(getLastEventId())) {
+            return false
+        }
+        return getLastEventId() != lastEventId
+    }
 }

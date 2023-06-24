@@ -21,7 +21,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
         if (aggregate.noStateChanges()) {
             return
         }
-        if (aggregate.getLastEventId() != getLastEventId(aggregate.getId())) {
+        if (aggregate.eventStreamChanged(getLastEventId(aggregate.getId()))) {
             throw EventStreamChangedException(aggregate.getLastEventId()!!)
         }
         append(aggregate.getMutations())
