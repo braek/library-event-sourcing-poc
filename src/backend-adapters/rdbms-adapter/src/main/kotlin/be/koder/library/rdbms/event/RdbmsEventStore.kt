@@ -6,6 +6,8 @@ import be.koder.library.domain.event.EventStreamQuery
 import be.koder.library.rdbms.event.json.EventJsonMapper
 import be.koder.library.rdbms.tables.records.EventStoreRecord
 import be.koder.library.rdbms.tables.references.EVENT_STORE
+import be.koder.library.vocabulary.domain.AggregateId
+import be.koder.library.vocabulary.event.EventId
 import org.jooq.DSLContext
 import org.springframework.transaction.annotation.Transactional
 import java.util.stream.Collectors
@@ -13,7 +15,7 @@ import java.util.stream.Collectors
 @Transactional
 open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
-    override fun append(mutations: EventStream) {
+    override fun append(aggregateId: AggregateId, mutations: EventStream, lastEventId: EventId?) {
         val records = mutableListOf<EventStoreRecord>()
         mutations.forEach {
             records.add(EventRecordMapper.map(it, dsl))

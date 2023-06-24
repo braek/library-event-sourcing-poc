@@ -71,14 +71,6 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
     }
 
     override fun save(aggregate: Author) {
-        if (aggregate.hasNoMutations()) {
-            return
-        }
-        get(aggregate.getId()).ifPresent {
-            if (aggregate.differsFromOrigin(it)) {
-                throw RuntimeException("Optimistic Locking Exception")
-            }
-        }
-        eventStore.append(aggregate.getMutations())
+        eventStore.append(aggregate.getId(), aggregate.getMutations(), aggregate.getLastEventId())
     }
 }

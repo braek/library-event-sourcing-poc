@@ -27,7 +27,7 @@ class InMemoryBookRepository(private val eventStore: InMemoryEventStore) : BookR
                 throw RuntimeException("Optimistic Locking Exception")
             }
         }
-        eventStore.append(aggregate.getMutations())
+        eventStore.append(aggregate.getMutations(),)
     }
 
     override fun alreadyInUse(isbn: Isbn, exclude: BookId): Boolean {

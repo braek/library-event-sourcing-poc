@@ -64,7 +64,7 @@ class LinkAuthorToBookUseCaseTest {
                         bookIsbn,
                         vaughnVernon
                     )
-                )
+                ),
             )
             useCase.linkAuthorToBook(ericEvans, bookId, this)
         }
@@ -181,7 +181,7 @@ class LinkAuthorToBookUseCaseTest {
                         Isbn.fromString("1234567890"),
                         authorId
                     )
-                )
+                ),
             )
             useCase.linkAuthorToBook(AuthorId.createNew(), bookId, this)
         }
@@ -240,7 +240,7 @@ class LinkAuthorToBookUseCaseTest {
                         Isbn.fromString("9999999999"),
                         author
                     )
-                )
+                ),
             )
             useCase.linkAuthorToBook(author, book, this)
         }
