@@ -16,6 +16,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
         if (aggregate.noStateChanges()) {
             return
         }
+        append(aggregate.getMutations())
     }
 
     override fun append(eventStream: EventStream) {
