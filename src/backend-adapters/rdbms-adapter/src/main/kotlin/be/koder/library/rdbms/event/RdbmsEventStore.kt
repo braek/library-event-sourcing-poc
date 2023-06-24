@@ -3,6 +3,7 @@ package be.koder.library.rdbms.event
 import be.koder.library.domain.aggregate.EventSourcedAggregate
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
+import be.koder.library.domain.event.EventStreamChangedException
 import be.koder.library.rdbms.event.json.EventJsonMapper
 import be.koder.library.rdbms.tables.records.EventStoreRecord
 import be.koder.library.rdbms.tables.references.EVENT_STORE
@@ -21,7 +22,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
             return
         }
         if (aggregate.getLastEventId() != getLastEventId(aggregate.getId())) {
-            throw RuntimeException(String.format("Optimistic Locking Exception: new events were stored after event with ID %s", aggregate.getLastEventId()))
+            throw EventStreamChangedException(aggregate.getLastEventId()!!)
         }
         append(aggregate.getMutations())
     }
