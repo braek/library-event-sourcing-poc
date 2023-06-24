@@ -13,7 +13,7 @@ class InMemoryEventStore : EventStore {
 
     private val events: ArrayList<Event> = ArrayList()
 
-    override fun append(aggregate: EventSourcedAggregate) {
+    override fun save(aggregate: EventSourcedAggregate) {
         if (aggregate.getMutations().isEmpty()) {
             return
         }
