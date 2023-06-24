@@ -10,9 +10,7 @@ import be.koder.library.rdbms.tables.references.EVENT_STORE
 import be.koder.library.vocabulary.domain.AggregateId
 import be.koder.library.vocabulary.event.EventId
 import org.jooq.DSLContext
-import org.jooq.impl.DSL.orderBy
 import org.springframework.transaction.annotation.Transactional
-import java.lang.RuntimeException
 
 @Transactional
 open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
