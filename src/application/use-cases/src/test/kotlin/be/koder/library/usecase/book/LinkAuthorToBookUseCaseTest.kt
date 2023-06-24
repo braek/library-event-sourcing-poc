@@ -21,7 +21,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a use case to link Authors to Books")
+@DisplayName("Given a use case to an link Author to a Book")
 class LinkAuthorToBookUseCaseTest {
 
     private val eventStore: InMemoryEventStore = InMemoryEventStore()
