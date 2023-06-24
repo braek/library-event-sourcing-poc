@@ -1,8 +1,10 @@
 package be.koder.library.domain.book
 
 import be.koder.library.domain.aggregate.EventSourcedAggregate
+import be.koder.library.domain.author.AuthorService
 import be.koder.library.domain.book.event.AuthorLinkedToBook
 import be.koder.library.domain.book.event.BookCreated
+import be.koder.library.domain.book.presenter.LinkAuthorToBookDomainPresenter
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
 import be.koder.library.vocabulary.author.AuthorId
@@ -48,8 +50,13 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         this.authors.add(event.author)
     }
 
-    fun linkAuthor(author: AuthorId) {
-        apply(AuthorLinkedToBook(author, this.id))
+    fun linkAuthor(author: AuthorId, authorService: AuthorService, presenter: LinkAuthorToBookDomainPresenter) {
+        if (authorService.exists(author)) {
+            apply(AuthorLinkedToBook(author, this.id))
+            presenter.linked(author, this.id)
+            return
+        }
+        presenter.authorDoesNotExist(author)
     }
 
     companion object {

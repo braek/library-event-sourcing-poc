@@ -148,4 +148,58 @@ class LinkAuthorToBookUseCaseTest {
             nonExistingBookId = book
         }
     }
+
+    @Nested
+    @DisplayName("when non-existing Author linked to existing Book")
+    inner class TestWhenAuthorDoesNotExist : LinkAuthorToBookPresenter {
+
+        private var authorDoesNotExistCalled = false
+        private val bookId = BookId.createNew()
+
+        @BeforeEach
+        fun setup() {
+            val authorId = AuthorId.createNew()
+            eventStore.append(
+                EventStream(
+                    AuthorCreated(
+                        authorId,
+                        FirstName("Bruce"),
+                        LastName("Wayne"),
+                        EmailAddress("batman@gothamcity.com")
+                    ),
+                    BookCreated(
+                        bookId,
+                        Title.fromString("How to stop the Joker"),
+                        Isbn.fromString("1234567890"),
+                        authorId
+                    )
+                )
+            )
+            useCase.linkAuthorToBook(AuthorId.createNew(), bookId, this)
+        }
+
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertTrue(authorDoesNotExistCalled)
+        }
+
+        @Test
+        @DisplayName("it should not publish events")
+        fun noEventsPublished() {
+            eventPublisher.verifyNoEventsPublished()
+        }
+
+        override fun linked(author: AuthorId, book: BookId) {
+            TestUtils.fail()
+        }
+
+        override fun authorDoesNotExist(author: AuthorId) {
+            authorDoesNotExistCalled = true
+        }
+
+        override fun bookDoesNotExist(book: BookId) {
+            TestUtils.fail()
+        }
+    }
 }
