@@ -59,8 +59,8 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
             presenter.authorAlreadyLinked(author)
             return
         }
-        apply(AuthorLinkedToBook(author, this.id))
-        presenter.linked(author, this.id)
+        apply(AuthorLinkedToBook(author, id))
+        presenter.linked(author, id)
     }
 
     companion object {
