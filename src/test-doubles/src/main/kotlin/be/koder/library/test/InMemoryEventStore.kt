@@ -3,7 +3,6 @@ package be.koder.library.test
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
-import be.koder.library.domain.event.EventStreamQuery
 import be.koder.library.vocabulary.domain.AggregateId
 import be.koder.library.vocabulary.event.EventId
 import java.lang.RuntimeException
@@ -20,11 +19,11 @@ class InMemoryEventStore : EventStore {
         if (lastEventId != getLastEventId(aggregateId)) {
             throw RuntimeException(String.format("Optimistic Locking Exception: new events were appended after event with ID %s", lastEventId))
         }
-        mutations.forEach { events.add(it) }
+        append(mutations)
     }
 
-    override fun query(query: EventStreamQuery): EventStream {
-        TODO("Not yet implemented")
+    override fun append(mutations: EventStream) {
+        mutations.forEach { events.add(it) }
     }
 
     override fun getLastEventId(aggregateId: AggregateId): EventId? {
@@ -35,8 +34,11 @@ class InMemoryEventStore : EventStore {
             .orElse(null)
     }
 
-    fun query(aggregateId: AggregateId): EventStream {
-        return EventStream(events.stream().filter { it.tags.contains(aggregateId) }.collect(Collectors.toList()))
+    override fun query(aggregateId: AggregateId): EventStream {
+        return EventStream(events.stream()
+            .filter { it.tags.contains(aggregateId) }
+            .collect(Collectors.toList())
+        )
     }
 
     fun queryByTypes(vararg types: String): EventStream {

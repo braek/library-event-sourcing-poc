@@ -40,7 +40,6 @@ class RemoveAuthorUseCaseTest {
         @BeforeEach
         fun setup() {
             eventStore.append(
-                ,,
                 EventStream(
                     AuthorCreated(
                         EventId.createNew(),

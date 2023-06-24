@@ -7,7 +7,9 @@ interface EventStore {
 
     fun append(aggregateId: AggregateId, mutations: EventStream, lastEventId: EventId?)
 
-    fun query(query: EventStreamQuery): EventStream
+    fun append(mutations: EventStream)
+
+    fun query(aggregateId: AggregateId): EventStream
 
     fun getLastEventId(aggregateId: AggregateId): EventId?
 }
