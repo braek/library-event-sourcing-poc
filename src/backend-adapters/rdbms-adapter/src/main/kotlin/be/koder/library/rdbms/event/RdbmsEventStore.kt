@@ -55,6 +55,15 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
     }
 
     override fun getLastEventId(aggregateId: AggregateId): EventId? {
-        return null
+        return dsl.select(EVENT_STORE.ID)
+            .from(EVENT_STORE)
+            .where(EVENT_STORE.TAGS.contains(arrayOf(TagMapper.map(aggregateId))))
+            .orderBy(EVENT_STORE.SEQUENCE_ID.desc())
+            .limit(1)
+            .fetchOptional()
+            .map { it.component1() }
+            .map { it.toString() }
+            .map { EventId.fromString(it) }
+            .orElse(null)
     }
 }
