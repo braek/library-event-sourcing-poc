@@ -2,7 +2,6 @@ package be.koder.library.usecase.book
 
 import be.koder.library.api.book.LinkAuthorToBook
 import be.koder.library.api.book.LinkAuthorToBookPresenter
-import be.koder.library.domain.author.Author
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.book.event.AuthorLinkedToBook
 import be.koder.library.domain.book.event.BookCreated
@@ -29,7 +28,7 @@ class LinkAuthorToBookUseCaseTest {
     private val eventPublisher: InMemoryEventPublisher = InMemoryEventPublisher()
     private val authorRepository: InMemoryAuthorRepository = InMemoryAuthorRepository(eventStore)
     private val bookRepository: InMemoryBookRepository = InMemoryBookRepository(eventStore)
-    private val useCase: LinkAuthorToBook = LinkAuthorToBookUseCase(authorRepository, bookRepository, eventPublisher)
+    private val useCase: LinkAuthorToBook = LinkAuthorToBookUseCase(bookRepository, eventPublisher, authorRepository)
 
     @Nested
     @DisplayName("when existing Author linked to existing Book")

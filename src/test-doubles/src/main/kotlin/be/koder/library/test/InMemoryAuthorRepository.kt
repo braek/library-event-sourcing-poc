@@ -2,6 +2,7 @@ package be.koder.library.test
 
 import be.koder.library.domain.author.Author
 import be.koder.library.domain.author.AuthorRepository
+import be.koder.library.domain.author.AuthorService
 import be.koder.library.domain.author.EmailService
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
@@ -10,7 +11,7 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import java.util.*
 
-class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : AuthorRepository, EmailService {
+class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : AuthorRepository, AuthorService, EmailService {
 
     override fun alreadyInUse(emailAddress: EmailAddress, exclude: AuthorId): Boolean {
         val stack = buildEmailAddressStack()
