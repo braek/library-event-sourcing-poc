@@ -2,6 +2,7 @@ package be.koder.library.usecase.book
 
 import be.koder.library.api.book.LinkAuthorToBook
 import be.koder.library.api.book.LinkAuthorToBookPresenter
+import be.koder.library.domain.author.Author
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.book.event.AuthorLinkedToBook
 import be.koder.library.domain.book.event.BookCreated
@@ -106,6 +107,46 @@ class LinkAuthorToBookUseCaseTest {
 
         override fun bookDoesNotExist(book: BookId) {
             TestUtils.fail()
+        }
+    }
+
+    @Nested
+    @DisplayName("when Author linked to non-existing Book")
+    inner class TestWhenBookDoesNotExist : LinkAuthorToBookPresenter {
+
+        private var nonExistingBookId: BookId? = null
+        private var bookDoesNotExistCalled = false
+        private val bookId = BookId.createNew()
+
+        @BeforeEach
+        fun setup() {
+            useCase.linkAuthorToBook(AuthorId.createNew(), bookId, this)
+        }
+
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertTrue(bookDoesNotExistCalled)
+            assertThat(nonExistingBookId).isEqualTo(bookId)
+        }
+
+        @Test
+        @DisplayName("it should not publish events")
+        fun noEventsPublished() {
+            eventPublisher.verifyNoEventsPublished()
+        }
+
+        override fun linked(author: AuthorId, book: BookId) {
+            TestUtils.fail()
+        }
+
+        override fun authorDoesNotExist(author: AuthorId) {
+            TestUtils.fail()
+        }
+
+        override fun bookDoesNotExist(book: BookId) {
+            bookDoesNotExistCalled = true
+            nonExistingBookId = book
         }
     }
 }

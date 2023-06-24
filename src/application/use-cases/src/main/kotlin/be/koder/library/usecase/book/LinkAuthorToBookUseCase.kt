@@ -21,11 +21,13 @@ class LinkAuthorToBookUseCase(
     }
 
     override fun execute(command: LinkAuthorToBookCommand, presenter: LinkAuthorToBookPresenter) {
-        bookRepository.get(command.book).ifPresent {
+        bookRepository.get(command.book).ifPresentOrElse({
             it.linkAuthor(command.author)
             bookRepository.save(it)
             eventPublisher.publish(it.getMutations())
             presenter.linked(command.author, command.book)
+        }) {
+            presenter.bookDoesNotExist(command.book)
         }
     }
 }

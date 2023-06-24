@@ -36,6 +36,10 @@ class InMemoryEventPublisher : EventPublisher {
         assertThat(publishedEvents).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(expectedEvents.toList())
     }
 
+    fun verifyNoEventsPublished() {
+        assertThat(publishedEvents.size).isEqualTo(0)
+    }
+
     fun clear() {
         publishedEvents.clear()
     }
