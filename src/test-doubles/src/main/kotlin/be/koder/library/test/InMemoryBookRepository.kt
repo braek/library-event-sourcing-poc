@@ -34,7 +34,7 @@ class InMemoryBookRepository(private val eventStore: InMemoryEventStore) : BookR
 
     private fun buildIsbnStack(): MutableMap<BookId, Isbn> {
         val stack: MutableMap<BookId, Isbn> = mutableMapOf()
-        val eventStream = eventStore.queryByTypes(
+        val eventStream = eventStore.query(
             BookCreated::class.simpleName!!
         )
         eventStream.stream()

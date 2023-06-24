@@ -25,7 +25,7 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
 
     private fun buildEmailAddressStack(): MutableMap<AuthorId, EmailAddress> {
         val stack: MutableMap<AuthorId, EmailAddress> = mutableMapOf()
-        val eventStream = eventStore.queryByTypes(
+        val eventStream = eventStore.query(
             AuthorCreated::class.simpleName!!,
             AuthorModified::class.simpleName!!,
             AuthorRemoved::class.simpleName!!
@@ -47,7 +47,7 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
 
     override fun exists(authorId: AuthorId): Boolean {
         val stack: MutableSet<AuthorId> = mutableSetOf()
-        val eventStream = eventStore.queryByTypes(
+        val eventStream = eventStore.query(
             AuthorCreated::class.simpleName!!,
             AuthorRemoved::class.simpleName!!
         )

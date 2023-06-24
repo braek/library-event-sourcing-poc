@@ -42,7 +42,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
         return EventStream.empty()
     }
 
-    override fun queryByTypes(vararg types: String): EventStream {
+    override fun query(vararg types: String): EventStream {
         TODO("Not yet implemented")
     }
 
