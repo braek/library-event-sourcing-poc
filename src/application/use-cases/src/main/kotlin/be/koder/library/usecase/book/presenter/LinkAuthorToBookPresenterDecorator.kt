@@ -11,6 +11,10 @@ class LinkAuthorToBookPresenterDecorator(private val presenter: LinkAuthorToBook
         presenter.linked(author, book)
     }
 
+    override fun authorAlreadyLinked(author: AuthorId) {
+        presenter.authorAlreadyLinked(author)
+    }
+
     override fun authorDoesNotExist(author: AuthorId) {
         presenter.authorDoesNotExist(author)
     }

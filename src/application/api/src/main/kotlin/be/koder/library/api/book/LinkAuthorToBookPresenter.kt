@@ -7,6 +7,8 @@ interface LinkAuthorToBookPresenter {
 
     fun linked(author: AuthorId, book: BookId)
 
+    fun authorAlreadyLinked(author: AuthorId)
+
     fun authorDoesNotExist(author: AuthorId)
 
     fun bookDoesNotExist(book: BookId)

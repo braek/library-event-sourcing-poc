@@ -52,6 +52,10 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
 
     fun linkAuthor(author: AuthorId, authorService: AuthorService, presenter: LinkAuthorToBookDomainPresenter) {
         if (authorService.exists(author)) {
+            if (authors.contains(author)) {
+                presenter.authorAlreadyLinked(author)
+                return
+            }
             apply(AuthorLinkedToBook(author, this.id))
             presenter.linked(author, this.id)
             return

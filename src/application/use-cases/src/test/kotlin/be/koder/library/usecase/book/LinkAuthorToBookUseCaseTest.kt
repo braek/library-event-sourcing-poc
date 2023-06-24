@@ -100,6 +100,10 @@ class LinkAuthorToBookUseCaseTest {
             linkedCalled = true;
         }
 
+        override fun authorAlreadyLinked(author: AuthorId) {
+            TestUtils.fail()
+        }
+
         override fun authorDoesNotExist(author: AuthorId) {
             TestUtils.fail()
         }
@@ -136,6 +140,10 @@ class LinkAuthorToBookUseCaseTest {
         }
 
         override fun linked(author: AuthorId, book: BookId) {
+            TestUtils.fail()
+        }
+
+        override fun authorAlreadyLinked(author: AuthorId) {
             TestUtils.fail()
         }
 
@@ -194,6 +202,10 @@ class LinkAuthorToBookUseCaseTest {
             TestUtils.fail()
         }
 
+        override fun authorAlreadyLinked(author: AuthorId) {
+            TestUtils.fail()
+        }
+
         override fun authorDoesNotExist(author: AuthorId) {
             authorDoesNotExistCalled = true
         }
@@ -201,5 +213,66 @@ class LinkAuthorToBookUseCaseTest {
         override fun bookDoesNotExist(book: BookId) {
             TestUtils.fail()
         }
+    }
+
+    @Nested
+    @DisplayName("when Author already linked to Book")
+    inner class TestWhenAuthorAlreadyLinkedToBook : LinkAuthorToBookPresenter {
+
+        private var authorAlreadyLinkedCalled = false
+
+        private val author = AuthorId.createNew()
+        private val book = BookId.createNew()
+
+        @BeforeEach
+        fun setup() {
+            eventStore.append(
+                EventStream(
+                    AuthorCreated(
+                        author,
+                        FirstName("Vaughn"),
+                        LastName("Vernon"),
+                        EmailAddress("vaughn.vernon@ddd.com")
+                    ),
+                    BookCreated(
+                        book,
+                        Title.fromString("DDD"),
+                        Isbn.fromString("9999999999"),
+                        author
+                    )
+                )
+            )
+            useCase.linkAuthorToBook(author, book, this)
+        }
+
+        @Test
+        @DisplayName("it should provide feedback")
+        fun feedbackProvided() {
+            assertTrue(authorAlreadyLinkedCalled)
+        }
+
+        @Test
+        @DisplayName("it should not publish events")
+        fun noEventsPublished() {
+            eventPublisher.verifyNoEventsPublished()
+        }
+
+
+        override fun linked(author: AuthorId, book: BookId) {
+            TestUtils.fail()
+        }
+
+        override fun authorAlreadyLinked(author: AuthorId) {
+            authorAlreadyLinkedCalled = true
+        }
+
+        override fun authorDoesNotExist(author: AuthorId) {
+            TestUtils.fail()
+        }
+
+        override fun bookDoesNotExist(book: BookId) {
+            TestUtils.fail()
+        }
+
     }
 }
