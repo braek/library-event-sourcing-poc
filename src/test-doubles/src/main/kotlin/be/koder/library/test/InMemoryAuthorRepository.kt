@@ -71,6 +71,6 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
     }
 
     override fun save(aggregate: Author) {
-        eventStore.append(aggregate.getId())
+        eventStore.append(aggregate)
     }
 }
