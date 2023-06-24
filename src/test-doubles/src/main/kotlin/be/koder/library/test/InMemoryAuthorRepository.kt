@@ -44,6 +44,23 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
         return stack
     }
 
+    override fun exists(authorId: AuthorId): Boolean {
+        val stack: MutableSet<AuthorId> = mutableSetOf()
+        val eventStream = eventStore.queryByTypes(
+            AuthorCreated::class.simpleName!!,
+            AuthorRemoved::class.simpleName!!
+        )
+        eventStream.stream()
+            .filter { it is AuthorCreated }
+            .map { it as AuthorCreated }
+            .forEach { stack.add(it.authorId) }
+        eventStream.stream()
+            .filter { it is AuthorRemoved }
+            .map { it as AuthorRemoved }
+            .forEach { stack.remove(it.authorId) }
+        return stack.contains(authorId)
+    }
+
     override fun get(id: AuthorId): Optional<Author> {
         val eventStream = eventStore.query(id)
         if (eventStream.isEmpty() || eventStream.containsEventOfType(AuthorRemoved::class.simpleName!!)) {

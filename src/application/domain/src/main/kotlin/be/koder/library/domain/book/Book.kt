@@ -1,6 +1,7 @@
 package be.koder.library.domain.book
 
 import be.koder.library.domain.aggregate.EventSourcedAggregate
+import be.koder.library.domain.book.event.AuthorLinkedToBook
 import be.koder.library.domain.book.event.BookCreated
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream
@@ -30,6 +31,9 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         if (event is BookCreated) {
             exec(event)
         }
+        if (event is AuthorLinkedToBook) {
+            exec(event)
+        }
     }
 
     private fun exec(event: BookCreated) {
@@ -38,6 +42,14 @@ class Book(eventStream: EventStream) : EventSourcedAggregate(eventStream) {
         this.isbn = event.isbn
         this.authors = mutableSetOf()
         this.authors.add(event.author)
+    }
+
+    private fun exec(event: AuthorLinkedToBook) {
+        this.authors.add(event.author)
+    }
+
+    fun linkAuthor(author: AuthorId) {
+        apply(AuthorLinkedToBook(author, this.id))
     }
 
     companion object {

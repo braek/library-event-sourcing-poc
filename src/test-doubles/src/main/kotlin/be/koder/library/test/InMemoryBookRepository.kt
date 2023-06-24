@@ -3,6 +3,7 @@ package be.koder.library.test
 import be.koder.library.domain.book.Book
 import be.koder.library.domain.book.BookRepository
 import be.koder.library.domain.book.IsbnService
+import be.koder.library.domain.book.event.AuthorLinkedToBook
 import be.koder.library.domain.book.event.BookCreated
 import be.koder.library.vocabulary.book.BookId
 import be.koder.library.vocabulary.book.Isbn

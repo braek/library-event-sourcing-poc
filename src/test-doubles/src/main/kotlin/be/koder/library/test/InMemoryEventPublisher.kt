@@ -4,6 +4,7 @@ import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventHandler
 import be.koder.library.domain.event.EventStream
 import be.koder.library.domain.event.EventPublisher
+import org.assertj.core.api.AssertionsForClassTypes.assertThat
 
 class InMemoryEventPublisher : EventPublisher {
 
@@ -29,6 +30,10 @@ class InMemoryEventPublisher : EventPublisher {
 
     fun getPublishedEvents(): List<Event> {
         return publishedEvents.toList()
+    }
+
+    fun verifyPublishedEvents(vararg expectedEvents: Event) {
+        assertThat(publishedEvents).usingRecursiveComparison().ignoringFields("id", "occurredOn").isEqualTo(expectedEvents.toList())
     }
 
     fun clear() {
