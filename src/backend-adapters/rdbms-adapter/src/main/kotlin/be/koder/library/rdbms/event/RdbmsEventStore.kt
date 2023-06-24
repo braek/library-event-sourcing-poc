@@ -12,19 +12,18 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
-    override fun save(aggregate: EventSourcedAggregate) {
-        if(aggregate.noStateChanges()) {
+    override fun appendMutations(aggregate: EventSourcedAggregate) {
+        if (aggregate.noStateChanges()) {
             return
         }
+    }
+
+    override fun append(eventStream: EventStream) {
         val records = mutableListOf<EventStoreRecord>()
-        aggregate.getMutations().forEach {
+        eventStream.forEach {
             records.add(EventRecordMapper.map(it, dsl))
         }
         dsl.batchInsert(records).execute()
-    }
-
-    override fun append(mutations: EventStream) {
-        TODO("Not yet implemented")
     }
 
     override fun query(aggregateId: AggregateId): EventStream {

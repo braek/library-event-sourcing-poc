@@ -19,7 +19,7 @@ class InMemoryBookRepository(private val eventStore: InMemoryEventStore) : BookR
     }
 
     override fun save(aggregate: Book) {
-        eventStore.save(aggregate)
+        eventStore.appendMutations(aggregate)
     }
 
     override fun alreadyInUse(isbn: Isbn, exclude: BookId): Boolean {

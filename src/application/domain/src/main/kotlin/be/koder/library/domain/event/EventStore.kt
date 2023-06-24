@@ -6,7 +6,7 @@ import be.koder.library.vocabulary.event.EventId
 
 interface EventStore {
 
-    fun save(aggregate: EventSourcedAggregate)
+    fun appendMutations(aggregate: EventSourcedAggregate)
 
     fun append(mutations: EventStream)
 
