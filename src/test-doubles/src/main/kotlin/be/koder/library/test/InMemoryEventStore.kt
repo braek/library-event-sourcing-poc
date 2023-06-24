@@ -23,8 +23,8 @@ class InMemoryEventStore : EventStore {
         append(aggregate.getMutations())
     }
 
-    override fun append(mutations: EventStream) {
-        mutations.forEach { events.add(it) }
+    override fun append(eventStream: EventStream) {
+        eventStream.forEach { events.add(it) }
     }
 
     override fun getLastEventId(aggregateId: AggregateId): EventId? {

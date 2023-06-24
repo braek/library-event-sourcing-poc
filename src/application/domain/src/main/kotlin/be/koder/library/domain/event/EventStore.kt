@@ -8,7 +8,7 @@ interface EventStore {
 
     fun appendMutations(aggregate: EventSourcedAggregate)
 
-    fun append(mutations: EventStream)
+    fun append(eventStream: EventStream)
 
     fun query(aggregateId: AggregateId): EventStream
 
