@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional
 open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
     override fun save(aggregate: EventSourcedAggregate) {
+        if(aggregate.statusQuo()) {
+            return
+        }
         val records = mutableListOf<EventStoreRecord>()
         aggregate.getMutations().forEach {
             records.add(EventRecordMapper.map(it, dsl))
