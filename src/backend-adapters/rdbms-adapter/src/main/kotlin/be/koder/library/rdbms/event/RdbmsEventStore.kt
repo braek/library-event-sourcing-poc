@@ -8,6 +8,7 @@ import be.koder.library.vocabulary.domain.AggregateId
 import be.koder.library.vocabulary.event.EventId
 import org.jooq.DSLContext
 import org.springframework.transaction.annotation.Transactional
+import java.lang.RuntimeException
 
 @Transactional
 open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
@@ -17,7 +18,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
             return
         }
         if (aggregate.getLastEventId() != getLastEventId(aggregate.getId())) {
-            throw RuntimeException()
+            throw RuntimeException(String.format("Optimistic Locking Exception: new events were appended after event with ID %s", aggregate.getLastEventId()))
         }
         append(aggregate.getMutations())
     }
@@ -46,10 +47,10 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
     }
 
     override fun query(vararg types: String): EventStream {
-        TODO("Not yet implemented")
+        return EventStream.empty()
     }
 
     override fun getLastEventId(aggregateId: AggregateId): EventId? {
-        TODO("Not yet implemented")
+        return null
     }
 }
