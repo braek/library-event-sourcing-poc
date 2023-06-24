@@ -11,6 +11,7 @@ import be.koder.library.vocabulary.time.Timestamp
 
 data class AuthorCreatedJson internal constructor(
     override val eventId: String,
+    override val eventType: String,
     override val occurredOn: String,
     val authorId: String,
     val firstName: String,
@@ -20,6 +21,7 @@ data class AuthorCreatedJson internal constructor(
 
     constructor(event: AuthorCreated) : this(
         event.id.toString(),
+        AuthorCreated::class.simpleName!!,
         TimestampMapper.map(event.occurredOn),
         event.authorId.toString(),
         event.firstName.toString(),

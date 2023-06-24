@@ -3,6 +3,7 @@ package be.koder.library.rdbms.event.json
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
 import be.koder.library.domain.author.event.AuthorRemoved
+import be.koder.library.domain.book.event.BookCreated
 import be.koder.library.domain.event.Event
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -28,6 +29,9 @@ object EventJsonMapper {
         if (event is AuthorRemoved) {
             return write(AuthorRemovedJson(event))
         }
+        if (event is BookCreated) {
+            return write(BookCreatedJson(event))
+        }
         throw IllegalArgumentException(String.format("Cannot convert Event (%s) to JSON", event.javaClass.simpleName))
     }
 
@@ -48,6 +52,9 @@ object EventJsonMapper {
         }
         if (AuthorRemoved::class.java.simpleName.equals(type)) {
             return read(json, AuthorRemovedJson::class.java).toEvent()
+        }
+        if (BookCreated::class.java.simpleName.equals(type)) {
+            return read(json, BookCreatedJson::class.java).toEvent()
         }
         throw IllegalArgumentException(String.format("Cannot convert JSON to Event (%s)", type))
     }
