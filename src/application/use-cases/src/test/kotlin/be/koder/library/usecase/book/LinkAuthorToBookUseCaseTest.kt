@@ -96,7 +96,7 @@ class LinkAuthorToBookUseCaseTest {
             assertThat(book.authors).containsExactlyInAnyOrder(ericEvans, vaughnVernon)
         }
 
-        override fun linked(author: AuthorId, book: BookId) {
+        override fun authorLinked(author: AuthorId, book: BookId) {
             linkedCalled = true;
         }
 
@@ -139,7 +139,7 @@ class LinkAuthorToBookUseCaseTest {
             eventPublisher.verifyNoEventsPublished()
         }
 
-        override fun linked(author: AuthorId, book: BookId) {
+        override fun authorLinked(author: AuthorId, book: BookId) {
             TestUtils.fail()
         }
 
@@ -198,7 +198,7 @@ class LinkAuthorToBookUseCaseTest {
             eventPublisher.verifyNoEventsPublished()
         }
 
-        override fun linked(author: AuthorId, book: BookId) {
+        override fun authorLinked(author: AuthorId, book: BookId) {
             TestUtils.fail()
         }
 
@@ -258,7 +258,7 @@ class LinkAuthorToBookUseCaseTest {
         }
 
 
-        override fun linked(author: AuthorId, book: BookId) {
+        override fun authorLinked(author: AuthorId, book: BookId) {
             TestUtils.fail()
         }
 

@@ -8,7 +8,7 @@ import be.koder.library.vocabulary.book.BookId
 class LinkAuthorToBookPresenterDecorator(private val presenter: LinkAuthorToBookPresenter) : LinkAuthorToBookDomainPresenter {
 
     override fun linked(author: AuthorId, book: BookId) {
-        presenter.linked(author, book)
+        presenter.authorLinked(author, book)
     }
 
     override fun authorAlreadyLinked(author: AuthorId) {

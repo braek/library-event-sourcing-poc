@@ -71,7 +71,7 @@ class InMemoryAuthorRepository(private val eventStore: InMemoryEventStore) : Aut
     }
 
     override fun save(aggregate: Author) {
-        if (aggregate.noStateChanges()) {
+        if (aggregate.hasNoMutations()) {
             return
         }
         get(aggregate.getId()).ifPresent {

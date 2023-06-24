@@ -27,7 +27,7 @@ abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
         return EventStream(mutations)
     }
 
-    fun noStateChanges(): Boolean {
+    fun hasNoMutations(): Boolean {
         return mutations.isEmpty()
     }
 

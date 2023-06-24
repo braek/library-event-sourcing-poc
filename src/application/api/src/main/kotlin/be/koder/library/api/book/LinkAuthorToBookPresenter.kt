@@ -5,7 +5,7 @@ import be.koder.library.vocabulary.book.BookId
 
 interface LinkAuthorToBookPresenter {
 
-    fun linked(author: AuthorId, book: BookId)
+    fun authorLinked(author: AuthorId, book: BookId)
 
     fun authorAlreadyLinked(author: AuthorId)
 
