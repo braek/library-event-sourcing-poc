@@ -19,15 +19,7 @@ class InMemoryBookRepository(private val eventStore: InMemoryEventStore) : BookR
     }
 
     override fun save(aggregate: Book) {
-        if (aggregate.hasNoMutations()) {
-            return
-        }
-        get(aggregate.getId()).ifPresent {
-            if (aggregate.differsFromOrigin(it)) {
-                throw RuntimeException("Optimistic Locking Exception")
-            }
-        }
-        eventStore.append(aggregate.getMutations(),)
+        eventStore.append(aggregate.getId(), aggregate.getMutations(), aggregate.getLastEventId())
     }
 
     override fun alreadyInUse(isbn: Isbn, exclude: BookId): Boolean {
