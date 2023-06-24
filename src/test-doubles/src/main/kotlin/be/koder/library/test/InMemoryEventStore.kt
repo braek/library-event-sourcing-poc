@@ -17,7 +17,7 @@ class InMemoryEventStore : EventStore {
         if (aggregate.getMutations().isEmpty()) {
             return
         }
-        if (aggregate.getLastEventId() != getLastEventId(aggregate.getId())) {
+        if (aggregate.getLastEventId() == null || (aggregate.getLastEventId() != getLastEventId(aggregate.getId()))) {
             throw RuntimeException(String.format("Optimistic Locking Exception: new events were stored after event with ID %s", aggregate.getLastEventId()))
         }
         append(aggregate.getMutations())
