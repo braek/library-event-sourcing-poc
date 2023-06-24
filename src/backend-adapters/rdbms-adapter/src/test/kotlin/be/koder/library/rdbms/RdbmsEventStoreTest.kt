@@ -39,11 +39,12 @@ class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventSt
     }
 
     @Nested
-    @DisplayName("when simulating optimistic locking")
+    @DisplayName("when Optimistic Locking occurs")
     inner class TestOptimisticLocking {
 
         @Test
-        fun testIt() {
+        @DisplayName("it should throw an Exception")
+        fun exceptionThrown() {
 
             // Create a new author
             val author = Author.create(
