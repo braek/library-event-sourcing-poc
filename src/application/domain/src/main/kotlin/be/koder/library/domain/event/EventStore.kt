@@ -12,5 +12,7 @@ interface EventStore {
 
     fun query(aggregateId: AggregateId): EventStream
 
+    fun queryByTypes(vararg types: String): EventStream
+
     fun getLastEventId(aggregateId: AggregateId): EventId?
 }

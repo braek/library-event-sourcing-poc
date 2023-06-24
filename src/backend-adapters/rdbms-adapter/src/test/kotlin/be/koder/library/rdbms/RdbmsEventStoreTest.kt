@@ -25,15 +25,8 @@ class RdbmsEventStoreTest @Autowired constructor(private val eventStore: EventSt
         @DisplayName("it should be stored successfully")
         fun eventStored(event: Event) {
             val eventStream = EventStream(event)
-            eventStore.append(eventStream,)
-            val persistedEventStream = eventStore.query(
-                EventStreamQuery(
-                    event.tags,
-                    setOf(
-                        event.javaClass.simpleName
-                    )
-                )
-            )
+            eventStore.append(eventStream)
+            val persistedEventStream = eventStore.queryByTypes(event.javaClass.simpleName)
             assertThat(persistedEventStream).isEqualTo(eventStream)
         }
     }

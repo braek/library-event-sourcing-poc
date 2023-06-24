@@ -14,7 +14,7 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
     override fun append(aggregate: EventSourcedAggregate) {
         val records = mutableListOf<EventStoreRecord>()
-        mutations.forEach {
+        aggregate.getMutations().forEach {
             records.add(EventRecordMapper.map(it, dsl))
         }
         dsl.batchInsert(records).execute()
@@ -37,6 +37,10 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 //            .toList()
 //        )
         return EventStream.empty()
+    }
+
+    override fun queryByTypes(vararg types: String): EventStream {
+        TODO("Not yet implemented")
     }
 
     override fun getLastEventId(aggregateId: AggregateId): EventId? {

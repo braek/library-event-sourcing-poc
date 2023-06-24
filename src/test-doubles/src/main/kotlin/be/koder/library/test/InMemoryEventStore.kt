@@ -42,7 +42,7 @@ class InMemoryEventStore : EventStore {
         )
     }
 
-    fun queryByTypes(vararg types: String): EventStream {
+    override fun queryByTypes(vararg types: String): EventStream {
         return EventStream(events.stream()
             .filter { types.toList().contains(it.javaClass.simpleName) }
             .collect(Collectors.toList()))
