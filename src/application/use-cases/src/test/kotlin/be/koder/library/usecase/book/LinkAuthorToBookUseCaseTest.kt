@@ -14,7 +14,7 @@ import be.koder.library.vocabulary.author.LastName
 import be.koder.library.vocabulary.book.BookId
 import be.koder.library.vocabulary.book.Isbn
 import be.koder.library.vocabulary.book.Title
-import org.assertj.core.api.Java6Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName

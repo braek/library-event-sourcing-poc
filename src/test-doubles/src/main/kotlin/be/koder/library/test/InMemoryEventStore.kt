@@ -1,5 +1,6 @@
 package be.koder.library.test
 
+import be.koder.library.domain.aggregate.EventSourcedAggregate
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
@@ -12,14 +13,14 @@ class InMemoryEventStore : EventStore {
 
     private val events: ArrayList<Event> = ArrayList()
 
-    override fun append(aggregateId: AggregateId, mutations: EventStream, lastEventId: EventId?) {
-        if (mutations.isEmpty()) {
+    override fun append(aggregate: EventSourcedAggregate) {
+        if (aggregate.getMutations().isEmpty()) {
             return
         }
-        if (lastEventId != getLastEventId(aggregateId)) {
-            throw RuntimeException(String.format("Optimistic Locking Exception: new events were appended after event with ID %s", lastEventId))
+        if (aggregate.getLastEventId() != getLastEventId(aggregate.getId())) {
+            throw RuntimeException(String.format("Optimistic Locking Exception: new events were appended after event with ID %s", aggregate.getLastEventId()))
         }
-        append(mutations)
+        append(aggregate.getMutations())
     }
 
     override fun append(mutations: EventStream) {
