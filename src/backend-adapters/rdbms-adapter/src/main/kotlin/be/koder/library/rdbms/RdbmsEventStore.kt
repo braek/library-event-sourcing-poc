@@ -1,10 +1,10 @@
-package be.koder.library.rdbms.event
+package be.koder.library.rdbms
 
 import be.koder.library.domain.aggregate.EventSourcedAggregate
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream
 import be.koder.library.domain.event.EventStreamChangedException
-import be.koder.library.rdbms.event.json.EventJsonMapper
+import be.koder.library.rdbms.json.EventJsonMapper
 import be.koder.library.rdbms.tables.records.EventStoreRecord
 import be.koder.library.rdbms.tables.references.EVENT_STORE
 import be.koder.library.vocabulary.domain.AggregateId

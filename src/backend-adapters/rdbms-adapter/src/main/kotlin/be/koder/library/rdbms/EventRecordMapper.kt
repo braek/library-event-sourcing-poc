@@ -1,7 +1,7 @@
-package be.koder.library.rdbms.event
+package be.koder.library.rdbms
 
 import be.koder.library.domain.event.Event
-import be.koder.library.rdbms.event.json.EventJsonMapper
+import be.koder.library.rdbms.json.EventJsonMapper
 import be.koder.library.rdbms.tables.records.EventStoreRecord
 import be.koder.library.rdbms.tables.references.EVENT_STORE
 import org.jooq.DSLContext

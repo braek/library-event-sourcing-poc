@@ -1,4 +1,4 @@
-package be.koder.library.rdbms.mapper
+package be.koder.library.rdbms.json
 
 import be.koder.library.vocabulary.time.Timestamp
 import java.util.regex.Pattern
