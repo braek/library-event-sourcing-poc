@@ -6,9 +6,9 @@ sealed interface EventJson<T : Event> {
 
     val eventId: String
 
-    val occurredOn: String
-
     val eventType: String
+
+    val occurredOn: String
 
     fun toEvent(): T
 }
