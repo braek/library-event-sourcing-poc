@@ -4,5 +4,5 @@ import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.book.BookId
 
 interface UnlinkAuthorFromBook {
-    fun unlink(author: AuthorId, book: BookId, presenter: UnlinkAuthorFromBookPresenter)
+    fun unlinkAuthor(author: AuthorId, book: BookId, presenter: UnlinkAuthorFromBookPresenter)
 }
