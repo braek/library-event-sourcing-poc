@@ -12,7 +12,7 @@ import be.koder.library.vocabulary.event.EventId
 import org.jooq.DSLContext
 import org.springframework.transaction.annotation.Transactional
 
-open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
+class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
 
     override fun appendMutations(aggregate: EventSourcedAggregate) {
         if (aggregate.noStateChanges()) {
@@ -24,7 +24,6 @@ open class RdbmsEventStore(private val dsl: DSLContext) : EventStore {
         append(aggregate.getMutations())
     }
 
-    @Transactional
     override fun append(eventStream: EventStream) {
         val records = mutableListOf<EventStoreRecord>()
         eventStream.forEach {

@@ -3,9 +3,10 @@ package be.koder.library.rdbms
 import be.koder.library.domain.book.Book
 import be.koder.library.domain.book.BookRepository
 import be.koder.library.vocabulary.book.BookId
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
-class RdbmsBookRepository(private val eventStore: RdbmsEventStore) : BookRepository {
+open class RdbmsBookRepository(private val eventStore: RdbmsEventStore) : BookRepository {
 
     override fun get(id: BookId): Optional<Book> {
         val eventStream = eventStore.query(id)
@@ -15,6 +16,7 @@ class RdbmsBookRepository(private val eventStore: RdbmsEventStore) : BookReposit
         return Optional.of(Book(eventStream))
     }
 
+    @Transactional
     override fun save(aggregate: Book) {
         eventStore.appendMutations(aggregate)
     }
