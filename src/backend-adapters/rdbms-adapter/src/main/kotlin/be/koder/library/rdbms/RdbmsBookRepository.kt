@@ -18,6 +18,7 @@ open class RdbmsBookRepository(private val eventStore: RdbmsEventStore) : BookRe
 
     @Transactional
     override fun save(aggregate: Book) {
+        // TODO: update inline projections
         eventStore.appendMutations(aggregate)
     }
 }

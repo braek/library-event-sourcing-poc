@@ -19,6 +19,7 @@ open class RdbmsAuthorRepository(private val eventStore: RdbmsEventStore) : Auth
 
     @Transactional
     override fun save(aggregate: Author) {
+        // TODO: update inline projections
         eventStore.appendMutations(aggregate)
     }
 }
