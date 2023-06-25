@@ -5,7 +5,7 @@ import be.koder.library.vocabulary.book.BookId
 
 interface UnlinkAuthorFromBookPresenter {
 
-    fun authorLinked(author: AuthorId, book: BookId)
+    fun authorUnlinked(author: AuthorId, book: BookId)
 
     fun authorDoesNotExist(author: AuthorId)
 
