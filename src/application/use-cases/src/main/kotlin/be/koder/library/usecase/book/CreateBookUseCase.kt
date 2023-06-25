@@ -4,7 +4,7 @@ import be.koder.library.api.book.CreateBook
 import be.koder.library.api.book.CreateBookPresenter
 import be.koder.library.domain.book.Book
 import be.koder.library.domain.book.BookRepository
-import be.koder.library.domain.book.IsbnService
+import be.koder.library.domain.book.BookService
 import be.koder.library.domain.event.EventPublisher
 import be.koder.library.usecase.UseCase
 import be.koder.library.usecase.book.command.CreateBookCommand
@@ -15,7 +15,7 @@ import be.koder.library.vocabulary.book.Title
 class CreateBookUseCase(
     private val bookRepository: BookRepository,
     private val eventPublisher: EventPublisher,
-    private val isbnService: IsbnService
+    private val bookService: BookService
 ) : UseCase<CreateBookCommand, CreateBookPresenter>, CreateBook {
 
     override fun createBook(title: Title, isbn: Isbn, author: AuthorId, presenter: CreateBookPresenter) {
@@ -23,7 +23,7 @@ class CreateBookUseCase(
     }
 
     override fun execute(command: CreateBookCommand, presenter: CreateBookPresenter) {
-        if (isbnService.alreadyInUse(command.isbn)) {
+        if (bookService.alreadyInUse(command.isbn)) {
             presenter.isbnAlreadyInUse(command.isbn)
             return
         }

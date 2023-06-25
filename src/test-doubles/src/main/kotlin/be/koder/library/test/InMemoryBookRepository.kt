@@ -2,13 +2,13 @@ package be.koder.library.test
 
 import be.koder.library.domain.book.Book
 import be.koder.library.domain.book.BookRepository
-import be.koder.library.domain.book.IsbnService
+import be.koder.library.domain.book.BookService
 import be.koder.library.domain.book.event.BookCreated
 import be.koder.library.vocabulary.book.BookId
 import be.koder.library.vocabulary.book.Isbn
 import java.util.*
 
-class InMemoryBookRepository(private val eventStore: InMemoryEventStore) : BookRepository, IsbnService {
+class InMemoryBookRepository(private val eventStore: InMemoryEventStore) : BookRepository, BookService {
 
     override fun get(id: BookId): Optional<Book> {
         val eventStream = eventStore.query(id)
