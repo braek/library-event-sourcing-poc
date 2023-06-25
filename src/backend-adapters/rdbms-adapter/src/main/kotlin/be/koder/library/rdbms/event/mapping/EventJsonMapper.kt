@@ -1,4 +1,4 @@
-package be.koder.library.rdbms.json
+package be.koder.library.rdbms.event.mapping
 
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified

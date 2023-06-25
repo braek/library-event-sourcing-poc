@@ -1,7 +1,8 @@
-package be.koder.library.rdbms
+package be.koder.library.rdbms.book
 
 import be.koder.library.domain.book.Book
 import be.koder.library.domain.book.BookRepository
+import be.koder.library.rdbms.event.RdbmsEventStore
 import be.koder.library.vocabulary.book.BookId
 import org.springframework.transaction.annotation.Transactional
 import java.util.*

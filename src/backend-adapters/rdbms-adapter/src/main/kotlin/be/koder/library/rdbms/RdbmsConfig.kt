@@ -1,6 +1,7 @@
 package be.koder.library.rdbms
 
 import be.koder.library.domain.event.EventStore
+import be.koder.library.rdbms.event.RdbmsEventStore
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.conf.Settings

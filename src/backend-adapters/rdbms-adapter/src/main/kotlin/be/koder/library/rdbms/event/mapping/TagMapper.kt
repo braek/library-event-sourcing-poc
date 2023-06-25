@@ -1,4 +1,4 @@
-package be.koder.library.rdbms
+package be.koder.library.rdbms.event.mapping
 
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.book.BookId

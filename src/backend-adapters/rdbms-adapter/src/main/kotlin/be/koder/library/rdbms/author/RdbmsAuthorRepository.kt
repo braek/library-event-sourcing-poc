@@ -1,8 +1,9 @@
-package be.koder.library.rdbms
+package be.koder.library.rdbms.author
 
 import be.koder.library.domain.author.Author
 import be.koder.library.domain.author.AuthorRepository
 import be.koder.library.domain.author.event.AuthorRemoved
+import be.koder.library.rdbms.event.RdbmsEventStore
 import be.koder.library.vocabulary.author.AuthorId
 import org.springframework.transaction.annotation.Transactional
 import java.util.*

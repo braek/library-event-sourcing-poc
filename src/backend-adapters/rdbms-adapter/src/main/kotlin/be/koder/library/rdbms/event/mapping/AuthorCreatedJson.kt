@@ -1,6 +1,6 @@
-package be.koder.library.rdbms.json
+package be.koder.library.rdbms.event.mapping
 
-import be.koder.library.domain.author.event.AuthorModified
+import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.vocabulary.author.AuthorId
 import be.koder.library.vocabulary.author.EmailAddress
 import be.koder.library.vocabulary.author.FirstName
@@ -8,7 +8,7 @@ import be.koder.library.vocabulary.author.LastName
 import be.koder.library.vocabulary.event.EventId
 import be.koder.library.vocabulary.time.Timestamp
 
-data class AuthorModifiedJson internal constructor(
+data class AuthorCreatedJson internal constructor(
     override val eventId: String,
     override val eventType: String,
     override val occurredOn: String,
@@ -16,11 +16,11 @@ data class AuthorModifiedJson internal constructor(
     val firstName: String,
     val lastName: String,
     val emailAddress: String
-) : EventJson<AuthorModified> {
+) : EventJson<AuthorCreated> {
 
-    constructor(event: AuthorModified) : this(
+    constructor(event: AuthorCreated) : this(
         event.id.toString(),
-        AuthorModified::class.simpleName!!,
+        AuthorCreated::class.simpleName!!,
         TimestampMapper.map(event.occurredOn),
         event.authorId.toString(),
         event.firstName.toString(),
@@ -28,8 +28,8 @@ data class AuthorModifiedJson internal constructor(
         event.emailAddress.toString()
     )
 
-    override fun toEvent(): AuthorModified {
-        return AuthorModified(
+    override fun toEvent(): AuthorCreated {
+        return AuthorCreated(
             EventId.fromString(eventId),
             Timestamp.fromString(occurredOn),
             AuthorId.fromString(authorId),

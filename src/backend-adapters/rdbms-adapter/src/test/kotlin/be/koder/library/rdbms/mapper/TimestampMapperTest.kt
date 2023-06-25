@@ -1,6 +1,6 @@
 package be.koder.library.rdbms.mapper
 
-import be.koder.library.rdbms.json.TimestampMapper
+import be.koder.library.rdbms.event.mapping.TimestampMapper
 import be.koder.library.vocabulary.time.Timestamp
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Assertions.*
