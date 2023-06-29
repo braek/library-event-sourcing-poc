@@ -40,7 +40,7 @@ abstract class EventSourcedAggregate(eventStream: EventStream) : Aggregate {
     protected abstract fun dispatch(event: Event)
 
     fun eventStreamChanged(lastEventId: EventId?): Boolean {
-        if(isNull(getLastEventId())) {
+        if (isNull(getLastEventId())) {
             return false
         }
         return getLastEventId() != lastEventId
