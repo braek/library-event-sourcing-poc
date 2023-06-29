@@ -1,4 +1,4 @@
-package be.koder.library.domain.aggregate
+package be.koder.library.domain.entity
 
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStream

@@ -1,6 +1,6 @@
 package be.koder.library.test
 
-import be.koder.library.domain.aggregate.EventSourcedAggregate
+import be.koder.library.domain.entity.EventSourcedAggregate
 import be.koder.library.domain.event.Event
 import be.koder.library.domain.event.EventStore
 import be.koder.library.domain.event.EventStream

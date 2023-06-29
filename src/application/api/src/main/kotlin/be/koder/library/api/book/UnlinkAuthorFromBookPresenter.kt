@@ -9,5 +9,7 @@ interface UnlinkAuthorFromBookPresenter {
 
     fun authorDoesNotExist(author: AuthorId)
 
+    fun authorWasNotLinked(author: AuthorId)
+
     fun bookDoesNotExist(book: BookId)
 }

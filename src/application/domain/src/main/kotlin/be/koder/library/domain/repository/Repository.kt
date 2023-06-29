@@ -1,6 +1,6 @@
 package be.koder.library.domain.repository
 
-import be.koder.library.domain.aggregate.Aggregate
+import be.koder.library.domain.entity.Aggregate
 import be.koder.library.vocabulary.domain.AggregateId
 import java.util.*
 

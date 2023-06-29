@@ -1,6 +1,6 @@
 package be.koder.library.domain.author
 
-import be.koder.library.domain.aggregate.EventSourcedAggregate
+import be.koder.library.domain.entity.EventSourcedAggregate
 import be.koder.library.domain.author.event.AuthorCreated
 import be.koder.library.domain.author.event.AuthorModified
 import be.koder.library.domain.author.event.AuthorRemoved
